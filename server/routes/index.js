@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const main = require("../controllers/mainpage");
+const { main } = require("../controllers/mainpage");
 /* GET home page. */
 router.get("/", main);
 
