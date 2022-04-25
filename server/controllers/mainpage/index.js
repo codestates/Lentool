@@ -1,3 +1,5 @@
 module.exports = {
-  main: (req, res) => {},
+  main: (req, res) => {
+    res.status(200).send("ok");
+  },
 };
