@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  post.init(
+  user_room.init(
     {
       id: {
         allowNull: false,

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  post.init(
+  chat.init(
     {
       id: {
         allowNull: false,
