@@ -2,11 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Login from "../login/login";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-// import { setIsModal } from '../../app/store/modalReducer';
 import { setIsModal } from '../modal/modalSlice'
 
 export default function Navbar () {
-  // const [isModal, setIsModal] = useState(false)
   const isModal = useAppSelector(state => state.modal.isModal)
   const dispatch = useAppDispatch()
   const handleModal = (e: any) => {
@@ -14,6 +12,7 @@ export default function Navbar () {
     dispatch(setIsModal())
   }
   console.log('isModal',isModal)
+
   return (
     <div>
       <nav className="border-2 border-dashed border-blue-300">
