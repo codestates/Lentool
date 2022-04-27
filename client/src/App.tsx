@@ -2,18 +2,22 @@ import './App.css';
 import { Route, Switch } from "react-router-dom";
 import Navbar from './feature/navbar/Navbar';
 import Login from './feature/login/login';
+import Mypage from './feature/mypage/Mypage';
 function App() {
 
   return (
     <div className="App">
+      <div>
+        <Navbar />
+      </div>
       <Switch>
         <Route exact path='/login'>
           <Login />
         </Route>
+        <Route exact path='/Mypage'>
+          <Mypage />
+        </Route>
       </Switch>
-      <div>
-        <Navbar />
-      </div>
     </div>
   );
 }

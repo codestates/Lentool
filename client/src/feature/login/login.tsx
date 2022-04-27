@@ -1,27 +1,22 @@
 import * as React from 'react';
 import { useState, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { setIsModal } from "../modal/modalSlice"
 import { useLoginMutation } from '../../services/api';
 import { setCredentials } from './authSlice';
 import type { LoginRequest } from '../../services/api'
 
 function Login () {
-  const isModal = useAppSelector(state => state.modal.isModal)
   const dispatch = useAppDispatch()
-  const { push } = useHistory()
-
   const [isSignup, setIsSignup] = useState(false)
   const outSelect = useRef<any>()
   const [inputValue, setInputValue] = useState<LoginRequest>({
-    email: '',
+    id: '',
     password: '',
   })
-
-  const [login, { isLoading }] = useLoginMutation()
-  const { email, password } = inputValue
-
+  
+  const [login, { data, isLoading, isSuccess }] = useLoginMutation()
+  const { id, password } = inputValue
   /* 로그인 유효성 검사 */
   const [emailValidate, setEmailValidate] = useState('')
   const [isEmail, setIsEmail] = useState(false)
@@ -35,9 +30,9 @@ function Login () {
     setIsEmail(false)
     setIsPassword(false)
     setIsValidate(false)
-    if (!email) {
+    if (!id) {
       setErrorMessage('이메일을 입력하세요')
-    } else if (!emailRegex.test(email)) {
+    } else if (!emailRegex.test(id)) {
       setEmailValidate('이메일 형식이 잘못된 유형입니다.')
     } else {
       setEmailValidate('')
@@ -61,19 +56,15 @@ function Login () {
   }
   /* 로그인 요청 */
   const handleSubmit = async () => {
-      try {
-        // unwrap 
-        // thunk는 결과에 상관없이 무조건 항상 이행된 프로미스를 반환함
-        // unwrap 프로퍼티를 통해 오류처리 가능
-        // 액션을 디스패치한 컴포넌트 내부에서 오류를 처리
-        // 각각의 컴포넌트가 서로 다른 방식으로 오류를 처리할 수 있음
-        const user = await login(inputValue).unwrap()
-        dispatch(setCredentials(user))
-        push('/')
-      } catch (err) {
-        console.log('error', err)
-      }
-    
+    console.log(inputValue)
+    try {
+      const user = await login(inputValue).unwrap()
+      dispatch(setCredentials(user))
+      dispatch(setIsModal())
+      console.log(user)
+    } catch (err) {
+      console.log('error', err)
+    }
   }
   /*  */
   const handleSignup = (e: any) => {
@@ -101,7 +92,7 @@ function Login () {
               <div className="rounded-md shadow-sm -space-y-px text-left ">
                 <div className="mb-3">
                   <label htmlFor="email-address" className="text-sm" >이메일</label>
-                  <input id="email-address" name="email" type="email" onChange={handleInputValue('email')} onKeyUp={validate}/* autoComplete="email" */ required className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address" />
+                  <input id="email-address" name="id" type="email" onChange={handleInputValue('id')} onKeyUp={validate}/* autoComplete="email" */ required className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address" />
                   <p className="mt-1 text-xs text-red-500">{emailValidate}</p>
                 </div>
                 <div>
@@ -111,7 +102,7 @@ function Login () {
                 </div>
               </div>
               <div>
-                <button onClick={handleSubmit} disabled={!isValidate} type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button onClick={handleSubmit} /* disabled={!isValidate}  */type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     {/* <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="../images/icons8-google.svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"> */}
                     <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
