@@ -1,14 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { pokemonApi } from '../services/pokemon';
+import { api } from '../services/api'
+import authReducer from '../feature/login/authSlice'
+import modalReducer from '../feature/modal/modalSlice'
 
 export const store = configureStore({
   reducer: {
-    [pokemonApi.reducerPath]: pokemonApi.reducer,
+    modal: modalReducer,
+    auth: authReducer,
+    [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) => 
-    getDefaultMiddleware().concat(pokemonApi.middleware),
+    getDefaultMiddleware().concat(api.middleware),
 });
 
-export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
