@@ -82,7 +82,7 @@ module.exports = {
       .update(inputPassword + salt)
       .digest("hex");
     try {
-      const registed = await usermodel.create({
+      const registed = await userModel.create({
         email,
         password: hashPassword,
         nickname,
@@ -103,7 +103,7 @@ module.exports = {
     const { email, nickname } = req.body;
     try {
       if (email) {
-        const emailcheck = await usermodel.findOne({
+        const emailcheck = await userModel.findOne({
           where: { email },
         });
         if (emailcheck) {
@@ -113,7 +113,7 @@ module.exports = {
         }
       }
       if (nickname) {
-        const nicknamecheck = await usermodel.findOne({
+        const nicknamecheck = await userModel.findOne({
           where: { nickname },
         });
         if (nicknamecheck) {
