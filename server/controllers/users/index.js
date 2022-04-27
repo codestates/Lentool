@@ -1,4 +1,3 @@
-
 const { user: userModel } = require("../../models");
 const { generateAccessToken, isAuthorized } = require("../tokenFunctions");
 const crypto = require("crypto");
@@ -12,7 +11,7 @@ module.exports = {
   },
   logout: (req, res) => {
     const accessToken = req.cookies.accessToken;
-    console.log(accessToken);
+
     try {
       if (!accessToken) {
         return res
