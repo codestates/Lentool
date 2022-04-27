@@ -33,6 +33,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "post",
+      freezeTableName: true,
+      tableName: "post",
     }
   );
   return post;
