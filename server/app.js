@@ -21,6 +21,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+{
+  /* <img src={`http://localhost:3000/postimage/aa98ac176ce646a9df7bbd99ebd638e9`}/> */
+}
+app.use("/userimage", express.static("./userimg"));
+app.use("/postimage", express.static("./postimg"));
 app.use("/", indexRouter); // mainpage
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
