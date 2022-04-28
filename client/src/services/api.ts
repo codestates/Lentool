@@ -17,13 +17,24 @@ export interface User {
 }
 
 export interface UserResponse {
-  user: User
-  token: string
+  data: {
+    accessToken: string
+    userInfo: User
+  }
+  message: string
 }
 
 export interface LoginRequest {
   id: string
   password: string
+}
+// data: { user_posts: posts, userinfo: user }
+export interface MypageResponse {
+  messgae: string
+  data: {
+    user_posts: []
+    userInfo: User
+  }
 }
 
 export const api = createApi({
@@ -32,8 +43,9 @@ export const api = createApi({
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token
+      console.log('send token in headers')
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set('authorization', `Bearer ${token}`)
       }
       return headers
     },
@@ -47,10 +59,26 @@ export const api = createApi({
         body: credentials,
       }),
     }),
-    protected: builder.mutation<{ message: string }, void>({
-      query: () => 'protected',
+    logout: builder.mutation<{ message?: any }, void>({
+      query: () => ({
+        url: 'logout',
+        credentials: 'include', // true
+        method: 'POST',
+      })
+    }),
+    // data: { user_posts: posts, userinfo: user }
+    mypage: builder.mutation<any, void>({
+      query: () => ({
+        url: 'mypage',
+        credentials: 'include', // true
+        method: 'GET',
+      })
     })
   })
 })
 
-export const { useLoginMutation, useProtectedMutation } = api
+export const { 
+  useLoginMutation, 
+  useLogoutMutation,
+  useMypageMutation,
+} = api

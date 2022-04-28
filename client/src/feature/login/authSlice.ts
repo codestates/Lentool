@@ -21,18 +21,15 @@ export const authSlice = createSlice({
   reducers: {
     setCredentials: (
       state, 
-      { payload: { user, token }}: PayloadAction<{ user: User, token: string }>
+      { payload: { data }}: PayloadAction<{ data:any }>
     ) => {
-      state.user = user
-      state.token = token;
+      state.user = data.userInfo
+      state.token = data.accessToken;
       state.isLogin = !state.isLogin
-      console.log(state.user)
-      console.log(state.token)
-      console.log(state.isLogin)
+      // console.log('user',state.user)
+      // console.log('token',state.token)
+      // console.log('isLogin',state.isLogin)
     }
-    // setCredentials: (state) => {
-    //   state.token += state
-    // }
   }
 })
 

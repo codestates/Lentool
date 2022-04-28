@@ -56,12 +56,10 @@ function Login () {
   }
   /* 로그인 요청 */
   const handleSubmit = async () => {
-    console.log(inputValue)
     try {
       const user = await login(inputValue).unwrap()
       dispatch(setCredentials(user))
       dispatch(setIsModal())
-      console.log(user)
     } catch (err) {
       console.log('error', err)
     }
