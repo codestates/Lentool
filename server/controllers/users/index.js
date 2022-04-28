@@ -171,12 +171,8 @@ module.exports = {
       if (accessToken) {
         return res
           .status(200)
-          .cookie("accessToken", accessToken, {
-            expires: new Date(Date.now() + 3600000),
-            httpOnly: true,
-          })
           .json({
-            message: "ok",
+            message: "ok", data: {accessToken, userInfo:userInfo}
           });
       }
     } catch (err) {
