@@ -6,4 +6,6 @@
 .env.production.local
 /build
 /node_modules
+/postimg
+/userimg
 *.pem
