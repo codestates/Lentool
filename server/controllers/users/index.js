@@ -172,7 +172,7 @@ module.exports = {
         return res
           .status(200)
           .json({
-            message: "ok", data: {accessToken, userInfo:userInfo}
+            message: "ok", data: {accessToken, userInfo:userInfo.dataValues}
           });
       }
     } catch (err) {
