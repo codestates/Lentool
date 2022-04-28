@@ -32,8 +32,9 @@ export const api = createApi({
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token
+      console.log(token)
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set('authorization', `Bearer ${token}`)
       }
       return headers
     },
@@ -45,12 +46,19 @@ export const api = createApi({
         credentials: 'include', // true
         method: 'POST',
         body: credentials,
+        // headers: {foo:'bar'}
+        // responseHandler: (response) :any=> {
+        //   return console.log(response)
+        // }
       }),
     }),
-    protected: builder.mutation<{ message: string }, void>({
-      query: () => 'protected',
+    logout: builder.mutation<{ message?: any }, void>({
+      query: () => ({
+        url: 'logout',
+        method: 'POST',
+      })
     })
   })
 })
 
-export const { useLoginMutation, useProtectedMutation } = api
+export const { useLoginMutation, useLogoutMutation } = api

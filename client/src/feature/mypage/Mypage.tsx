@@ -1,12 +1,14 @@
 import { useAppSelector } from "app/hooks"
-import { useLoginMutation } from "services/api"
+import { useLoginMutation, useLogoutMutation } from "services/api"
 
 export default function Mypage () {
   const importUser = useAppSelector(state => state.auth.user)
+  const [logout, { data, error, isLoading }] = useLogoutMutation()
   const { user_photo, nickname, user_address, email }:any = importUser
   console.log(importUser)
-  const [login, { data, isLoading, isSuccess }] = useLoginMutation()
-  console.log(isSuccess)
+  const hand = async () => {
+    await logout()
+  }
   return (
     <div>
       { importUser && 
@@ -14,7 +16,8 @@ export default function Mypage () {
         <div>{user_photo}</div> 
         <div>{nickname}</div> 
         <div>{user_address}</div>
-        <div>{email}</div> 
+        <div>{email}</div>
+        <button onClick={hand}>헤더보내라</button>
       </div>
       }
     </div>

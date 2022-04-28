@@ -26,13 +26,10 @@ export const authSlice = createSlice({
       state.user = user
       state.token = token;
       state.isLogin = !state.isLogin
-      console.log(state.user)
-      console.log(state.token)
-      console.log(state.isLogin)
+      console.log('user',state.user)
+      console.log('token',state.token)
+      console.log('isLogin',state.isLogin)
     }
-    // setCredentials: (state) => {
-    //   state.token += state
-    // }
   }
 })
 
