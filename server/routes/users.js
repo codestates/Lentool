@@ -6,6 +6,7 @@ const {
   login,
   signup,
   check,
+  edit,
 } = require("../controllers/users");
 
 router.delete("/signout", signout);
