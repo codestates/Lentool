@@ -12,11 +12,14 @@ module.exports = {
       return res.status(400).json({ message: "유효하지 않은 토큰" });
     }
     try {
-      const posts = await postModel.findall(
-        { attributes: id, title, photo, address, price },
-        { where: { id: userInfo.id } }
-      );
-      const user = await userModel.findOne({ where: { id: userInfo.id } });
+      const posts = await postModel.findAll({
+        attributes: ["id", "title", "photo1", "address", "price"],
+        where: { user_id: userInfo.id },
+      });
+      const user = await userModel.findOne({
+        attributes: ["id", "email", "nickname", "user_address", "user_photo"],
+        where: { id: userInfo.id },
+      });
       return res
         .status(200)
         .json({ message: "ok", data: { user_posts: posts, userinfo: user } });
