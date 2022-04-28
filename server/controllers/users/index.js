@@ -50,15 +50,10 @@ module.exports = {
       const accessToken = generateAccessToken(userInfo.dataValues);
 
       if (accessToken) {
-        return res
-          .status(200)
-          .cookie("accessToken", accessToken, {
-            expires: new Date(Date.now() + 3600000),
-            httpOnly: true,
-          })
-          .json({
-            message: "ok",
-          });
+        return res.status(200).json({
+          data: { accessToken, userInfo: userInfo.dataValues },
+          message: "ok",
+        });
       }
     } catch (err) {
       console.log("로그인서버에러");

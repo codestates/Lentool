@@ -9,7 +9,15 @@ const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
 const postRouter = require("./routes/post");
 const toolsRouter = require("./routes/tools");
+var cors = require("cors");
 var app = express();
+
+const corsOptions = {
+  origin: true, //["https://localhost:3000/"],
+  credentials: true,
+  methods: ["GET", "POST", "OPTIONS", "DELETE", "PATCH"],
+};
+app.use(cors(corsOptions));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
