@@ -143,7 +143,7 @@ module.exports = {
     }
   },
   login: async (req, res) => {
-    const { id, userPassword: inputPassword } = req.body;
+    const { id, password: inputPassword } = req.body;
 
     try {
       const userInfo = await userModel.findOne({
@@ -154,13 +154,15 @@ module.exports = {
           .status(401)
           .json({ data: null, message: "해당하는 회원이 존재하지 않습니다" });
       }
-      const { userPassword: dbPassword, salt } = userInfo;
+      const { password: dbPassword, salt } = userInfo;
       const hashPassword = crypto
         .createHash("sha512")
         .update(inputPassword + salt)
         .digest("hex");
 
       if (dbPassword !== hashPassword) {
+        console.log(dbPassword);
+        console.log(hashPassword);
         return res
           .status(400)
           .json({ data: null, message: "비밀번호가 틀렸습니다" });
@@ -169,11 +171,10 @@ module.exports = {
       const accessToken = generateAccessToken(userInfo.dataValues);
 
       if (accessToken) {
-        return res
-          .status(200)
-          .json({
-            message: "ok", data: {accessToken, userInfo:userInfo.dataValues}
-          });
+        return res.status(200).json({
+          message: "ok",
+          data: { accessToken, userInfo: userInfo.dataValues },
+        });
       }
     } catch (err) {
       console.log("로그인서버에러");
@@ -201,7 +202,7 @@ module.exports = {
         password: hashPassword,
         nickname,
         salt,
-        address /*추후변경*/,
+        user_address: address /*추후변경*/,
       });
       if (!registed) {
         return res.status(500).json({ message: "fail" });

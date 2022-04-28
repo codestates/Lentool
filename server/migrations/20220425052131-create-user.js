@@ -38,7 +38,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       salt: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
     });
   },
