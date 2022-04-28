@@ -10,23 +10,19 @@ module.exports = {
     return res.status(200);
   },
   logout: (req, res) => {
-    const accessToken = req.cookies.accessToken;
+    const userInfo = isAuthorized(req);
 
     try {
-      if (!accessToken) {
+      if (!userInfo) {
         return res
           .status(400)
           .json({ data: null, message: "로그인되지 않은 사용자 입니다" });
       }
-      return res
-        .status(200)
-        .clearCookie("accessToken")
-        .json({ data: null, message: "ok" });
+      return res.status(200).json({ data: null, message: "ok" });
     } catch (err) {
       console.log("로그아웃서버에러");
       res.status(500).json({ data: err, message: "server error" });
     }
-    return res.status(200).send("ok");
   },
   login: async (req, res) => {
     const { id, password } = req.body;
