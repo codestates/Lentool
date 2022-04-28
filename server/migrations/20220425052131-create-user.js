@@ -37,6 +37,9 @@ module.exports = {
       longitude: {
         type: Sequelize.STRING,
       },
+      salt: {
+        type: Sequelize.INTEGER,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
