@@ -31,6 +31,12 @@ module.exports = {
       user_photo: {
         type: Sequelize.STRING,
       },
+      latitude: {
+        type: Sequelize.STRING,
+      },
+      longitude: {
+        type: Sequelize.STRING,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
