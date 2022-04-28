@@ -25,7 +25,7 @@ module.exports = {
       };
 
       console.log(data);
-      return res.status(200).json({ data, message: "ok" });
+      return res.status(200).json({ data: { post: data }, message: "ok" });
     } catch (err) {
       console.log(err);
       console.log("포스트 오류");
