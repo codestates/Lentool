@@ -17,8 +17,11 @@ export interface User {
 }
 
 export interface UserResponse {
-  user: User
-  token: string
+  data: {
+    accessToken: string
+    userInfo: User
+  }
+  message: string
 }
 
 export interface LoginRequest {
@@ -32,7 +35,7 @@ export const api = createApi({
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token
-      console.log(token)
+      console.log('send token in headers')
       if (token) {
         headers.set('authorization', `Bearer ${token}`)
       }
@@ -46,19 +49,27 @@ export const api = createApi({
         credentials: 'include', // true
         method: 'POST',
         body: credentials,
-        // headers: {foo:'bar'}
-        // responseHandler: (response) :any=> {
-        //   return console.log(response)
-        // }
       }),
     }),
     logout: builder.mutation<{ message?: any }, void>({
       query: () => ({
         url: 'logout',
+        credentials: 'include', // true
         method: 'POST',
+      })
+    }),
+    mypage: builder.mutation<{ message?: any }, void>({
+      query: () => ({
+        url: 'mypage',
+        credentials: 'include', // true
+        method: 'GET',
       })
     })
   })
 })
 
-export const { useLoginMutation, useLogoutMutation } = api
+export const { 
+  useLoginMutation, 
+  useLogoutMutation,
+  useMypageMutation,
+} = api
