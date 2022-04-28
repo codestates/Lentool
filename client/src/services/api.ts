@@ -28,6 +28,14 @@ export interface LoginRequest {
   id: string
   password: string
 }
+// data: { user_posts: posts, userinfo: user }
+export interface MypageResponse {
+  messgae: string
+  data: {
+    user_posts: []
+    userInfo: User
+  }
+}
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -58,7 +66,8 @@ export const api = createApi({
         method: 'POST',
       })
     }),
-    mypage: builder.mutation<{ message?: any }, void>({
+    // data: { user_posts: posts, userinfo: user }
+    mypage: builder.mutation<any, void>({
       query: () => ({
         url: 'mypage',
         credentials: 'include', // true
