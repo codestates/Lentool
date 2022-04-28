@@ -6,10 +6,12 @@ const {
   login,
   signup,
   check,
+  edit
 } = require("../controllers/users");
 
 router.delete("/signout", signout);
-router.patch("/mypage", mypage);
+router.get("/mypage", mypage);
+router.patch("/edit", edit)
 router.post("/logout", logout);
 router.post("/login", login);
 router.post("/signup", signup);
