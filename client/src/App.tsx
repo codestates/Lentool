@@ -3,7 +3,40 @@ import { Route, Switch } from "react-router-dom";
 import Navbar from './feature/navbar/Navbar';
 import Login from './feature/login/login';
 import Mypage from './feature/mypage/Mypage';
+import Posting from 'feature/post/posting';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { setCredentials } from 'feature/login/authSlice';
+
 function App() {
+  const dispatch = useAppDispatch()
+  // let user = useAppSelector(state => state.auth)
+  // console.log(user)
+//   const d =
+//   {
+//     "message": "ok",
+//     "data": {
+//         "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBuYXZlci5jb20iLCJuaWNrbmFtZSI6InRlc3QxIiwidXNlcl9hZGRyZXNzIjoi7J247LKc6rSR7Jet7IucIiwidXNlcl9waG90byI6ImR1bW15ZGF0YSIsInNhbHQiOiIxMzg0NTA3ODUyNDAwIiwibGF0aXR1ZGUiOiIzNy41Mjc3MjQxMjkzMTkxOTYiLCJsb25naXR1ZGUiOiIxMjYuNjMxMzczMTA2NTY2NjgiLCJjcmVhdGVkQXQiOiIyMDIyLTA0LTI4VDEzOjEwOjQwLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTA0LTI4VDEzOjEwOjQwLjAwMFoiLCJpYXQiOjE2NTExNzQwMjgsImV4cCI6MTY1MTI2MDQyOH0.XfME7k4S4Fk1H0k8GrjQTU8cslyanbGXImaAOaVqNK0",
+//         "userInfo": {
+//             "id": 1,
+//             "email": "test1@naver.com",
+//             "nickname": "test1",
+//             "user_address": "인천광역시",
+//             "user_photo": "dummydata",
+//             "salt": "1384507852400",
+//             "latitude": "37.527724129319196",
+//             "longitude": "126.63137310656668",
+//             "createdAt": "2022-04-28T13:10:40.000Z",
+//             "updatedAt": "2022-04-28T13:10:40.000Z"
+//         }
+//     }
+// }
+//   useEffect(() => {
+//     console.log('effective')
+//     if (!d) return
+     
+//     dispatch(setCredentials(d))
+//   }, [])
 
   return (
     <div className="App">
@@ -14,8 +47,11 @@ function App() {
         <Route exact path='/login'>
           <Login />
         </Route>
-        <Route exact path='/Mypage'>
+        <Route exact path='/mypage'>
           <Mypage />
+        </Route>
+        <Route exact path='/posting'>
+          <Posting />
         </Route>
       </Switch>
     </div>
@@ -24,10 +60,3 @@ function App() {
 
 export default App;
 
-      // <div className="p-10 min-h-screen flex items-center justify-center bg-cool-gray-700">
-      //   <h1 className="text-9xl font-black text-white text-center">
-      //     <span className="bg-gradient-to-r text-transparent bg-clip-text from-green-400 to-purple-500">
-      //       Lentool
-      //     </span>
-      //   </h1>
-      // </div>

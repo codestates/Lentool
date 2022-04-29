@@ -5,9 +5,8 @@ import type { User } from '../../services/api'
 import { persistReducer } from "redux-persist";
 import storage from 'redux-persist/lib/storage';
 
-type AuthState = {
-  user: User | null
-  token: string | null
+type loginState = {
+  isLogin: boolean
 }
 // interface authState {
 //   user: User;
@@ -17,29 +16,28 @@ type AuthState = {
 //   user: null
 //   token: null
 // }
-export const authSlice = createSlice({ 
-  name: 'auth',
-  initialState: { user: null, token: null } as AuthState,
+export const loginSlice = createSlice({ 
+  name: 'login',
+  initialState: { isLogin: false } as loginState,
   reducers: {
-    setCredentials: (
+    setLogin: (
       state, 
-      { payload: { data }}: PayloadAction<{ data:any }>
+      action: PayloadAction<boolean>
     ) => {
-      state.user = data.userInfo
-      state.token = data.accessToken;
-      // state.isLogin = true
+      state.isLogin = action.payload
+      console.log(state.isLogin)
       // console.log('user',state.user)
       // console.log('token',state.token)
       // console.log('isLogin',state.isLogin)
     },
   }
 })
-// export const authReducer = persistReducer({
-//   key: 'rtk: auth',
+// export const loginReducer = persistReducer({
+//   key: 'rtk: login',
 //   storage,
 //   whitelist: ['accessToken']
-// }, authSlice.reducer)
+// }, loginSlice.reducer)
 // }
-export const { setCredentials } = authSlice.actions;
-export default authSlice.reducer;
+export const { setLogin } = loginSlice.actions;
+export default loginSlice.reducer;
 

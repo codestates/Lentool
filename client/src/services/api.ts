@@ -32,14 +32,14 @@ export interface LoginRequest {
 export interface MypageResponse {
   messgae: string
   data: {
-    user_posts: []
+    user_posts: [object]
     userInfo: User
   }
 }
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000/users/',
+    baseUrl: 'http://localhost:3000/',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token
@@ -50,10 +50,11 @@ export const api = createApi({
       return headers
     },
   }),
+  refetchOnReconnect: true,
   endpoints: (builder) => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: (credentials: any) => ({
-        url: 'login',
+        url: 'users/login',
         credentials: 'include', // true
         method: 'POST',
         body: credentials,
@@ -61,7 +62,7 @@ export const api = createApi({
     }),
     logout: builder.mutation<{ message?: any }, void>({
       query: () => ({
-        url: 'logout',
+        url: 'users/logout',
         credentials: 'include', // true
         method: 'POST',
       })
@@ -69,9 +70,21 @@ export const api = createApi({
     // data: { user_posts: posts, userinfo: user }
     mypage: builder.mutation<any, void>({
       query: () => ({
-        url: 'mypage',
+        url: 'users/mypage',
         credentials: 'include', // true
         method: 'GET',
+      })
+    }),
+    posts: builder.mutation<any, void>({
+      query: (formdata) => ({
+        url: 'tools',
+        credentials: 'include', // true
+        method: 'POST',
+        // headers: {
+        //   'content-type': 'multipart/form-data',
+        // },
+        body: formdata,
+        // responseHandler: (response) => response.text(),
       })
     })
   })
@@ -81,4 +94,5 @@ export const {
   useLoginMutation, 
   useLogoutMutation,
   useMypageMutation,
+  usePostsMutation,
 } = api

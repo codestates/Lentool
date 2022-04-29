@@ -1,16 +1,17 @@
 import * as React from 'react';
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useAppDispatch } from "../../app/hooks";
 import { setIsModal } from "../modal/modalSlice"
 import { useLoginMutation } from '../../services/api';
 import { setCredentials } from './authSlice';
 import type { LoginRequest } from '../../services/api'
-
+import { setLogin } from './loginSlice';
+// import storage from '../../lib/storage';
 function Login () {
   const dispatch = useAppDispatch()
   const [isSignup, setIsSignup] = useState(false)
   const outSelect = useRef<any>()
-  const [inputValue, setInputValue] = useState<LoginRequest>({
+  const [inputValue, setInputValue] = useState({
     id: '',
     password: '',
   })
@@ -23,7 +24,6 @@ function Login () {
   const [errorMessage, setErrorMessage] = useState('')
   const [isPassword, setIsPassword] = useState(false)
   const [isValidate, setIsValidate] = useState(false)
-
   const validate = () => {
     const emailRegex =  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i
     const passwordRegex = /^[A-Za-z0-9]{6,12}$/
@@ -59,6 +59,7 @@ function Login () {
     try {
       const user = await login(inputValue).unwrap()
       dispatch(setCredentials(user))
+      dispatch(setLogin(true))
       dispatch(setIsModal())
     } catch (err) {
       console.log('error', err)
@@ -74,6 +75,7 @@ function Login () {
     e.preventDefault()
     if(e.target === outSelect.current) dispatch(setIsModal())
   }
+
   return (
     <div className="h-screen w-full absolute bg-black bg-opacity-70 text-center"
       ref={outSelect} onClick={handleOutClick}>
