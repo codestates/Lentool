@@ -12,7 +12,7 @@ module.exports = {
           message: "invalid access token",
         });
       }
-      const { id, user_address } = userInfo;
+      const { id, user_address, latitude, longitude } = userInfo;
       const { title, price, description } = req.body;
       const filepath1 = `/postimage/${req.files[0].filename}`;
       const filepath2 = req.files[1]
@@ -37,6 +37,8 @@ module.exports = {
           price,
           user_id: id,
           address: user_address,
+          latitude,
+          longitude,
         })
         .then((created) => {
           if (!created) {

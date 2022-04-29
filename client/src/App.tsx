@@ -1,4 +1,4 @@
-import './App.css';
+import "./App.css";
 import { Route, Switch } from "react-router-dom";
 import Navbar from './feature/navbar/Navbar';
 import Login from './feature/login/login';
@@ -7,6 +7,9 @@ import Posting from 'feature/post/posting';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setCredentials } from 'feature/login/authSlice';
+import Signup from "feature/signup/signup";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const dispatch = useAppDispatch()
@@ -38,13 +41,14 @@ function App() {
 //     dispatch(setCredentials(d))
 //   }, [])
 
+
   return (
     <div className="App">
       <div>
         <Navbar />
       </div>
       <Switch>
-        <Route exact path='/login'>
+        <Route exact path="/login">
           <Login />
         </Route>
         <Route exact path='/mypage'>
@@ -53,7 +57,23 @@ function App() {
         <Route exact path='/posting'>
           <Posting />
         </Route>
+        <Route exact path="/signup">
+          <Signup />
+        </Route>
       </Switch>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={1520}
+        // 시간
+        hideProgressBar
+        //시간 작대기 숨기기
+        closeOnClick
+        //클릭하면 닫기
+        draggable
+        //끌기 가능
+        pauseOnHover
+        //마우스 올리면 멈추기
+      />
     </div>
   );
 }

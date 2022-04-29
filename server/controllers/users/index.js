@@ -56,10 +56,12 @@ module.exports = {
     const {
       password: inputPassword,
       nickname,
-      address /*추후변경*/,
+      user_address,
+      longitude,
+      latitude,
     } = req.body;
     const imgPath = "/image/" + req.file.filename;
-    if (!inputPassword & !nickname & !imgPath & !address /*추후수정 */) {
+    if (!inputPassword & !nickname & !imgPath & !user_address /*추후수정 */) {
       return res.status(400).json({ message: "입력값 없음" });
     }
     if (inputPassword) {
@@ -112,10 +114,11 @@ module.exports = {
           res.status(500).json({ message: "server error" });
         });
     }
-    /*if (address) {   //여기는 주소 방법 학습후 수정
+    if (address & longitude & latitude) {
+      //여기는 주소 방법 학습후 수정
       userModel
         .update(
-          { address:address},
+          { address: address, longitude: longitude, latitude: latitude },
           { where: { id: userInfo.id } }
         )
         .then(([result]) => {
@@ -128,7 +131,7 @@ module.exports = {
         .catch((err) => {
           res.status(500).json({ message: "server error" });
         });
-    }*/
+    }
   },
   logout: (req, res) => {
     const userInfo = isAuthorized(req);
@@ -189,9 +192,18 @@ module.exports = {
       email,
       nickname,
       password: inputPassword,
-      address /*추후 변경*/,
+      user_address,
+      longitude,
+      latitude,
     } = req.body;
-    if (!email || !inputPassword || !nickname || !address) {
+    if (
+      !email ||
+      !inputPassword ||
+      !nickname ||
+      !user_address ||
+      !longitude ||
+      !latitude
+    ) {
       return res.status(400).json({ message: "내용을 전부 기입해 주세요" });
     }
     const salt = Math.round(new Date().valueOf() * Math.random()) + "";
@@ -205,7 +217,9 @@ module.exports = {
         password: hashPassword,
         nickname,
         salt,
-        user_address: address /*추후변경*/,
+        user_address,
+        longitude,
+        latitude,
       });
       if (!registed) {
         return res.status(500).json({ message: "fail" });
@@ -218,47 +232,33 @@ module.exports = {
     }
   },
   check: async (req, res) => {
-    const { email, nickname, userPassword: inputPassword } = req.body;
-    const userInfo = isAuthorized(req);
-
+    const checkemail = req.body.email;
+    const checknickname = req.body.nickname;
+    console.log(checkemail);
     try {
-      if (email) {
+      if (checkemail && checknickname) {
         const emailcheck = await userModel.findOne({
-          where: { email },
+          where: { email: checkemail },
         });
-        if (emailcheck) {
-          return res.status(200).json({ message: "이메일 중복" });
-        } else {
-          return res.status(200).json({ message: "중복없음" });
-        }
-      }
-      if (nickname) {
         const nicknamecheck = await userModel.findOne({
-          where: { nickname },
+          where: { nickname: checknickname },
         });
-        if (nicknamecheck) {
+        if (emailcheck && nicknamecheck) {
+          return res.status(200).json({ message: "이메일, 닉네임 중복" });
+        }
+        if (emailcheck && !nicknamecheck) {
+          return res.status(200).json({ message: "이메일 중복" });
+        }
+        if (nicknamecheck && !emailcheck) {
           return res.status(200).json({ message: "닉네임 중복" });
         } else {
-          return res.status(200).json({ message: "중복없음" });
+          return res.status(200).json({ message: "중복 없음" });
         }
-      }
-      if (inputPassword) {
-        const { salt, id } = userInfo;
-
-        const hashPassword = crypto
-          .createHash("sha512")
-          .update(inputPassword + salt)
-          .digest("hex");
-        const passwordcheck = await userModel.findOne({
-          where: { password: hashPassword, id: id },
-        });
-        if (passwordcheck) {
-          return res.status(200).json({ message: "비밀번호 중복" });
-        } else {
-          return res.status(200).json({ message: "중복없음" });
-        }
+      } else {
+        return res.status(400).json({ message: "내용을 기입해 주세요" });
       }
     } catch (err) {
+      console.log(err);
       res.status(500).json({ message: "server error" });
     }
   },
