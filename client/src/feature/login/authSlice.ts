@@ -2,8 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
 import type { User } from '../../services/api'
 // import storage from 'redux-persist/lib/storage'
-import { persistReducer } from "redux-persist";
-import storage from 'redux-persist/lib/storage';
 
 type AuthState = {
   user: User | null
@@ -27,10 +25,6 @@ export const authSlice = createSlice({
     ) => {
       state.user = data.userInfo
       state.token = data.accessToken;
-      // state.isLogin = true
-      // console.log('user',state.user)
-      // console.log('token',state.token)
-      // console.log('isLogin',state.isLogin)
     },
   }
 })
