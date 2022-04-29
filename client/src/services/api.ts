@@ -32,9 +32,10 @@ export interface LoginRequest {
 export interface MypageResponse {
   messgae: string;
   data: {
-    user_posts: [];
-    userInfo: User;
-  };
+    user_posts: [object]
+    userInfo: User
+  }
+
 }
 // 회원가입 타입
 export interface SignupRequest {
@@ -50,6 +51,7 @@ export interface SignupResponse {
 }
 export const api = createApi({
   baseQuery: fetchBaseQuery({
+
     baseUrl: "http://localhost:3000/users/",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
@@ -61,29 +63,43 @@ export const api = createApi({
       return headers;
     },
   }),
+  refetchOnReconnect: true,
   endpoints: (builder) => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: (credentials: any) => ({
-        url: "login",
-        credentials: "include", // true
-        method: "POST",
+        url: 'users/login',
+        credentials: 'include', // true
+        method: 'POST',
+
         body: credentials,
       }),
     }),
     logout: builder.mutation<{ message?: any }, void>({
       query: () => ({
-        url: "logout",
-        credentials: "include", // true
-        method: "POST",
-      }),
+        url: 'users/logout',
+        credentials: 'include', // true
+        method: 'POST',
+      })
     }),
     // data: { user_posts: posts, userinfo: user }
     mypage: builder.mutation<any, void>({
       query: () => ({
-        url: "mypage",
-        credentials: "include", // true
-        method: "GET",
-      }),
+        url: 'users/mypage',
+        credentials: 'include', // true
+        method: 'GET',
+      })
+    }),
+    posts: builder.mutation<any, void>({
+      query: (formdata) => ({
+        url: 'tools',
+        credentials: 'include', // true
+        method: 'POST',
+        // headers: {
+        //   'content-type': 'multipart/form-data',
+        // },
+        body: formdata,
+        // responseHandler: (response) => response.text(),
+      })
     }),
     signup: builder.mutation<SignupResponse, SignupRequest>({
       query: (setSignupData: any) => ({
@@ -101,4 +117,6 @@ export const {
   useSignupMutation,
   useLogoutMutation,
   useMypageMutation,
-} = api;
+  usePostsMutation,
+} = api
+

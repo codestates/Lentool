@@ -1,3 +1,5 @@
+import { useAppSelector } from "app/hooks"
+
 const products = [
   {
     id: 1,
@@ -36,6 +38,8 @@ const products = [
 
 
 export default function Mycontents() {
+  const myposts:any = useAppSelector(state => state.myinfo.post)
+  
   return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -59,6 +63,17 @@ export default function Mycontents() {
             </a>
           ))}
         </div>
+        {
+          myposts && 
+          myposts.map((el: { id: any, title: any, photo1: any, address: any, price:any  }) => 
+          <div key={el.id}>
+          <div>{el.photo1}</div>
+          <div>{el.title}</div>
+          <div>{el.address}</div>
+          <div>{el.price}</div>
+          </div>
+          )
+        }
       </div>
     </div>
   )
