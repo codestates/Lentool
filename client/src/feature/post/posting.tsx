@@ -22,6 +22,7 @@ export default function Posting () {
       p.push(e.target.files[i])
     }
     setPhoto(p)
+    console.log(...photo)
 
     if (e.target.files[0]) setPreview1(URL.createObjectURL(e.target.files[0]));
     if (e.target.files[1]) setPreview2(URL.createObjectURL(e.target.files[1]));
