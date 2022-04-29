@@ -232,47 +232,33 @@ module.exports = {
     }
   },
   check: async (req, res) => {
-    const { email, nickname, userPassword: inputPassword } = req.body;
-    const userInfo = isAuthorized(req);
-
+    const checkemail = req.body.email;
+    const checknickname = req.body.nickname;
+    console.log(checkemail);
     try {
-      if (email) {
+      if (checkemail && checknickname) {
         const emailcheck = await userModel.findOne({
-          where: { email },
+          where: { email: checkemail },
         });
-        if (emailcheck) {
-          return res.status(200).json({ message: "이메일 중복" });
-        } else {
-          return res.status(200).json({ message: "중복없음" });
-        }
-      }
-      if (nickname) {
         const nicknamecheck = await userModel.findOne({
-          where: { nickname },
+          where: { nickname: checknickname },
         });
-        if (nicknamecheck) {
+        if (emailcheck && nicknamecheck) {
+          return res.status(200).json({ message: "이메일, 닉네임 중복" });
+        }
+        if (emailcheck && !nicknamecheck) {
+          return res.status(200).json({ message: "이메일 중복" });
+        }
+        if (nicknamecheck && !emailcheck) {
           return res.status(200).json({ message: "닉네임 중복" });
         } else {
-          return res.status(200).json({ message: "중복없음" });
+          return res.status(200).json({ message: "중복 없음" });
         }
-      }
-      if (inputPassword) {
-        const { salt, id } = userInfo;
-
-        const hashPassword = crypto
-          .createHash("sha512")
-          .update(inputPassword + salt)
-          .digest("hex");
-        const passwordcheck = await userModel.findOne({
-          where: { password: hashPassword, id: id },
-        });
-        if (passwordcheck) {
-          return res.status(200).json({ message: "비밀번호 중복" });
-        } else {
-          return res.status(200).json({ message: "중복없음" });
-        }
+      } else {
+        return res.status(400).json({ message: "내용을 기입해 주세요" });
       }
     } catch (err) {
+      console.log(err);
       res.status(500).json({ message: "server error" });
     }
   },
