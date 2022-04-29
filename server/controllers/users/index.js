@@ -57,7 +57,7 @@ module.exports = {
       password: inputPassword,
       nickname,
       user_address,
-      logitude,
+      longitude,
       latitude,
     } = req.body;
     const imgPath = "/image/" + req.file.filename;
@@ -114,11 +114,11 @@ module.exports = {
           res.status(500).json({ message: "server error" });
         });
     }
-    if (address & logitude & latitude) {
+    if (address & longitude & latitude) {
       //여기는 주소 방법 학습후 수정
       userModel
         .update(
-          { address: address, logitude: logitude, latitude: latitude },
+          { address: address, longitude: longitude, latitude: latitude },
           { where: { id: userInfo.id } }
         )
         .then(([result]) => {
@@ -193,7 +193,7 @@ module.exports = {
       nickname,
       password: inputPassword,
       user_address,
-      logitude,
+      longitude,
       latitude,
     } = req.body;
     if (
@@ -201,7 +201,7 @@ module.exports = {
       !inputPassword ||
       !nickname ||
       !user_address ||
-      !logitude ||
+      !longitude ||
       !latitude
     ) {
       return res.status(400).json({ message: "내용을 전부 기입해 주세요" });
@@ -218,7 +218,7 @@ module.exports = {
         nickname,
         salt,
         user_address,
-        logitude,
+        longitude,
         latitude,
       });
       if (!registed) {
