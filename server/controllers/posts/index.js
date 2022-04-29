@@ -1,4 +1,4 @@
-const { post: postModel, user: userModel } = require("../../models");
+const { post: postModel } = require("../../models");
 const { isAuthorized } = require("../tokenFunctions");
 const { getDistance } = require("./function");
 const sequelize = require("sequelize");
