@@ -1,3 +1,8 @@
+const { post: postModel } = require("../../models");
+const { getDistance } = require("../posts/function");
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
+
 module.exports = {
   main: async (req, res) => {
     const {
