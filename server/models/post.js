@@ -29,10 +29,14 @@ module.exports = (sequelize, DataTypes) => {
       price: DataTypes.INTEGER,
       islend: DataTypes.BOOLEAN,
       address: DataTypes.STRING,
+      latitude: DataTypes.STRING,
+      longitude: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "post",
+      freezeTableName: true,
+      tableName: "post",
     }
   );
   return post;
