@@ -189,9 +189,18 @@ module.exports = {
       email,
       nickname,
       password: inputPassword,
-      address /*추후 변경*/,
+      address,
+      logitude,
+      latitude,
     } = req.body;
-    if (!email || !inputPassword || !nickname || !address) {
+    if (
+      !email ||
+      !inputPassword ||
+      !nickname ||
+      !address ||
+      !logitude ||
+      !latitude
+    ) {
       return res.status(400).json({ message: "내용을 전부 기입해 주세요" });
     }
     const salt = Math.round(new Date().valueOf() * Math.random()) + "";
@@ -205,7 +214,9 @@ module.exports = {
         password: hashPassword,
         nickname,
         salt,
-        user_address: address /*추후변경*/,
+        address,
+        logitude,
+        latitude,
       });
       if (!registed) {
         return res.status(500).json({ message: "fail" });
