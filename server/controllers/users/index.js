@@ -56,10 +56,12 @@ module.exports = {
     const {
       password: inputPassword,
       nickname,
-      address /*추후변경*/,
+      user_address,
+      logitude,
+      latitude,
     } = req.body;
     const imgPath = "/image/" + req.file.filename;
-    if (!inputPassword & !nickname & !imgPath & !address /*추후수정 */) {
+    if (!inputPassword & !nickname & !imgPath & !user_address /*추후수정 */) {
       return res.status(400).json({ message: "입력값 없음" });
     }
     if (inputPassword) {
@@ -112,10 +114,11 @@ module.exports = {
           res.status(500).json({ message: "server error" });
         });
     }
-    /*if (address) {   //여기는 주소 방법 학습후 수정
+    if (address & logitude & latitude) {
+      //여기는 주소 방법 학습후 수정
       userModel
         .update(
-          { address:address},
+          { address: address, logitude: logitude, latitude: latitude },
           { where: { id: userInfo.id } }
         )
         .then(([result]) => {
@@ -128,7 +131,7 @@ module.exports = {
         .catch((err) => {
           res.status(500).json({ message: "server error" });
         });
-    }*/
+    }
   },
   logout: (req, res) => {
     const userInfo = isAuthorized(req);
@@ -189,7 +192,7 @@ module.exports = {
       email,
       nickname,
       password: inputPassword,
-      address,
+      user_address,
       logitude,
       latitude,
     } = req.body;
@@ -197,7 +200,7 @@ module.exports = {
       !email ||
       !inputPassword ||
       !nickname ||
-      !address ||
+      !user_address ||
       !logitude ||
       !latitude
     ) {
@@ -214,7 +217,7 @@ module.exports = {
         password: hashPassword,
         nickname,
         salt,
-        address,
+        user_address,
         logitude,
         latitude,
       });
