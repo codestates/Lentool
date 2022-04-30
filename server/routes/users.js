@@ -5,7 +5,8 @@ const {
   logout,
   login,
   signup,
-  check,
+  checkemail,
+  checknickname,
   edit,
 } = require("../controllers/users");
 
@@ -15,6 +16,7 @@ router.patch("/edit", edit);
 router.post("/logout", logout);
 router.post("/login", login);
 router.post("/signup", signup);
-router.post("/check", check);
+router.post("/checkemail", checkemail);
+router.post("/checknickname", checknickname);
 
 module.exports = router;
