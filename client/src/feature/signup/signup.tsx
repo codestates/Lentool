@@ -21,8 +21,8 @@ function Signup() {
     password: "",
     nickname: "",
     user_address: "",
-    latitude: 0,
-    longitude: 0,
+    latitude: "",
+    longitude: "",
   });
   /*실제 api.ts에서 서버로 보내는 트리거'signup'과 {data,isLoading,isSuccess} */
   const [signup, { data, isLoading, isSuccess }] = useSignupMutation();
@@ -31,8 +31,8 @@ function Signup() {
   //kakao 주소 api
   //주소 상태를 선언
   const [fullAddress, setFullAddress] = useState("");
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
 
   useEffect(() => {
     // 주소-좌표 변환 객체를 생성합니다
@@ -89,7 +89,7 @@ function Signup() {
     console.log(inputValue);
     try {
       const user = await signup(inputValue).unwrap();
-      //   dispatch(setCredentials(user));
+      // dispatch(setCredentials(user));
       dispatch(setIsModal());
       console.log(user);
     } catch (err) {
@@ -139,7 +139,7 @@ function Signup() {
     setInputValue({ ...inputValue, user_address: value });
   };
   // 위도 경도 input function : 타자가 아닌 useEffect에 의해 kakaoAPI 받아오기 때문에 따로 만듬
-  const handleLatLongInputValue = (value1: number, value2: number) => {
+  const handleLatLongInputValue = (value1: string, value2: string) => {
     setInputValue({ ...inputValue, latitude: value1, longitude: value2 });
   };
 
