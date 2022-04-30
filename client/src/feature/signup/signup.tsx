@@ -1,8 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setIsModal } from "../modal/modalSlice";
-import { useSignupMutation } from "services/api";
-import type { SignupRequest } from "services/api";
+import {
+  useChecknicknameMutation,
+  useSignupMutation,
+  useCheckemailMutation,
+} from "services/api";
+import type {
+  SignupRequest,
+  NicknameRequest,
+  EmailRequest,
+} from "services/api";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -24,8 +32,19 @@ function Signup() {
     latitude: "",
     longitude: "",
   });
+  /* 중복검사용 이메일 상태 */
+  const [emailValue, setEmailValue] = useState<EmailRequest>({
+    email: "",
+  });
+  /* 중복검사용 닉네임상태 */
+  const [nicknameValue, setNicknameValue] = useState<NicknameRequest>({
+    nickname: "",
+  });
   /*실제 api.ts에서 서버로 보내는 트리거'signup'과 {data,isLoading,isSuccess} */
   const [signup, { data, isLoading, isSuccess }] = useSignupMutation();
+  const [checkemail, {}] = useCheckemailMutation();
+  const [checknickname, {}] = useChecknicknameMutation();
+
   const { email, password, nickname, user_address } = inputValue;
 
   //kakao 주소 api
@@ -84,7 +103,7 @@ function Signup() {
     border: "2px solid #000000",
     overflow: "hidden",
   };
-
+  /* 모든 조건이 통과될때, signup으로 inputValue(회원정보)를 보내고 user로 받는 함수 */
   const signupreq = async () => {
     console.log(inputValue);
     try {
@@ -97,14 +116,54 @@ function Signup() {
     }
   };
 
-  // 유효성 검사(Validity Checking)
+  /******************유효성 검사(Validity Checking)**********************/
   //이메일 유효성 검사
   const checkEmailValidity = (isVal: string) => {
     let regExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; //이메일 양식에 맞게 작성
-    //   [.-]? : - or _ or . 이 0번 또는 1번 사용 가능하도록 허용
-    // 최대 가능한 형식 예시 : Elon_Musk123@aws-lentool.co.kr
     return regExp.test(isVal);
   };
+  /* 이메일 중복검사용 상태 */
+  const [emailOverlappingValidity, setEmailOverlappingValidity] =
+    useState(true);
+  /*이메일 중복 검사 */
+  const checkEmailOverlapping = async () => {
+    try {
+      const user = await checkemail(emailValue).unwrap();
+      // console.log(user);
+      if (user.message === "중복 없음") {
+        setEmailOverlappingValidity(false);
+        toast.success("사용가능한 이메일입니다.");
+      } else {
+        setEmailOverlappingValidity(true);
+        toast.error("중복된 이메일입니다.");
+      }
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
+
+  /* 닉네임 중복검사용 */
+  const [nicknameOverlappingValidity, setNicknameOverlappingValidity] =
+    useState(true);
+
+  /*닉네임 중복 검사 */
+  const checkNicknameOverlapping = async () => {
+    try {
+      const user = await checknickname(nicknameValue).unwrap();
+      setNicknameOverlappingValidity(false);
+      console.log(user);
+      if (user.message === "중복 없음") {
+        setNicknameOverlappingValidity(false);
+        toast.success("사용가능한 닉네임입니다.");
+      } else {
+        setNicknameOverlappingValidity(true);
+        toast.error("중복된 닉네임입니다.");
+      }
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
+
   //비밀번호 유효성 검사
   const checkPasswordValidity = (isVal: string) => {
     let regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,30}$/; //최소 8자, 최소 하나의 문자와 숫자
@@ -117,12 +176,18 @@ function Signup() {
       toast.error("모든 항목을 입력해주세요.");
     } else if (!checkEmailValidity) {
       toast.error("이메일 형식에 맞지 않습니다.");
+    } else if (!emailOverlappingValidity) {
+      toast.error("이메일 중복 여부를 확인해 주시기 바랍니다.");
     } else if (!checkPasswordValidity) {
       toast.error("8자 이상 최소 하나의 숫자와 문자를 포함해야 합니다.");
     } else if (password !== password2) {
       toast.error("두 비밀번호가 같지 않습니다.");
-    } else if (nickname.length === 1 || nickname.length > 15) {
-      toast.error("별명은 2~15자 이내로 입력바랍니다.");
+    } else if (
+      nickname.length === 1 ||
+      nickname.length > 15 ||
+      !nicknameOverlappingValidity
+    ) {
+      toast.error("별명은 2~15자 이내로 입력후 중복여부 확인 바랍니다.");
     } else {
       signupreq();
       // 모든 검증 후 회원가입정보를 서버로 전송요청 함수
@@ -133,7 +198,19 @@ function Signup() {
   const handleInputValue =
     (key: string) => (e: { target: { value: string } }) => {
       setInputValue({ ...inputValue, [key]: e.target.value });
+      setEmailValue({ ...emailValue, [key]: e.target.value });
+      setNicknameValue({ ...nicknameValue, [key]: e.target.value });
     };
+  // // email 중복
+  // const handleInputEmailValue =
+  //   (key: string) => (e: { target: { value: string } }) => {
+  //     setEmailValue({ ...emailValue, [key]: e.target.value });
+  //   };
+  // // 닉네임 중복
+  // const handleInputNicknameValue =
+  //   (key: string) => (e: { target: { value: string } }) => {
+  //     setNicknameValue({ ...nicknameValue, [key]: e.target.value });
+  //   };
   // 주소input function: 타자가 아닌 kakao주소API로 상태를 받아오기 때문에 위와 다르게 만듬
   const handleAddressInputValue = (value: string) => {
     setInputValue({ ...inputValue, user_address: value });
@@ -161,7 +238,10 @@ function Signup() {
           className=""
           onChange={handleInputValue("email")}
           placeholder="이메일을 입력하세요"
-        />
+        />{" "}
+        <button className="" onClick={checkEmailOverlapping}>
+          이메일 중복 체크
+        </button>
       </div>
       {!checkEmailValidity(email) && inputValue.email.length > 0 ? (
         <span className="text-red-500">이메일 형식에 맞지 않습니다.</span>
@@ -202,14 +282,17 @@ function Signup() {
           className=""
           onChange={handleInputValue("nickname")}
           placeholder="닉네임을 입력해주세요"
-        />
+        />{" "}
+        <button className="" onClick={checkNicknameOverlapping}>
+          닉네임 중복 확인
+        </button>
         <br />
         {!(
           (inputValue.nickname.length > 1 && inputValue.nickname.length < 15) ||
           inputValue.nickname.length === 0
         ) ? (
           <span className="text-red-500">
-            별명은 2~15자 이내로 입력바랍니다.
+            닉네임은 2~15자 이내로 입력바랍니다.
           </span>
         ) : null}
       </div>

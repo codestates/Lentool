@@ -48,6 +48,21 @@ export interface SignupRequest {
 export interface SignupResponse {
   message: string;
 }
+//이메일 중복 체크 타입
+export interface EmailRequest {
+  email: string;
+}
+export interface EmailResponse {
+  message: string;
+}
+// 닉네임 중복 체크 타입
+export interface NicknameRequest {
+  nickname: string;
+}
+export interface NicknameResponse {
+  message: string;
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000/",
@@ -107,12 +122,30 @@ export const api = createApi({
         body: setSignupData,
       }),
     }),
+    checkemail: builder.mutation<EmailResponse, EmailRequest>({
+      query: (emailValidityData: any) => ({
+        url: "users/checkemail",
+        credentials: "include",
+        method: "POST",
+        body: emailValidityData,
+      }),
+    }),
+    checknickname: builder.mutation<NicknameResponse, NicknameRequest>({
+      query: (nicknameValidityData: any) => ({
+        url: "users/checknickname",
+        credentials: "include",
+        method: "POST",
+        body: nicknameValidityData,
+      }),
+    }),
   }),
 });
 
 export const {
   useLoginMutation,
   useSignupMutation,
+  useCheckemailMutation,
+  useChecknicknameMutation,
   useLogoutMutation,
   useMypageMutation,
   usePostsMutation,
