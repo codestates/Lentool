@@ -32,10 +32,9 @@ export interface LoginRequest {
 export interface MypageResponse {
   messgae: string;
   data: {
-    user_posts: [object]
-    userInfo: User
-  }
-
+    user_posts: [object];
+    userInfo: User;
+  };
 }
 // 회원가입 타입
 export interface SignupRequest {
@@ -43,15 +42,14 @@ export interface SignupRequest {
   password: string;
   nickname: string;
   user_address: string;
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
 }
 export interface SignupResponse {
   message: string;
 }
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-
     baseUrl: "http://localhost:4000/",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
@@ -67,44 +65,44 @@ export const api = createApi({
   endpoints: (builder) => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: (credentials: any) => ({
-        url: 'users/login',
-        credentials: 'include', // true
-        method: 'POST',
+        url: "users/login",
+        credentials: "include", // true
+        method: "POST",
 
         body: credentials,
       }),
     }),
     logout: builder.mutation<{ message?: any }, void>({
       query: () => ({
-        url: 'users/logout',
-        credentials: 'include', // true
-        method: 'POST',
-      })
+        url: "users/logout",
+        credentials: "include", // true
+        method: "POST",
+      }),
     }),
     // data: { user_posts: posts, userinfo: user }
     mypage: builder.mutation<any, void>({
       query: () => ({
-        url: 'users/mypage',
-        credentials: 'include', // true
-        method: 'GET',
-      })
+        url: "users/mypage",
+        credentials: "include", // true
+        method: "GET",
+      }),
     }),
     posts: builder.mutation<any, void>({
       query: (formdata) => ({
-        url: 'tools',
-        credentials: 'include', // true
-        method: 'POST',
+        url: "tools",
+        credentials: "include", // true
+        method: "POST",
         // headers: {
         //   'content-type': 'multipart/form-data',
         // },
         body: formdata,
         // responseHandler: (response) => response.text(),
-      })
+      }),
     }),
     signup: builder.mutation<SignupResponse, SignupRequest>({
       query: (setSignupData: any) => ({
-        url: "signup",
-        setSignupData: "include",
+        url: "users/signup",
+        credentials: "include",
         method: "POST",
         body: setSignupData,
       }),
@@ -118,5 +116,4 @@ export const {
   useLogoutMutation,
   useMypageMutation,
   usePostsMutation,
-} = api
-
+} = api;
