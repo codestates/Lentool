@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setIsModal } from "../modal/modalSlice";
+
 import {
   useChecknicknameMutation,
   useSignupMutation,
@@ -15,6 +16,9 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import DaumPostCode from "react-daum-postcode";
+// 사진 import
+import logo from "./images/Lentool_Logo.png";
+
 declare global {
   interface Window {
     kakao: any;
@@ -109,7 +113,8 @@ function Signup() {
     try {
       const user = await signup(inputValue).unwrap();
       // dispatch(setCredentials(user));
-      dispatch(setIsModal());
+      dispatch(setIsModal()); //바로 회원가입창이 열린다.
+
       console.log(user);
     } catch (err) {
       console.log("error", err);
@@ -176,18 +181,16 @@ function Signup() {
       toast.error("모든 항목을 입력해주세요.");
     } else if (!checkEmailValidity) {
       toast.error("이메일 형식에 맞지 않습니다.");
-    } else if (!emailOverlappingValidity) {
+    } else if (emailOverlappingValidity) {
       toast.error("이메일 중복 여부를 확인해 주시기 바랍니다.");
     } else if (!checkPasswordValidity) {
       toast.error("8자 이상 최소 하나의 숫자와 문자를 포함해야 합니다.");
     } else if (password !== password2) {
       toast.error("두 비밀번호가 같지 않습니다.");
-    } else if (
-      nickname.length === 1 ||
-      nickname.length > 15 ||
-      !nicknameOverlappingValidity
-    ) {
-      toast.error("별명은 2~15자 이내로 입력후 중복여부 확인 바랍니다.");
+    } else if (nickname.length === 1 || nickname.length > 15) {
+      toast.error("별명은 2~15자 이내로 입력해 주세요. ");
+    } else if (nicknameOverlappingValidity) {
+      toast.error("닉네임 중복여부를 확인해주세요 ");
     } else {
       signupreq();
       // 모든 검증 후 회원가입정보를 서버로 전송요청 함수
@@ -230,91 +233,181 @@ function Signup() {
   const { password2 } = inputPassword2;
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
-      <div>
-        <p>이메일</p>
-        <input
-          type="text"
-          className=""
-          onChange={handleInputValue("email")}
-          placeholder="이메일을 입력하세요"
-        />{" "}
-        <button className="" onClick={checkEmailOverlapping}>
-          이메일 중복 체크
-        </button>
-      </div>
-      {!checkEmailValidity(email) && inputValue.email.length > 0 ? (
-        <span className="text-red-500">이메일 형식에 맞지 않습니다.</span>
-      ) : null}
-      <div>
-        <p>비밀번호</p>
-        <input
-          type="password"
-          className=""
-          onChange={handleInputValue("password")}
-          placeholder="비밀번호를 입력하세요"
-        />
-      </div>
-      {!checkPasswordValidity(password) && inputValue.password.length > 0 ? (
-        <span className="text-red-500">
-          비밀번호는 영문,숫자를 포함하여 8자 이상이여야 합니다.
+    <div className="mx-auto md:h-screen flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
+      <a className="text-2xl font-semibold flex justify-center items-center mb-8 lg:mb-10">
+        <img src={logo} className="h-10 mr-4" alt="Leentool Logo" />
+        <span className="self-center text-2xl font-bold whitespace-nowrap">
+          Leentool
         </span>
-      ) : null}
+      </a>
+      <div className="bg-white shadow rounded-lg md:mt-0 w-full sm:max-w-screen-sm xl:p-0">
+        <div className="p-6 sm:p-8 lg:p-16 space-y-8">
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
+            회원가입
+          </h2>
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="mt-8 space-y-6"
+            action="#"
+          >
+            <div>
+              <label className="text-sm font-medium text-gray-900 block mb-2">
+                이메일
+              </label>
+              <div className="justify-center mt-4 flex">
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  onChange={handleInputValue("email")}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-8/12 p-2.5"
+                  placeholder="name@company.com"
+                />
+                <button
+                  className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded "
+                  onClick={checkEmailOverlapping}
+                >
+                  이메일 중복 체크
+                </button>
+              </div>
+            </div>
+            {!checkEmailValidity(email) && inputValue.email.length > 0 ? (
+              <span className="text-red-500">이메일 형식에 맞지 않습니다.</span>
+            ) : null}
+            <div>
+              <label className="text-sm font-medium text-gray-900 block mb-2">
+                닉네임
+              </label>
+              <div className="justify-center mt-4 flex">
+                <input
+                  type="text"
+                  name="nickname"
+                  id="nickname"
+                  onChange={handleInputValue("nickname")}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-8/12 p-2.5"
+                  placeholder="닉네임"
+                />
+                <button
+                  className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                  onClick={checkNicknameOverlapping}
+                >
+                  닉네임 중복 체크
+                </button>
+              </div>
+            </div>
+            {!(
+              (inputValue.nickname.length > 1 &&
+                inputValue.nickname.length < 15) ||
+              inputValue.nickname.length === 0
+            ) ? (
+              <span className="text-red-500">
+                닉네임은 2~15자 이내로 입력바랍니다.
+              </span>
+            ) : null}
+            <div>
+              <label className="text-sm font-medium text-gray-900 block mb-2">
+                비밀번호
+              </label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                onChange={handleInputValue("password")}
+                placeholder="••••••••"
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+              />
+            </div>
+            {!checkPasswordValidity(password) &&
+            inputValue.password.length > 0 ? (
+              <span className="text-red-500">
+                비밀번호는 영문,숫자를 포함하여 8자 이상이여야 합니다.
+              </span>
+            ) : null}
+            <div>
+              <label className="text-sm font-medium text-gray-900 block mb-2">
+                비밀번호 확인
+              </label>
+              <input
+                type="password"
+                name="confirm-password"
+                id="confirm-password"
+                onChange={handleInputPasswordValue("password2")}
+                placeholder="••••••••"
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+              />
+            </div>
+            {!(password === password2 || password2.length === 0) ? (
+              <span className="text-red-500">
+                비밀번호가 일치 하지 않습니다.
+              </span>
+            ) : null}
 
-      <div>
-        <p>비밀번호 재확인</p>
-        <input
-          type="password"
-          className=""
-          onChange={handleInputPasswordValue("password2")}
-          placeholder="비밀번호 재입력"
-        />
-      </div>
+            <div>
+              {/* <label className="text-sm font-medium text-gray-900 block mb-2">
+                주소
+              </label> */}
 
-      {!(password === password2 || password2.length === 0) ? (
-        <span className="text-red-500">비밀번호가 일치 하지 않습니다.</span>
-      ) : null}
-
-      <div>
-        <p>닉네임</p>
-        <input
-          type="text"
-          className=""
-          onChange={handleInputValue("nickname")}
-          placeholder="닉네임을 입력해주세요"
-        />{" "}
-        <button className="" onClick={checkNicknameOverlapping}>
-          닉네임 중복 확인
-        </button>
-        <br />
-        {!(
-          (inputValue.nickname.length > 1 && inputValue.nickname.length < 15) ||
-          inputValue.nickname.length === 0
-        ) ? (
-          <span className="text-red-500">
-            닉네임은 2~15자 이내로 입력바랍니다.
-          </span>
-        ) : null}
+              <button
+                className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                onClick={handleOpen}
+              >
+                주소 찾기
+              </button>
+              {isAddClicked ? (
+                <div>
+                  <DaumPostCode
+                    onComplete={handleComplete}
+                    style={modalStyle}
+                  />
+                </div>
+              ) : null}
+              <input
+                type="text"
+                name="address"
+                id="address"
+                value={fullAddress}
+                readOnly
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                placeholder="주소"
+              ></input>
+            </div>
+            <div className="flex items-start">
+              <div className="flex items-center h-5">
+                <input
+                  id="remember"
+                  aria-describedby="remember"
+                  name="remember"
+                  type="checkbox"
+                  className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded"
+                  required
+                />
+              </div>
+              <div className="text-sm ml-3">
+                <label className="font-medium text-gray-900">
+                  위 이용약관에 동의합니다.{" "}
+                  <a href="#fake약관" className="text-teal-500 hover:underline">
+                    Terms and Conditions
+                  </a>
+                </label>
+              </div>
+            </div>
+            <button
+              className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center"
+              type="submit"
+              onClick={() => handleSignup()}
+            >
+              계정 생성하기
+            </button>
+            <div className="text-sm font-medium text-gray-500">
+              이미 계정이 있으시다구요?{" "}
+              <a href=" " className="text-teal-500 hover:underline">
+                로그인 해주세요.
+              </a>
+            </div>
+          </form>
+        </div>
       </div>
-      <div>
-        <p>주소</p>
-        <button onClick={handleOpen}>주소검색</button>
-
-        {isAddClicked ? (
-          <div>
-            <DaumPostCode onComplete={handleComplete} style={modalStyle} />
-          </div>
-        ) : null}
-      </div>
-      <div>
-        <input value={fullAddress} readOnly></input>
-      </div>
-      <div>
-        <button className="" type="submit" onClick={() => handleSignup()}>
-          회원가입
-        </button>
-      </div>
-    </form>
+    </div>
   );
 }
 export default Signup;
