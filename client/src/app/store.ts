@@ -5,18 +5,28 @@ import authReducer from '../feature/login/authSlice'
 import modalReducer from '../feature/modal/modalSlice'
 import myinfoReducer from '../feature/mypage/myinfoSlice'
 import loginReducer from '../feature/login/loginSlice'
-// import redirectReducer from 'feature/login/redirectSlice';
+import postsReducer from '../feature/post/postSlice'
+
+import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
+import persistedReducer from './reducers'
+
+
 export const store = configureStore({
   reducer: {
+    persistedReducer,
     modal: modalReducer,
     auth: authReducer,
     myinfo: myinfoReducer,
     login: loginReducer,
-    // redirect: redirectReducer,
+    posts: postsReducer,
     [api.reducerPath]: api.reducer,
   },
-  middleware: (getDefaultMiddleware) => 
-    getDefaultMiddleware().concat(api.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(api.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

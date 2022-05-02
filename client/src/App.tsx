@@ -10,55 +10,62 @@ import { setCredentials } from 'feature/login/authSlice';
 import Signup from "feature/signup/signup";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { setLogin } from "feature/login/loginSlice";
+import PostLogin from "feature/post/PostLogin";
+import Main from "feature/home/Main";
+import { getPosts } from "feature/post/postSlice";
+import { getMyinfo } from "feature/mypage/myinfoSlice";
+import Room from "feature/chat/Room";
+import Chatting from "feature/chat/Chatting";
 
 function App() {
   const dispatch = useAppDispatch()
-  // let user = useAppSelector(state => state.auth)
-  // console.log(user)
-//   const d =
-//   {
-//     "message": "ok",
-//     "data": {
-//         "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBuYXZlci5jb20iLCJuaWNrbmFtZSI6InRlc3QxIiwidXNlcl9hZGRyZXNzIjoi7J247LKc6rSR7Jet7IucIiwidXNlcl9waG90byI6ImR1bW15ZGF0YSIsInNhbHQiOiIxMzg0NTA3ODUyNDAwIiwibGF0aXR1ZGUiOiIzNy41Mjc3MjQxMjkzMTkxOTYiLCJsb25naXR1ZGUiOiIxMjYuNjMxMzczMTA2NTY2NjgiLCJjcmVhdGVkQXQiOiIyMDIyLTA0LTI4VDEzOjEwOjQwLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTA0LTI4VDEzOjEwOjQwLjAwMFoiLCJpYXQiOjE2NTExNzQwMjgsImV4cCI6MTY1MTI2MDQyOH0.XfME7k4S4Fk1H0k8GrjQTU8cslyanbGXImaAOaVqNK0",
-//         "userInfo": {
-//             "id": 1,
-//             "email": "test1@naver.com",
-//             "nickname": "test1",
-//             "user_address": "인천광역시",
-//             "user_photo": "dummydata",
-//             "salt": "1384507852400",
-//             "latitude": "37.527724129319196",
-//             "longitude": "126.63137310656668",
-//             "createdAt": "2022-04-28T13:10:40.000Z",
-//             "updatedAt": "2022-04-28T13:10:40.000Z"
-//         }
-//     }
-// }
-//   useEffect(() => {
-//     console.log('effective')
-//     if (!d) return
-     
-//     dispatch(setCredentials(d))
-//   }, [])
+  const isLogin = useAppSelector(state => state.login.isLogin)
+  // console.log(isLogin)
+
+  useEffect(() => {
+    const a:any = localStorage.getItem('user')
+    const b:any = localStorage.getItem('posts')
+    const c:any = localStorage.getItem('persist:root')
+    // console.log(JSON.parse(c))
+    if (a) {
+      dispatch(setCredentials(JSON.parse(a)))
+      dispatch(setLogin(true))
+    }
+    if (b) {
+      dispatch(getPosts(JSON.parse(b)))
+    }
+    // if (c) {
+    //   dispatch(getMyinfo(JSON.parse(c)))
+    // }
+  }, [])
 
 
   return (
     <div className="App">
-      <div>
         <Navbar />
-      </div>
       <Switch>
-        <Route exact path="/login">
+        <Route exact path='/'>
+          { !isLogin ? <Main /> : <PostLogin /> }
+        </Route>
+
+        <Route path="/login">
           <Login />
         </Route>
-        <Route exact path='/mypage'>
+        <Route path='/mypage'>
           <Mypage />
         </Route>
-        <Route exact path='/posting'>
+        <Route path='/posting'>
           <Posting />
         </Route>
-        <Route exact path="/signup">
+        <Route path="/signup">
           <Signup />
+        </Route>
+        <Route path="/room">
+          <Room />
+        </Route>
+        <Route path="/chatting">
+          <Chatting />
         </Route>
       </Switch>
       <ToastContainer

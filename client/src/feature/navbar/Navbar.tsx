@@ -9,14 +9,16 @@ import { useLogoutMutation, useMypageMutation } from "services/api";
 import { getMyinfo } from 'feature/mypage/myinfoSlice';
 import { setCredentials } from 'feature/login/authSlice';
 import { setLogin } from 'feature/login/loginSlice';
+import { getPosts } from 'feature/post/postSlice';
 
 export default function Navbar () {
   const { push } = useHistory()
   const isModal = useAppSelector(state => state.modal.isModal)
   const isLogin = useAppSelector(state => state.login.isLogin)
+  const postList = useAppSelector(state => state.posts.posts)
   const dispatch = useAppDispatch()
   const [logout] = useLogoutMutation()
-  const [mypage, { data, isLoading, error }] = useMypageMutation()
+  const [mypage] = useMypageMutation()
   const reset = {
     data: {
       user: '',
@@ -35,12 +37,12 @@ export default function Navbar () {
     push('/mypage')
   }
   const handleLogout = async () => {
-    console.log('logout')
     await logout().unwrap()
     dispatch(setLogin(false))
     dispatch(setCredentials(reset))
-
-    // console.log('isLogin', logout)
+    localStorage.removeItem('user')
+    localStorage.removeItem('posts')
+ 
     push('/')
   }
   return (
@@ -56,7 +58,7 @@ export default function Navbar () {
               />          
           </Link>
         </div>
-        <div className="relative text-gray-600">
+        <div className="relative grow text-gray-600">
           <input type="search" name="search" placeholder="Search"
             className="pt-2 pb-2 border-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md" />
           <button type="submit" className="absolute right-0 top-0 mt-3 mr-4">
@@ -65,7 +67,7 @@ export default function Navbar () {
             </svg>
           </button>     
         </div>
-        <div className="-mr-2 -my-2 md:hidden">
+        <div className="-mr-2 -my-2 md:hidden flex-3 ">
           <Menu.Button className="focus:outline-none inline-flex w-full justify-center px-2 py-2 text-sm font-medium text-gray-500 hover:bg-opacity-10 hover:text-black hover:bg-gray-700 hover:rounded-full focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             <MenuIcon className="h-6 w-6" aria-hidden="true" />
           </Menu.Button>

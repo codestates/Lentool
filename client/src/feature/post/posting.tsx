@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { usePostsMutation } from "services/api";
+import { useToolsMutation } from "services/api";
 
 export default function Posting () {
   const [photo, setPhoto] = useState([])
@@ -28,7 +28,7 @@ export default function Posting () {
     if (e.target.files[1]) setPreview2(URL.createObjectURL(e.target.files[1]));
     if (e.target.files[2]) setPreview3(URL.createObjectURL(e.target.files[2]));
   }
-  const [posts, { isLoading }] = usePostsMutation()
+  const [tools, { isLoading }] = useToolsMutation()
   /* 포스팅 완료 버튼 */
   const handlePosting = async () => {
       const formdata:any = new FormData()
@@ -37,7 +37,8 @@ export default function Posting () {
       formdata.append('description', inputValue.description)
       formdata.append('photo', ...photo)
 
-      await posts(formdata)
+      const a = await tools(formdata)
+      console.log(a)
     }
 
   return (

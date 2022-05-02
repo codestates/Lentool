@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useState, useRef, useEffect } from 'react'
 import { useAppDispatch } from "../../app/hooks";
 import { setIsModal } from "../modal/modalSlice"
-import { useLoginMutation } from '../../services/api';
+import { useLoginMutation, usePostsMutation } from '../../services/api';
 import { setCredentials } from './authSlice';
-import type { LoginRequest } from '../../services/api'
 import { setLogin } from './loginSlice';
+import { getPosts } from 'feature/post/postSlice';
 // import storage from '../../lib/storage';
 function Login () {
   const dispatch = useAppDispatch()
@@ -17,6 +17,7 @@ function Login () {
   })
   
   const [login, { data, isLoading, isSuccess }] = useLoginMutation()
+  const [posts] = usePostsMutation()
   const { id, password } = inputValue
   /* 로그인 유효성 검사 */
   const [emailValidate, setEmailValidate] = useState('')
@@ -58,9 +59,14 @@ function Login () {
   const handleSubmit = async () => {
     try {
       const user = await login(inputValue).unwrap()
+      console.log(user.data)
       dispatch(setCredentials(user))
       dispatch(setLogin(true))
       dispatch(setIsModal())
+      localStorage.setItem('user', JSON.stringify(user))
+      const p = await posts().unwrap()
+      localStorage.setItem('posts', JSON.stringify(p))
+      dispatch(getPosts(p))
     } catch (err) {
       console.log('error', err)
     }

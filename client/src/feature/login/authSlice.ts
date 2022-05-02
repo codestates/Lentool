@@ -4,7 +4,7 @@ import type { User } from '../../services/api'
 // import storage from 'redux-persist/lib/storage'
 
 type AuthState = {
-  user: User | null
+  user: any | null
   token: string | null
 }
 // interface authState {
