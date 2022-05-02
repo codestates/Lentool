@@ -2,9 +2,7 @@ import * as React from 'react';
 import { useState, useRef, useEffect } from 'react'
 import { useAppDispatch } from "../../app/hooks";
 import { setIsModal } from "../modal/modalSlice"
-import { useLoginMutation } from '../../services/api';
-import type { LoginRequest } from '../../services/api'
-// import storage from '../../lib/storage';
+
 function MyinfoEdit () {
   const dispatch = useAppDispatch()
   const outSelect = useRef<any>()
@@ -13,21 +11,16 @@ function MyinfoEdit () {
     password: '',
   })
 
-  /* 로그인 input 값 변경 */
   const handleInputValue = (key: string) => (e: { target: { value: string; }; }) => {
     setInputValue({ ...inputValue, [key]: e.target.value });
   }
-  /* 로그인 요청 */
   const handleSubmit = async () => {
     try {
-      // const edit = await login(inputValue).unwrap()
-
       dispatch(setIsModal())
     } catch (err) {
       console.log('error', err)
     }
   }
-
   const handleOutClick = (e: any) => {
     e.preventDefault()
     if(e.target === outSelect.current) dispatch(setIsModal())

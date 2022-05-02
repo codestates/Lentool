@@ -4,7 +4,11 @@ module.exports = (sequelize, DataTypes) => {
   class user_room extends Model {
     static associate(models) {
       user_room.belongsTo(models.user, {
-        foreignKey: "user_id",
+        foreignKey: "user_id1",
+        sourceKey: "id",
+      });
+      user_room.belongsTo(models.user, {
+        foreignKey: "user_id2",
         sourceKey: "id",
       });
       user_room.belongsTo(models.room, {
@@ -25,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "user_room",
+      freezeTableName: true,
+      tableName: "user_room",
     }
   );
   return user_room;

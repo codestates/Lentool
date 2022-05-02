@@ -9,6 +9,7 @@ const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
 const postRouter = require("./routes/post");
 const toolsRouter = require("./routes/tools");
+const chatRouter = require("./routes/chattings");
 var cors = require("cors");
 var app = express();
 
@@ -39,6 +40,7 @@ app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
 app.use("/post", postRouter);
 app.use("/tools", toolsRouter);
+app.use("/chat", chatRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

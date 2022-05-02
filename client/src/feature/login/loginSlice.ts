@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../../app/store'
+import {  } from 'redux-persist'
 
 type loginState = {
   isLogin: boolean
@@ -14,9 +14,9 @@ export const loginSlice = createSlice({
       action: PayloadAction<boolean>
     ) => {
       state.isLogin = action.payload
-      console.log(state.isLogin)
+      // console.log(state.isLogin)
     },
-  }
+  },
 })
 
 export const { setLogin } = loginSlice.actions;
