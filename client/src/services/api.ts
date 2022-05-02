@@ -120,6 +120,7 @@ export const api = createApi({
         credentials: 'include', // true
         method: 'GET',
       })
+    }),
     checkemail: builder.mutation<EmailResponse, EmailRequest>({
       query: (emailValidityData: any) => ({
         url: "users/checkemail",
