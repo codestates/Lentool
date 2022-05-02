@@ -109,13 +109,13 @@ function Signup() {
   };
   /* 모든 조건이 통과될때, signup으로 inputValue(회원정보)를 보내고 user로 받는 함수 */
   const signupreq = async () => {
-    console.log(inputValue);
+    // console.log(inputValue);
     try {
       const user = await signup(inputValue).unwrap();
       // dispatch(setCredentials(user));
       dispatch(setIsModal()); //바로 회원가입창이 열린다.
-
-      console.log(user);
+      toast.success("성공적으로 회원가입 완료");
+      // console.log(user);
     } catch (err) {
       console.log("error", err);
     }
