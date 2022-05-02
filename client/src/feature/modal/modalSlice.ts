@@ -1,6 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../../app/store'
-// import type { User } from '../../services/api'
 
 // type AuthState = {
 //   user: User | null
@@ -9,7 +7,7 @@ import type { RootState } from '../../app/store'
 interface modalState {
   isModal: boolean;
 }
-const initialState:modalState = {
+const initialState: modalState = {
   isModal: false
 }
 export const modalSlice = createSlice({ 

@@ -1,10 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../app/store";
-// import reactCookies from 'react-cookie'
-
-// export const setCookie = () :any => {
-//   return reactCookies.set(name, value)
-// }
+import { REHYDRATE } from 'redux-persist'
 
 export interface User {
   createAt: string;
@@ -28,7 +24,7 @@ export interface LoginRequest {
   id: string;
   password: string;
 }
-// data: { user_posts: posts, userinfo: user }
+
 export interface MypageResponse {
   messgae: string;
   data: {
@@ -69,21 +65,19 @@ export const api = createApi({
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
-      console.log("send token in headers");
+      // console.log("send token in headers");
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
-  refetchOnReconnect: true,
   endpoints: (builder) => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: (credentials: any) => ({
-        url: "users/login",
-        credentials: "include", // true
-        method: "POST",
-
+        url: 'users/login',
+        credentials: 'include', // true
+        method: 'POST',
         body: credentials,
       }),
     }),
@@ -94,7 +88,6 @@ export const api = createApi({
         method: "POST",
       }),
     }),
-    // data: { user_posts: posts, userinfo: user }
     mypage: builder.mutation<any, void>({
       query: () => ({
         url: "users/mypage",
@@ -102,17 +95,13 @@ export const api = createApi({
         method: "GET",
       }),
     }),
-    posts: builder.mutation<any, void>({
+    tools: builder.mutation<any, void>({
       query: (formdata) => ({
-        url: "tools",
-        credentials: "include", // true
-        method: "POST",
-        // headers: {
-        //   'content-type': 'multipart/form-data',
-        // },
+        url: 'tools',
+        credentials: 'include', // true
+        method: 'POST',
         body: formdata,
-        // responseHandler: (response) => response.text(),
-      }),
+      })
     }),
     signup: builder.mutation<SignupResponse, SignupRequest>({
       query: (setSignupData: any) => ({
@@ -122,6 +111,15 @@ export const api = createApi({
         body: setSignupData,
       }),
     }),
+    pos: builder.query<any, void>({
+      query: () => 'posts'
+    }),
+    posts: builder.mutation<any, void>({
+      query: () => ({
+        url: 'posts',
+        credentials: 'include', // true
+        method: 'GET',
+      })
     checkemail: builder.mutation<EmailResponse, EmailRequest>({
       query: (emailValidityData: any) => ({
         url: "users/checkemail",
@@ -148,5 +146,7 @@ export const {
   useChecknicknameMutation,
   useLogoutMutation,
   useMypageMutation,
+  useToolsMutation,
+  usePosQuery,
   usePostsMutation,
 } = api;

@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../../app/store'
-import type { User } from '../../services/api'
 
 type myinfoState = {
-  user: User | null
+  user: any | null
   post: [] | null
 }
 
@@ -20,7 +18,12 @@ export const myinfoSlice = createSlice({
       // console.log('user',state.user)
       // console.log('token',state.token)
     }
-  }
+  },
+  // extraReducers: (builder) => {
+  //   builder.addCase(REHYDRATE, (state) => {
+  //     console.log('in rehydrated state')
+  //   })
+  // }
 })
 
 export const { getMyinfo } = myinfoSlice.actions;
