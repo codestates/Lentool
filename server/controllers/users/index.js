@@ -231,25 +231,36 @@ module.exports = {
       res.status(500).json({ data: err, message: "server error" });
     }
   },
-  check: async (req, res) => {
+  checkemail: async (req, res) => {
     const checkemail = req.body.email;
-    const checknickname = req.body.nickname;
     console.log(checkemail);
     try {
-      if (checkemail && checknickname) {
+      if (checkemail) {
         const emailcheck = await userModel.findOne({
           where: { email: checkemail },
         });
+
+        if (emailcheck) {
+          return res.status(200).json({ message: "이메일 중복" });
+        } else {
+          return res.status(200).json({ message: "중복 없음" });
+        }
+      } else {
+        return res.status(400).json({ message: "내용을 기입해 주세요" });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "server error" });
+    }
+  },
+  checknickname: async (req, res) => {
+    const checknickname = req.body.nickname;
+    try {
+      if (checknickname) {
         const nicknamecheck = await userModel.findOne({
           where: { nickname: checknickname },
         });
-        if (emailcheck && nicknamecheck) {
-          return res.status(200).json({ message: "이메일, 닉네임 중복" });
-        }
-        if (emailcheck && !nicknamecheck) {
-          return res.status(200).json({ message: "이메일 중복" });
-        }
-        if (nicknamecheck && !emailcheck) {
+        if (nicknamecheck) {
           return res.status(200).json({ message: "닉네임 중복" });
         } else {
           return res.status(200).json({ message: "중복 없음" });

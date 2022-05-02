@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: "id",
       });
       user.hasMany(models.user_room, {
-        foreignKey: "user_id",
+        foreignKey: "user_id1",
+        sourceKey: "id",
+      });
+      user.hasMany(models.user_room, {
+        foreignKey: "user_id2",
         sourceKey: "id",
       });
     }

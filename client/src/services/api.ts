@@ -28,10 +28,9 @@ export interface LoginRequest {
 export interface MypageResponse {
   messgae: string;
   data: {
-    user_posts: [object]
-    userInfo: User
-  }
-
+    user_posts: [object];
+    userInfo: User;
+  };
 }
 // 회원가입 타입
 export interface SignupRequest {
@@ -39,12 +38,27 @@ export interface SignupRequest {
   password: string;
   nickname: string;
   user_address: string;
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
 }
 export interface SignupResponse {
   message: string;
 }
+//이메일 중복 체크 타입
+export interface EmailRequest {
+  email: string;
+}
+export interface EmailResponse {
+  message: string;
+}
+// 닉네임 중복 체크 타입
+export interface NicknameRequest {
+  nickname: string;
+}
+export interface NicknameResponse {
+  message: string;
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000/",
@@ -69,17 +83,17 @@ export const api = createApi({
     }),
     logout: builder.mutation<{ message?: any }, void>({
       query: () => ({
-        url: 'users/logout',
-        credentials: 'include', // true
-        method: 'POST',
-      })
+        url: "users/logout",
+        credentials: "include", // true
+        method: "POST",
+      }),
     }),
     mypage: builder.mutation<any, void>({
       query: () => ({
-        url: 'users/mypage',
-        credentials: 'include', // true
-        method: 'GET',
-      })
+        url: "users/mypage",
+        credentials: "include", // true
+        method: "GET",
+      }),
     }),
     tools: builder.mutation<any, void>({
       query: (formdata) => ({
@@ -91,8 +105,8 @@ export const api = createApi({
     }),
     signup: builder.mutation<SignupResponse, SignupRequest>({
       query: (setSignupData: any) => ({
-        url: "signup",
-        setSignupData: "include",
+        url: "users/signup",
+        credentials: "include",
         method: "POST",
         body: setSignupData,
       }),
@@ -106,6 +120,21 @@ export const api = createApi({
         credentials: 'include', // true
         method: 'GET',
       })
+    checkemail: builder.mutation<EmailResponse, EmailRequest>({
+      query: (emailValidityData: any) => ({
+        url: "users/checkemail",
+        credentials: "include",
+        method: "POST",
+        body: emailValidityData,
+      }),
+    }),
+    checknickname: builder.mutation<NicknameResponse, NicknameRequest>({
+      query: (nicknameValidityData: any) => ({
+        url: "users/checknickname",
+        credentials: "include",
+        method: "POST",
+        body: nicknameValidityData,
+      }),
     }),
   }),
 });
@@ -113,10 +142,11 @@ export const api = createApi({
 export const {
   useLoginMutation,
   useSignupMutation,
+  useCheckemailMutation,
+  useChecknicknameMutation,
   useLogoutMutation,
   useMypageMutation,
   useToolsMutation,
   usePosQuery,
   usePostsMutation,
-} = api
-
+} = api;
