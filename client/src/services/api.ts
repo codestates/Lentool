@@ -58,6 +58,11 @@ export interface NicknameRequest {
 export interface NicknameResponse {
   message: string;
 }
+export interface ChatLogResponse {
+  user_id1: string;
+  user_id2: string;
+  post_id: number;
+}
 //회원탈퇴
 export interface SignoutRequest {
   data: {
@@ -143,6 +148,32 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+    postid: builder.query<any, number>({
+      query: (param) => `post/${param}`,
+    }),
+    trial: builder.mutation<any, any>({
+      query: (geo) => ({
+        url: "/",
+        credentials: "include",
+        method: "POST",
+        body: geo,
+      }),
+    }),
+    createroom: builder.mutation<any, ChatLogResponse>({
+      query: (chatValidityData: any) => ({
+        url: "chat/create",
+        credentials: "include",
+        method: "POST",
+        body: chatValidityData,
+      }),
+    }),
+    searchroom: builder.mutation<any, void>({
+      query: () => ({
+        url: "chat/",
+        credentials: "include",
+        method: "GET",
+      }),
+    }),
     checkemail: builder.mutation<EmailResponse, EmailRequest>({
       query: (emailValidityData: any) => ({
         url: "users/checkemail",
@@ -189,6 +220,10 @@ export const {
   useToolsMutation,
   usePosQuery,
   usePostsMutation,
+  usePostidQuery,
+  useTrialMutation,
+  useCreateroomMutation,
+  useSearchroomMutation,
   useSignoutMutation,
   useEditMutation,
 } = api;
