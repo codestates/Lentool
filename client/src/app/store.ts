@@ -6,8 +6,14 @@ import modalReducer from "../feature/modal/modalSlice";
 import myinfoReducer from "../feature/mypage/myinfoSlice";
 import loginReducer from "../feature/login/loginSlice";
 import postsReducer from "../feature/post/postSlice";
+<<<<<<< HEAD
 import myinfoEditReducer from "../feature/modal/modalMyinfoEditSlice";
 import myinfoDeleteReducer from "../feature/modal/modalMyinfoDeleteSlice";
+=======
+import detailPostReducer from "feature/post/detailPostSlice";
+import trialReducer from "../feature/home/trialSlice";
+import roomReducer from "../feature/chat/roomSlice";
+>>>>>>> 3ab539747f8780e5000a4e2294c24fa282a96740
 
 import {
   FLUSH,
@@ -27,8 +33,15 @@ export const store = configureStore({
     myinfo: myinfoReducer,
     login: loginReducer,
     posts: postsReducer,
+<<<<<<< HEAD
     myinfoEdit: myinfoEditReducer,
     myinfoDelete: myinfoDeleteReducer,
+=======
+    detailPost: detailPostReducer,
+    trial: trialReducer,
+    room: roomReducer,
+
+>>>>>>> 3ab539747f8780e5000a4e2294c24fa282a96740
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

@@ -1,7 +1,15 @@
-export default function Main () {
+import Trial from "./Trial";
+import Trialifno from "./Trialinfo";
+
+export default function Main() {
   return (
-    <div>
-      로그인 하기 전에 나오는 문구
+    <div className="flex mt-6 max-w-2xl mx-auto ">
+      <div className="flex-1">
+        <Trial />
+      </div>
+      <div className="flex-1">
+        <Trialifno />
+      </div>
     </div>
-  )
+  );
 }
