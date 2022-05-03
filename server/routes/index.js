@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { main } = require("../controllers/mainpage");
 /* GET home page. */
-router.get("/", main);
+router.post("/", main);
 
 module.exports = router;
