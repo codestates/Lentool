@@ -152,6 +152,7 @@ export const api = createApi({
         method: 'POST',
         body: geo,
       })
+    }),
     createroom: builder.mutation<any, ChatLogResponse>({
       query: (chatValidityData: any) => ({
         url: "chat/create",
