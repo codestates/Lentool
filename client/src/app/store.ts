@@ -1,15 +1,23 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query'
-import { api } from '../services/api'
-import authReducer from '../feature/login/authSlice'
-import modalReducer from '../feature/modal/modalSlice'
-import myinfoReducer from '../feature/mypage/myinfoSlice'
-import loginReducer from '../feature/login/loginSlice'
-import postsReducer from '../feature/post/postSlice'
+import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import { api } from "../services/api";
+import authReducer from "../feature/login/authSlice";
+import modalReducer from "../feature/modal/modalSlice";
+import myinfoReducer from "../feature/mypage/myinfoSlice";
+import loginReducer from "../feature/login/loginSlice";
+import postsReducer from "../feature/post/postSlice";
+import myinfoEditReducer from "../feature/modal/modalMyinfoEditSlice";
+import myinfoDeleteReducer from "../feature/modal/modalMyinfoDeleteSlice";
 
-import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
-import persistedReducer from './reducers'
-
+import {
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import persistedReducer from "./reducers";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +27,8 @@ export const store = configureStore({
     myinfo: myinfoReducer,
     login: loginReducer,
     posts: postsReducer,
+    myinfoEdit: myinfoEditReducer,
+    myinfoDelete: myinfoDeleteReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -32,4 +42,4 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-setupListeners(store.dispatch)
+setupListeners(store.dispatch);

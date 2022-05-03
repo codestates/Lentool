@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../app/store";
-import { REHYDRATE } from 'redux-persist'
+import { REHYDRATE } from "redux-persist";
 
 export interface User {
   createAt: string;
@@ -58,7 +58,31 @@ export interface NicknameRequest {
 export interface NicknameResponse {
   message: string;
 }
+//회원탈퇴
+export interface SignoutRequest {
+  data: {
+    // accessToken: string;
+    userInfo: User;
+  };
+}
+export interface SignoutResponse {
+  message: string;
+}
+//회원수정
+export interface MyinfoEditRequest {
+  data: {
+    userInfo: User;
+  };
 
+  password: string;
+  nickname: string;
+  user_address: string;
+  longitude: string;
+  latitude: string;
+}
+export interface MyinfoEditResponse {
+  message: string;
+}
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000/",
@@ -75,9 +99,9 @@ export const api = createApi({
   endpoints: (builder) => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: (credentials: any) => ({
-        url: 'users/login',
-        credentials: 'include', // true
-        method: 'POST',
+        url: "users/login",
+        credentials: "include", // true
+        method: "POST",
         body: credentials,
       }),
     }),
@@ -97,11 +121,11 @@ export const api = createApi({
     }),
     tools: builder.mutation<any, void>({
       query: (formdata) => ({
-        url: 'tools',
-        credentials: 'include', // true
-        method: 'POST',
+        url: "tools",
+        credentials: "include", // true
+        method: "POST",
         body: formdata,
-      })
+      }),
     }),
     signup: builder.mutation<SignupResponse, SignupRequest>({
       query: (setSignupData: any) => ({
@@ -112,14 +136,14 @@ export const api = createApi({
       }),
     }),
     pos: builder.query<any, void>({
-      query: () => 'posts'
+      query: () => "posts",
     }),
     posts: builder.mutation<any, void>({
       query: () => ({
-        url: 'posts',
-        credentials: 'include', // true
-        method: 'GET',
-      })
+        url: "posts",
+        credentials: "include", // true
+        method: "GET",
+      }),
     }),
     checkemail: builder.mutation<EmailResponse, EmailRequest>({
       query: (emailValidityData: any) => ({
@@ -137,6 +161,22 @@ export const api = createApi({
         body: nicknameValidityData,
       }),
     }),
+    signout: builder.mutation<SignoutResponse, SignoutRequest>({
+      query: (SignoutData: any) => ({
+        url: "users/signout",
+        credentials: "include",
+        method: "DELETE",
+        body: SignoutData,
+      }),
+    }),
+    edit: builder.mutation<MyinfoEditResponse, MyinfoEditRequest>({
+      query: (MyinfoEditData: any) => ({
+        url: "users/edit",
+        credentials: "include",
+        method: "PATCH",
+        body: MyinfoEditData,
+      }),
+    }),
   }),
 });
 
@@ -150,4 +190,6 @@ export const {
   useToolsMutation,
   usePosQuery,
   usePostsMutation,
+  useSignoutMutation,
+  useEditMutation,
 } = api;
