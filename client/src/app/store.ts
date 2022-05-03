@@ -10,10 +10,6 @@ import detailPostReducer from 'feature/post/detailPostSlice';
 import trialReducer from '../feature/home/trialSlice';
 import roomReducer from "../feature/chat/roomSlice";
 
-import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
-import persistedReducer from './reducers'
-
-
 import {
   FLUSH,
   REHYDRATE,

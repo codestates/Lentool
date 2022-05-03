@@ -7,7 +7,7 @@ import myinfo from "../feature/mypage/myinfoSlice"
 import posts from '../feature/post/postSlice'
 import detailPost from 'feature/post/detailPostSlice';
 import trial from '../feature/home/trialSlice';
-
+import rooms from "../feature/chat/roomSlice";
 
 const persistConfig = {
   key: "root",
