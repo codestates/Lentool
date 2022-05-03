@@ -167,6 +167,7 @@ export const api = createApi({
         body: SignoutData,
       }),
     }),
+
     edit: builder.mutation<MyinfoEditResponse, MyinfoEditRequest>({
       query: (MyinfoEditData: any) => ({
         url: "users/edit",
