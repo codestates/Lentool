@@ -137,6 +137,17 @@ export const api = createApi({
         body: nicknameValidityData,
       }),
     }),
+    postid: builder.query<any, number>({
+      query: (param) => `post/${param}`
+    }),
+    trial: builder.mutation<any, any>({
+      query: (geo) => ({
+        url: '/',
+        credentials: 'include',
+        method: 'POST',
+        body: geo,
+      })
+    }),
   }),
 });
 
@@ -150,4 +161,6 @@ export const {
   useToolsMutation,
   usePosQuery,
   usePostsMutation,
+  usePostidQuery,
+  useTrialMutation,
 } = api;

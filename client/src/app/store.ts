@@ -6,6 +6,8 @@ import modalReducer from '../feature/modal/modalSlice'
 import myinfoReducer from '../feature/mypage/myinfoSlice'
 import loginReducer from '../feature/login/loginSlice'
 import postsReducer from '../feature/post/postSlice'
+import detailPostReducer from 'feature/post/detailPostSlice';
+import trialReducer from '../feature/home/trialSlice';
 
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import persistedReducer from './reducers'
@@ -19,6 +21,8 @@ export const store = configureStore({
     myinfo: myinfoReducer,
     login: loginReducer,
     posts: postsReducer,
+    detailPost: detailPostReducer,
+    trial: trialReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

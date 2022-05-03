@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useParams } from "react-router-dom";
 import Navbar from './feature/navbar/Navbar';
 import Login from './feature/login/login';
 import Mypage from './feature/mypage/Mypage';
@@ -17,13 +17,22 @@ import { getPosts } from "feature/post/postSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
 import Room from "feature/chat/Room";
 import Chatting from "feature/chat/Chatting";
+import Post from "feature/post/Post";
+import { usePostsMutation } from "services/api";
+import Carousel from "feature/post/carousel";
 
 function App() {
   const dispatch = useAppDispatch()
-  const isLogin = useAppSelector(state => state.login.isLogin)
+  const isLogin = useAppSelector(state => state.persistedReducer.login.isLogin)
+  // const trialInfo = useAppSelector(state => state.persistedReducer.trial)
+
   // console.log(isLogin)
+  // const stateValue = useAppSelector(state => state.posts.posts.posts)
+  // console.log(stateValue)
+  // const [posts] = usePostsMutation()
 
   useEffect(() => {
+
     const a:any = localStorage.getItem('user')
     const b:any = localStorage.getItem('posts')
     const c:any = localStorage.getItem('persist:root')
@@ -66,6 +75,12 @@ function App() {
         </Route>
         <Route path="/chatting">
           <Chatting />
+        </Route>
+        <Route path="/post/:post_id">
+          <Post />
+        </Route>
+        <Route path="/carousel">
+          <Carousel />
         </Route>
       </Switch>
       <ToastContainer

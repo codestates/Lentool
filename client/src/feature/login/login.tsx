@@ -59,7 +59,7 @@ function Login () {
   const handleSubmit = async () => {
     try {
       const user = await login(inputValue).unwrap()
-      console.log(user.data)
+      // console.log(user.data)
       dispatch(setCredentials(user))
       dispatch(setLogin(true))
       dispatch(setIsModal())

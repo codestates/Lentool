@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import './index.css';
 import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react';
+import 'flowbite';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
