@@ -25,6 +25,7 @@ declare global {
   }
 }
 function Signup() {
+  const { push } = useHistory();
   const dispatch = useAppDispatch();
   const outSelect = useRef<any>();
   /* api로 던져질 회원가입 정보들 */
@@ -65,7 +66,7 @@ function Signup() {
       // 정상적으로 검색이 완료됐으면
 
       /*coords는 맵에 찍기 위한 위도경도 */
-      var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+      // var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
 
       /*위도 경도 설정 */
       setLatitude(result[0].y);
@@ -109,13 +110,14 @@ function Signup() {
   };
   /* 모든 조건이 통과될때, signup으로 inputValue(회원정보)를 보내고 user로 받는 함수 */
   const signupreq = async () => {
-    console.log(inputValue);
+    // console.log(inputValue);
     try {
       const user = await signup(inputValue).unwrap();
       // dispatch(setCredentials(user));
       dispatch(setIsModal()); //바로 회원가입창이 열린다.
-
-      console.log(user);
+      toast.success("성공적으로 회원가입 완료");
+      push("/");
+      // console.log(user);
     } catch (err) {
       console.log("error", err);
     }
@@ -171,7 +173,7 @@ function Signup() {
 
   //비밀번호 유효성 검사
   const checkPasswordValidity = (isVal: string) => {
-    let regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,30}$/; //최소 8자, 최소 하나의 문자와 숫자
+    let regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,30}$/; //최소 8자, 최소 하나의 문자와 숫자
     return regExp.test(isVal);
   };
 
@@ -183,7 +185,7 @@ function Signup() {
       toast.error("이메일 형식에 맞지 않습니다.");
     } else if (emailOverlappingValidity) {
       toast.error("이메일 중복 여부를 확인해 주시기 바랍니다.");
-    } else if (!checkPasswordValidity) {
+    } else if (!checkPasswordValidity(password)) {
       toast.error("8자 이상 최소 하나의 숫자와 문자를 포함해야 합니다.");
     } else if (password !== password2) {
       toast.error("두 비밀번호가 같지 않습니다.");
@@ -320,7 +322,7 @@ function Signup() {
             {!checkPasswordValidity(password) &&
             inputValue.password.length > 0 ? (
               <span className="text-red-500">
-                비밀번호는 영문,숫자를 포함하여 8자 이상이여야 합니다.
+                비밀번호는 영문,숫자를 포함하여 6자 이상이여야 합니다.
               </span>
             ) : null}
             <div>

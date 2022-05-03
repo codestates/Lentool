@@ -63,7 +63,29 @@ export interface ChatLogResponse {
   user_id2: string;
   post_id: number;
 }
-
+//회원탈퇴
+export interface SignoutRequest {
+  data: {
+    userInfo: User;
+  };
+}
+export interface SignoutResponse {
+  message: string;
+}
+//회원수정
+export interface MyinfoEditRequest {
+  data: {
+    userInfo: User;
+  };
+  password: string;
+  nickname: string;
+  user_address: string;
+  longitude: string;
+  latitude: string;
+}
+export interface MyinfoEditResponse {
+  message: string;
+}
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000/",
@@ -168,6 +190,22 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+    signout: builder.mutation<SignoutResponse, SignoutRequest>({
+      query: (SignoutData: any) => ({
+        url: "users/signout",
+        credentials: "include",
+        method: "DELETE",
+        body: SignoutData,
+      }),
+    }),
+    edit: builder.mutation<MyinfoEditResponse, MyinfoEditRequest>({
+      query: (MyinfoEditData: any) => ({
+        url: "users/edit",
+        credentials: "include",
+        method: "PATCH",
+        body: MyinfoEditData,
+      }),
+    }),
   }),
 });
 
@@ -185,4 +223,6 @@ export const {
   useTrialMutation,
   useCreateroomMutation,
   useSearchroomMutation,
+  useSignoutMutation,
+  useEditMutation,
 } = api;
