@@ -40,6 +40,10 @@ module.exports = {
       salt: {
         type: Sequelize.STRING,
       },
+      newchat: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
     });
   },
   async down(queryInterface, Sequelize) {

@@ -8,10 +8,21 @@ import loginReducer from '../feature/login/loginSlice'
 import postsReducer from '../feature/post/postSlice'
 import detailPostReducer from 'feature/post/detailPostSlice';
 import trialReducer from '../feature/home/trialSlice';
+import roomReducer from "../feature/chat/roomSlice";
 
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import persistedReducer from './reducers'
 
+
+import {
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import persistedReducer from "./reducers";
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +34,8 @@ export const store = configureStore({
     posts: postsReducer,
     detailPost: detailPostReducer,
     trial: trialReducer,
+    room: roomReducer,
+
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -36,4 +49,4 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-setupListeners(store.dispatch)
+setupListeners(store.dispatch);

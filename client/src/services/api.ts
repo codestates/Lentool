@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../app/store";
-import { REHYDRATE } from 'redux-persist'
+import { REHYDRATE } from "redux-persist";
 
 export interface User {
   createAt: string;
@@ -58,6 +58,11 @@ export interface NicknameRequest {
 export interface NicknameResponse {
   message: string;
 }
+export interface ChatLogResponse {
+  user_id1: string;
+  user_id2: string;
+  post_id: number;
+}
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -75,9 +80,9 @@ export const api = createApi({
   endpoints: (builder) => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: (credentials: any) => ({
-        url: 'users/login',
-        credentials: 'include', // true
-        method: 'POST',
+        url: "users/login",
+        credentials: "include", // true
+        method: "POST",
         body: credentials,
       }),
     }),
@@ -97,11 +102,11 @@ export const api = createApi({
     }),
     tools: builder.mutation<any, void>({
       query: (formdata) => ({
-        url: 'tools',
-        credentials: 'include', // true
-        method: 'POST',
+        url: "tools",
+        credentials: "include", // true
+        method: "POST",
         body: formdata,
-      })
+      }),
     }),
     signup: builder.mutation<SignupResponse, SignupRequest>({
       query: (setSignupData: any) => ({
@@ -112,14 +117,14 @@ export const api = createApi({
       }),
     }),
     pos: builder.query<any, void>({
-      query: () => 'posts'
+      query: () => "posts",
     }),
     posts: builder.mutation<any, void>({
       query: () => ({
-        url: 'posts',
-        credentials: 'include', // true
-        method: 'GET',
-      })
+        url: "posts",
+        credentials: "include", // true
+        method: "GET",
+      }),
     }),
     checkemail: builder.mutation<EmailResponse, EmailRequest>({
       query: (emailValidityData: any) => ({
@@ -147,6 +152,20 @@ export const api = createApi({
         method: 'POST',
         body: geo,
       })
+    createroom: builder.mutation<any, ChatLogResponse>({
+      query: (chatValidityData: any) => ({
+        url: "chat/create",
+        credentials: "include",
+        method: "POST",
+        body: chatValidityData,
+      }),
+    }),
+    searchroom: builder.mutation<any, void>({
+      query: () => ({
+        url: "chat/",
+        credentials: "include",
+        method: "GET",
+      }),
     }),
   }),
 });
@@ -163,4 +182,6 @@ export const {
   usePostsMutation,
   usePostidQuery,
   useTrialMutation,
+  useCreateroomMutation,
+  useSearchroomMutation,
 } = api;

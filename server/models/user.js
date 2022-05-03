@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       salt: DataTypes.STRING,
       latitude: DataTypes.STRING,
       longitude: DataTypes.STRING,
+      newchat: DataTypes.BOOLEAN,
     },
     {
       sequelize,

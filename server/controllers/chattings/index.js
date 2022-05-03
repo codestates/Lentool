@@ -10,6 +10,7 @@ const { isAuthorized } = require("../tokenFunctions");
 module.exports = {
   rooms: async (req, res) => {
     const userInfo = isAuthorized(req);
+
     try {
       if (!userInfo) {
         return res.status(400).json({
@@ -37,12 +38,16 @@ module.exports = {
               },
               {
                 model: postModel,
-                attributes: ["address"],
+                attributes: ["address", "id", "title", "islend"],
               },
             ],
           },
         ],
       });
+      const update = await userModel.update(
+        { newchat: false },
+        { where: { id: userInfo.id } }
+      );
       const roomdata = [];
       for (let i = 0; i < dataInfo.length; i++) {
         const data = {
@@ -50,7 +55,12 @@ module.exports = {
           user_photo: dataInfo[i].dataValues.user.user_photo,
           address: dataInfo[i].dataValues.room.post.address,
           room_id: dataInfo[i].dataValues.room.id,
-          content: dataInfo[i].dataValues.room.chats[0].dataValues.content,
+          content: dataInfo[i].dataValues.room.chats[0]
+            ? dataInfo[i].dataValues.room.chats[0].dataValues.content
+            : "",
+          post_id: dataInfo[i].dataValues.room.post.id,
+          title: dataInfo[i].dataValues.room.post.title,
+          islend: dataInfo[i].dataValues.room.post.islend,
         };
         roomdata.push(data);
       }

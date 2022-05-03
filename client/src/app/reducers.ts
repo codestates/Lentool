@@ -8,10 +8,11 @@ import posts from '../feature/post/postSlice'
 import detailPost from 'feature/post/detailPostSlice';
 import trial from '../feature/home/trialSlice';
 
+
 const persistConfig = {
-  key: 'root',
-  storage
-}
+  key: "root",
+  storage,
+};
 const rootReducer = combineReducers({
   auth,
   login,
@@ -19,7 +20,9 @@ const rootReducer = combineReducers({
   posts,
   detailPost,
   trial,
+  rooms,
 })
+
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
