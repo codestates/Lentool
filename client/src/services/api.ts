@@ -58,11 +58,9 @@ export interface NicknameRequest {
 export interface NicknameResponse {
   message: string;
 }
-<<<<<<< HEAD
 //회원탈퇴
 export interface SignoutRequest {
   data: {
-    // accessToken: string;
     userInfo: User;
   };
 }
@@ -74,14 +72,6 @@ export interface MyinfoEditRequest {
   data: {
     userInfo: User;
   };
-=======
-export interface ChatLogResponse {
-  user_id1: string;
-  user_id2: string;
-  post_id: number;
-}
->>>>>>> 3ab539747f8780e5000a4e2294c24fa282a96740
-
   password: string;
   nickname: string;
   user_address: string;
@@ -169,7 +159,6 @@ export const api = createApi({
         body: nicknameValidityData,
       }),
     }),
-<<<<<<< HEAD
     signout: builder.mutation<SignoutResponse, SignoutRequest>({
       query: (SignoutData: any) => ({
         url: "users/signout",
@@ -184,32 +173,6 @@ export const api = createApi({
         credentials: "include",
         method: "PATCH",
         body: MyinfoEditData,
-=======
-    postid: builder.query<any, number>({
-      query: (param) => `post/${param}`,
-    }),
-    trial: builder.mutation<any, any>({
-      query: (geo) => ({
-        url: "/",
-        credentials: "include",
-        method: "POST",
-        body: geo,
-      }),
-    }),
-    createroom: builder.mutation<any, ChatLogResponse>({
-      query: (chatValidityData: any) => ({
-        url: "chat/create",
-        credentials: "include",
-        method: "POST",
-        body: chatValidityData,
-      }),
-    }),
-    searchroom: builder.mutation<any, void>({
-      query: () => ({
-        url: "chat/",
-        credentials: "include",
-        method: "GET",
->>>>>>> 3ab539747f8780e5000a4e2294c24fa282a96740
       }),
     }),
   }),
@@ -225,13 +188,6 @@ export const {
   useToolsMutation,
   usePosQuery,
   usePostsMutation,
-<<<<<<< HEAD
   useSignoutMutation,
   useEditMutation,
-=======
-  usePostidQuery,
-  useTrialMutation,
-  useCreateroomMutation,
-  useSearchroomMutation,
->>>>>>> 3ab539747f8780e5000a4e2294c24fa282a96740
 } = api;
