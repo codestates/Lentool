@@ -24,7 +24,7 @@ export default function MyinfoDelete() {
       const user = await signout(myinfo).unwrap();
       dispatch(setIsMyinfoDeleteModal()); //바로 회원가입창이 열린다.
       toast.success("성공적으로 회원탈퇴 완료");
-      console.log(user);
+      // console.log(user);
       push("/");
     } catch (err) {
       console.log("error", err);
@@ -50,12 +50,15 @@ export default function MyinfoDelete() {
             <div className="text-center">
               <button
                 onClick={handleDeleteClick}
-                className="mx-10 bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                className="mx-9 bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
               >
                 회원탈퇴
               </button>
 
-              <button className="mx-10 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+              <button
+                onClick={() => dispatch(setIsMyinfoDeleteModal())}
+                className="mx-9 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+              >
                 취소하기
               </button>
             </div>
