@@ -10,16 +10,15 @@ const socket = io("http://localhost:4000");
 export default function Chatting() {
   const [chattings, setchattings]: any = useState([]);
   const [chat, setchat] = useState("");
+  const [roomid, setroomid]: any = useState(null);
   const myUserId = useAppSelector(
     (state) => state.persistedReducer.myinfo.user.id
   );
   let location = useLocation();
   const roomdata: any = location.state;
   const [createroom] = useCreateroomMutation();
-  console.log(roomdata);
 
   useEffect(() => {
-    socket.emit("join", { room_id: roomdata.room_id });
     const serchchat = async () => {
       const user = await createroom({
         user_id1: myUserId,
@@ -27,8 +26,10 @@ export default function Chatting() {
         post_id: roomdata.post_id,
       }).unwrap();
       setchattings(user.data.chatings);
+      setroomid(user.data.room_id);
     };
     serchchat();
+    socket.emit("join", { room_id: roomid });
   }, []);
   socket.on("message", ({ user_id, content }) => {
     setchattings([...chattings, { user_id, content }]);
@@ -42,7 +43,7 @@ export default function Chatting() {
     socket.emit("message", {
       user_id: myUserId,
       content: chat,
-      room_id: roomdata.room_id,
+      room_id: roomid,
       user_id2: roomdata.user_id2,
     });
     setchat("");

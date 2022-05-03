@@ -143,15 +143,15 @@ export const api = createApi({
       }),
     }),
     postid: builder.query<any, number>({
-      query: (param) => `post/${param}`
+      query: (param) => `post/${param}`,
     }),
     trial: builder.mutation<any, any>({
       query: (geo) => ({
-        url: '/',
-        credentials: 'include',
-        method: 'POST',
+        url: "/",
+        credentials: "include",
+        method: "POST",
         body: geo,
-      })
+      }),
     }),
     createroom: builder.mutation<any, ChatLogResponse>({
       query: (chatValidityData: any) => ({
