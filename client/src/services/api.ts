@@ -148,6 +148,22 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+    checkemail: builder.mutation<EmailResponse, EmailRequest>({
+      query: (emailValidityData: any) => ({
+        url: "users/checkemail",
+        credentials: "include",
+        method: "POST",
+        body: emailValidityData,
+      }),
+    }),
+    checknickname: builder.mutation<NicknameResponse, NicknameRequest>({
+      query: (nicknameValidityData: any) => ({
+        url: "users/checknickname",
+        credentials: "include",
+        method: "POST",
+        body: nicknameValidityData,
+      }),
+    }),
     postid: builder.query<any, number>({
       query: (param) => `post/${param}`,
     }),
@@ -172,22 +188,6 @@ export const api = createApi({
         url: "chat/",
         credentials: "include",
         method: "GET",
-      }),
-    }),
-    checkemail: builder.mutation<EmailResponse, EmailRequest>({
-      query: (emailValidityData: any) => ({
-        url: "users/checkemail",
-        credentials: "include",
-        method: "POST",
-        body: emailValidityData,
-      }),
-    }),
-    checknickname: builder.mutation<NicknameResponse, NicknameRequest>({
-      query: (nicknameValidityData: any) => ({
-        url: "users/checknickname",
-        credentials: "include",
-        method: "POST",
-        body: nicknameValidityData,
       }),
     }),
     signout: builder.mutation<SignoutResponse, SignoutRequest>({
