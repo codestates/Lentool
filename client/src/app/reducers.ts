@@ -3,10 +3,10 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import login from "feature/login/loginSlice";
 import auth from "../feature/login/authSlice";
-import myinfo from "../feature/mypage/myinfoSlice"
-import posts from '../feature/post/postSlice'
-import detailPost from 'feature/post/detailPostSlice';
-import trial from '../feature/home/trialSlice';
+import myinfo from "../feature/mypage/myinfoSlice";
+import posts from "../feature/post/postSlice";
+import detailPost from "feature/post/detailPostSlice";
+import trial from "../feature/home/trialSlice";
 import rooms from "../feature/chat/roomSlice";
 
 const persistConfig = {
@@ -21,8 +21,7 @@ const rootReducer = combineReducers({
   detailPost,
   trial,
   rooms,
-})
-
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

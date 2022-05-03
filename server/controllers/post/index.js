@@ -2,7 +2,6 @@ const { post: postModel, user: userModel } = require("../../models");
 
 module.exports = {
   main: async (req, res) => {
-    console.log(req.params);
     try {
       const postData = await postModel.findOne({
         where: { id: req.params.id },
@@ -22,6 +21,8 @@ module.exports = {
         address: postData.dataValues.address,
         nickname: userData.dataValues.nickname,
         user_photo: userData.dataValues.user_photo,
+        post_id: postData.dataValues.id,
+        islend: postData.dataValues.islend,
       };
 
       console.log(data);
