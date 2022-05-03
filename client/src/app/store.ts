@@ -1,12 +1,18 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import { api } from "../services/api";
-import authReducer from "../feature/login/authSlice";
-import modalReducer from "../feature/modal/modalSlice";
-import myinfoReducer from "../feature/mypage/myinfoSlice";
-import loginReducer from "../feature/login/loginSlice";
-import postsReducer from "../feature/post/postSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query'
+import { api } from '../services/api'
+import authReducer from '../feature/login/authSlice'
+import modalReducer from '../feature/modal/modalSlice'
+import myinfoReducer from '../feature/mypage/myinfoSlice'
+import loginReducer from '../feature/login/loginSlice'
+import postsReducer from '../feature/post/postSlice'
+import detailPostReducer from 'feature/post/detailPostSlice';
+import trialReducer from '../feature/home/trialSlice';
 import roomReducer from "../feature/chat/roomSlice";
+
+import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
+import persistedReducer from './reducers'
+
 
 import {
   FLUSH,
@@ -26,7 +32,10 @@ export const store = configureStore({
     myinfo: myinfoReducer,
     login: loginReducer,
     posts: postsReducer,
+    detailPost: detailPostReducer,
+    trial: trialReducer,
     room: roomReducer,
+
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

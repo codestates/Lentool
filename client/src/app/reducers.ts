@@ -3,9 +3,11 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import login from "feature/login/loginSlice";
 import auth from "../feature/login/authSlice";
-import myinfo from "../feature/mypage/myinfoSlice";
-import posts from "../feature/post/postSlice";
-import rooms from "../feature/chat/roomSlice";
+import myinfo from "../feature/mypage/myinfoSlice"
+import posts from '../feature/post/postSlice'
+import detailPost from 'feature/post/detailPostSlice';
+import trial from '../feature/home/trialSlice';
+
 
 const persistConfig = {
   key: "root",
@@ -16,8 +18,11 @@ const rootReducer = combineReducers({
   login,
   myinfo,
   posts,
+  detailPost,
+  trial,
   rooms,
-});
+})
+
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

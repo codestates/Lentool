@@ -142,6 +142,16 @@ export const api = createApi({
         body: nicknameValidityData,
       }),
     }),
+    postid: builder.query<any, number>({
+      query: (param) => `post/${param}`
+    }),
+    trial: builder.mutation<any, any>({
+      query: (geo) => ({
+        url: '/',
+        credentials: 'include',
+        method: 'POST',
+        body: geo,
+      })
     createroom: builder.mutation<any, ChatLogResponse>({
       query: (chatValidityData: any) => ({
         url: "chat/create",
@@ -170,6 +180,8 @@ export const {
   useToolsMutation,
   usePosQuery,
   usePostsMutation,
+  usePostidQuery,
+  useTrialMutation,
   useCreateroomMutation,
   useSearchroomMutation,
 } = api;
