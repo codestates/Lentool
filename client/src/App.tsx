@@ -20,6 +20,7 @@ import Chatting from "feature/chat/Chatting";
 import Post from "feature/post/Post";
 import { usePostsMutation } from "services/api";
 import Carousel from "feature/post/carousel";
+import SearchTag from "feature/navbar/SearchTag";
 
 function App() {
   const dispatch = useAppDispatch()
@@ -79,6 +80,9 @@ function App() {
         </Route>
         <Route path="/carousel">
           <Carousel />
+        </Route>
+        <Route path="/searchtag">
+          <SearchTag />
         </Route>
       </Switch>
       <ToastContainer

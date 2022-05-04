@@ -208,6 +208,13 @@ export const api = createApi({
         body: MyinfoEditData,
       }),
     }),
+    search: builder.mutation<any, any>({
+      query: (title: any) => ({
+        url: `posts?search=${title}`,
+        credentials: "include",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -227,4 +234,5 @@ export const {
   useSearchroomMutation,
   useSignoutMutation,
   useEditMutation,
+  useSearchMutation,
 } = api;

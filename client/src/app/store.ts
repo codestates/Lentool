@@ -11,7 +11,7 @@ import trialReducer from "../feature/home/trialSlice";
 import roomReducer from "../feature/chat/roomSlice";
 import myinfoEditReducer from "../feature/modal/modalMyinfoEditSlice";
 import myinfoDeleteReducer from "../feature/modal/modalMyinfoDeleteSlice";
-
+import searchReducer from "../feature/navbar/searchSlice"
 import {
   FLUSH,
   REHYDRATE,
@@ -35,6 +35,7 @@ export const store = configureStore({
     room: roomReducer,
     myinfoEdit: myinfoEditReducer,
     myinfoDelete: myinfoDeleteReducer,
+    search: searchReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
