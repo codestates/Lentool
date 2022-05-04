@@ -14,7 +14,9 @@ module.exports = {
       }
       const { id, user_address, latitude, longitude } = userInfo;
       const { title, price, description } = req.body;
-      const filepath1 = `/postimage/${req.files[0].filename}`;
+      const filepath1 = req.files[0]
+        ? `/postimage/${req.files[0].filename}`
+        : undefined;
       const filepath2 = req.files[1]
         ? `/postimage/${req.files[1].filename}`
         : "emty";
