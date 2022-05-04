@@ -13,7 +13,7 @@ module.exports = {
         });
       }
       const { id, user_address, latitude, longitude } = userInfo;
-      const { title, price, description } = req.body;
+      const { title, price, description, tag } = req.body;
       const filepath1 = req.files[0]
         ? `/postimage/${req.files[0].filename}`
         : undefined;
@@ -23,7 +23,7 @@ module.exports = {
       const filepath3 = req.files[2]
         ? `/postimage/${req.files[2].filename}`
         : "emty";
-      if (!title || !price || !description || !filepath1) {
+      if (!title || !price || !description || !filepath1 || !tag) {
         return res.status(400).json({
           data: null,
           message: "필수 정보 누락",
@@ -41,6 +41,7 @@ module.exports = {
           address: user_address,
           latitude,
           longitude,
+          tag,
         })
         .then((created) => {
           if (!created) {
