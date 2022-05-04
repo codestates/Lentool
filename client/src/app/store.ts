@@ -9,7 +9,6 @@ import postsReducer from '../feature/post/postSlice'
 import detailPostReducer from 'feature/post/detailPostSlice';
 import trialReducer from '../feature/home/trialSlice';
 import roomReducer from "../feature/chat/roomSlice";
-
 import {
   FLUSH,
   REHYDRATE,

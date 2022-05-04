@@ -10,9 +10,11 @@ export interface User {
   updatedAt: string;
   user_address: string;
   user_photo: string;
+  newchat: boolean;
 }
 
 export interface UserResponse {
+  userInfo: any;
   data: {
     accessToken: string;
     userInfo: User;

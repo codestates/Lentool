@@ -10,7 +10,7 @@ export const roomSlice = createSlice({
   reducers: {
     getroom: (state, { payload: { data } }: PayloadAction<{ data: any }>) => {
       state.rooms = data;
-      console.log(data);
+      // console.log(data);
       // console.log('user',state.user)
       // console.log('token',state.token)
     },

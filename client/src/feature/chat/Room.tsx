@@ -1,9 +1,11 @@
 import { Route, Switch, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCreateroomMutation } from "services/api";
-import { useAppSelector } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 
 export default function Room() {
+  const dispatch = useAppDispatch()
+
   const myUserId = useAppSelector(
     (state) => state.persistedReducer.myinfo.user.id
   );
