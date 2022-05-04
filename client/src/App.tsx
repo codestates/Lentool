@@ -24,12 +24,10 @@ import Carousel from "feature/post/carousel";
 function App() {
   const dispatch = useAppDispatch()
   const isLogin = useAppSelector(state => state.persistedReducer.login.isLogin)
-  // const trialInfo = useAppSelector(state => state.persistedReducer.trial)
+  // const allData = useAppSelector(state => state.persistedReducer)
 
   // console.log(isLogin)
-  // const stateValue = useAppSelector(state => state.posts.posts.posts)
-  // console.log(stateValue)
-  // const [posts] = usePostsMutation()
+
 
   useEffect(() => {
 
@@ -101,4 +99,3 @@ function App() {
 }
 
 export default App;
-

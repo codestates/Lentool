@@ -8,10 +8,13 @@ export const trialSlice = createSlice({
   name: "trial",
   initialState: { trial: null } as trialState,
   reducers: {
-    getTrial: (state, { payload: { data } }: PayloadAction<any>) => {
-      state.trial = data;
-      console.log("받은데이터", data);
-    },
+    getTrial: (
+      state, 
+      { payload: { data }}: PayloadAction<any>
+    ) => {
+      state.trial = data
+      // console.log('받은데이터',data)
+    }
   },
 });
 

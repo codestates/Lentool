@@ -7,7 +7,7 @@ import {
   usePostsMutation,
   useMypageMutation,
 } from "../../services/api";
-import { setCredentials } from "./authSlice";
+import { setCredentials, setNewChat } from "./authSlice";
 import { setLogin } from "./loginSlice";
 import { getPosts } from "feature/post/postSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
@@ -67,8 +67,9 @@ function Login() {
   const handleSubmit = async () => {
     try {
       const user = await login(inputValue).unwrap();
-      console.log(user.data);
       dispatch(setCredentials(user));
+      // console.log(user.data.userInfo.newchat)
+      dispatch(setNewChat(user.data.userInfo.newchat))
       dispatch(setLogin(true));
       dispatch(setIsModal());
       const user1 = await mypage().unwrap();

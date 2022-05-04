@@ -23,18 +23,18 @@ export default function Posting () {
     setInputValue({ ...inputValue, [key]: e.target.value });
   }
   /* 프리뷰 이미지 생성 및 사진 상태 저장 */
-  // const handlePreview = (e: any) => {
-    //   // const p:any = []
-    //   // for(let i = 0; i < e.target.files.length; i++) {
-      //   //   p.push(e.target.files[i])
-      //   // }
-      //   // setPhoto(p)
-      //   // console.log(...photo)
+  const handlePreview = (e: any) => {
+      // const p:any = []
+      // for(let i = 0; i < e.target.files.length; i++) {
+        //   p.push(e.target.files[i])
+        // }
+        // setPhoto(p)
+        // console.log(...photo)
       
-      //   if (e.target.files[0]) setPreview1(URL.createObjectURL(e.target.files[0]));
-      //   if (e.target.files[1]) setPreview2(URL.createObjectURL(e.target.files[1]));
-      //   if (e.target.files[2]) setPreview3(URL.createObjectURL(e.target.files[2]));
-      // }
+        if (e.target.files[0]) setPreview1(URL.createObjectURL(e.target.files[0]));
+        if (e.target.files[1]) setPreview2(URL.createObjectURL(e.target.files[1]));
+        if (e.target.files[2]) setPreview3(URL.createObjectURL(e.target.files[2]));
+      }
       /* 포스팅 완료 버튼 */
   const handlePosting = async () => {
     const formdata:any = new FormData()
@@ -67,12 +67,12 @@ export default function Posting () {
               </div>
             </div>
             <div className="text-left">
-              {/* <input type="file" alt='' multiple onChange={handlePreview} />
+              <input type="file" alt='' multiple onChange={handlePreview} />
               <div className='flex'>
                 {preview1 && <img src={preview1} className='rounded-md w-20 h-20 bg-gray-300' alt=''/>}
                 {preview2 && <img src={preview2} className='rounded-md w-20 h-20 bg-gray-300' alt=''/>}
                 {preview3 && <img src={preview3} className='rounded-md w-20 h-20 bg-gray-300' alt=''/>}
-              </div> */}
+              </div>
             </div>
             <div className="rounded-md shadow-sm -space-y-px text-left ">
               <label htmlFor="description" className="text-sm">내용</label>
