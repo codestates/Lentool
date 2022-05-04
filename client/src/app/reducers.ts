@@ -8,7 +8,7 @@ import posts from "../feature/post/postSlice";
 import detailPost from "feature/post/detailPostSlice";
 import trial from "../feature/home/trialSlice";
 import rooms from "../feature/chat/roomSlice";
-
+import search from "../feature/navbar/searchSlice";
 const persistConfig = {
   key: "root",
   storage,
@@ -21,6 +21,7 @@ const rootReducer = combineReducers({
   detailPost,
   trial,
   rooms,
+  search,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
