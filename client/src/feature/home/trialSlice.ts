@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type trialState = {
-  trial: any
-}
+  trial: any;
+};
 
-export const trialSlice = createSlice({ 
-  name: 'trial',
+export const trialSlice = createSlice({
+  name: "trial",
   initialState: { trial: null } as trialState,
   reducers: {
     getTrial: (
@@ -16,9 +16,7 @@ export const trialSlice = createSlice({
       // console.log('받은데이터',data)
     }
   },
-
-})
+});
 
 export const { getTrial } = trialSlice.actions;
 export default trialSlice.reducer;
-

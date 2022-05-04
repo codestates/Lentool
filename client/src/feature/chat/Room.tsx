@@ -22,7 +22,6 @@ export default function Room() {
                 pathname: "/chatting",
                 state: {
                   user_id2: room.user_id,
-                  room_id: room.room_id,
                   post_id: room.post_id,
                   title: room.title,
                   islend: room.islend,
