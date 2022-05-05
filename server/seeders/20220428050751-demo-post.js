@@ -19,6 +19,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           user_id: 1,
+          tag: "hammer",
         },
         {
           title: "전동드릴",
@@ -34,6 +35,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           user_id: 2,
+          tag: "electric_drill",
         },
         {
           title: "컴퓨터 조립용 드라이버",
@@ -49,6 +51,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           user_id: 3,
+          tag: "screw_driver",
         },
         {
           title: "몽키스패너 빌려드립니다",
@@ -64,6 +67,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           user_id: 1,
+          tag: "monkey_spanner",
         },
       ],
       {}

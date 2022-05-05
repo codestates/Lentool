@@ -30,9 +30,9 @@ export default function Myprofile() {
     e.preventDefault();
     dispatch(setIsMyinfoDeleteModal());
   };
-  //프로필 사진 상태
+  //실제 서버로 보내는 프로필 사진 상태
   const [userPhoto, setUserPhoto] = useState([]);
-  //실험체 상태
+  //화면에 보여지는 프로필 사진 상태
   const [Image, setImage] = useState(
     `http://localhost:4000${myinfo.user_photo}`
   );

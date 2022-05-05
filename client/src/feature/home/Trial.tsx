@@ -31,15 +31,16 @@ export default function Test() {
         lon = position.coords.longitude; // 경도
 
         var locPosition = new window.kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-          message = '<div style="padding:5px;">현재 위치!</div>'; // 인포윈도우에 표시될 내용입니다
-        console.log(lat, lon);
+            message = '<div style="padding:5px;">현재 위치!</div>'; // 인포윈도우에 표시될 내용입니다
+        // console.log(lat, lon)
+
 
         var geocoder = new window.kakao.maps.services.Geocoder();
 
         var coord = new window.kakao.maps.LatLng(lat, lon);
         var callback = function (result: any, status: any) {
           if (status === window.kakao.maps.services.Status.OK) {
-            console.log(result[0].address.address_name);
+            // console.log(result[0].address.address_name);
             const addressInfo = {
               latitude: lat,
               longitude: lon,

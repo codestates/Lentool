@@ -10,9 +10,11 @@ export interface User {
   updatedAt: string;
   user_address: string;
   user_photo: string;
+  newchat: boolean;
 }
 
 export interface UserResponse {
+  userInfo: any;
   data: {
     accessToken: string;
     userInfo: User;
@@ -218,6 +220,13 @@ export const api = createApi({
         body: formdata,
       }),
     }),
+    search: builder.mutation<any, any>({
+      query: (title: any) => ({
+        url: `posts?search=${title}`,
+        credentials: "include",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -238,4 +247,5 @@ export const {
   useSignoutMutation,
   useEditMutation,
   useEditdpMutation,
+  useSearchMutation,
 } = api;

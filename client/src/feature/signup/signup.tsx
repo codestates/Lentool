@@ -135,9 +135,8 @@ function Signup() {
   /*이메일 중복 검사 */
   const checkEmailOverlapping = async () => {
     try {
-      console.log(emailValue);
       const user = await checkemail(emailValue).unwrap();
-      console.log(user);
+      // console.log(user);
       if (user.message === "중복 없음") {
         setEmailOverlappingValidity(false);
         toast.success("사용가능한 이메일입니다.");

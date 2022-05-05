@@ -20,16 +20,15 @@ import Chatting from "feature/chat/Chatting";
 import Post from "feature/post/Post";
 import { usePostsMutation } from "services/api";
 import Carousel from "feature/post/carousel";
+import SearchTag from "feature/navbar/SearchTag";
 
 function App() {
   const dispatch = useAppDispatch()
   const isLogin = useAppSelector(state => state.persistedReducer.login.isLogin)
-  // const trialInfo = useAppSelector(state => state.persistedReducer.trial)
+  // const allData = useAppSelector(state => state.persistedReducer)
 
   // console.log(isLogin)
-  // const stateValue = useAppSelector(state => state.posts.posts.posts)
-  // console.log(stateValue)
-  // const [posts] = usePostsMutation()
+
 
   useEffect(() => {
 
@@ -82,6 +81,9 @@ function App() {
         <Route path="/carousel">
           <Carousel />
         </Route>
+        <Route path="/searchtag">
+          <SearchTag />
+        </Route>
       </Switch>
       <ToastContainer
         position="bottom-right"
@@ -101,4 +103,3 @@ function App() {
 }
 
 export default App;
-

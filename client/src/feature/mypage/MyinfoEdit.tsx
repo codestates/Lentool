@@ -205,13 +205,6 @@ function MyinfoEdit() {
               <div className="rounded-md shadow-sm -space-y-px text-left ">
                 <div className="mb-3">
                   <div>
-                    <label className="flex justify-center">
-                      <img
-                        src="https://images.chosun.com/resizer/4x-9d82p_V1EtPiYQqqCVRsYtPw=/640x336/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/INIQA7ICE7Z2EV2WYDVNXR2PSE.jpg"
-                        className="h-20 w-20 xs:h-20 xs:block xs:w-20 lg:h-40 lg:w-40 rounded-full object-cover"
-                        alt="username"
-                      />
-                    </label>
                     <label className="text-sm font-medium text-gray-900 block mb-2">
                       닉네임
                     </label>
@@ -279,10 +272,7 @@ function MyinfoEdit() {
               </div>
               <div>
                 <button
-                  onClick={() => {
-                    handleEditMyinfo();
-                    // handleGetInfo();
-                  }}
+                  onClick={handleEditMyinfo}
                   /* disabled={!isValidate}  */ type="submit"
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >

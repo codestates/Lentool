@@ -71,18 +71,28 @@ module.exports = {
         longitude: user_longitude,
       } = userInfo;
       const address = user_address.split(" ")[0];
-      console.log(address);
 
-      const nearPosts = await postModel.findAll({
-        where: {
-          address: {
-            [Op.like]: "%" + address + "%",
-          },
-          title: {
-            [Op.like]: "%" + req.query.title + "%",
-          },
-        },
-      });
+      const nearPosts = req.query.title
+        ? await postModel.findAll({
+            where: {
+              address: {
+                [Op.like]: "%" + address + "%",
+              },
+              title: {
+                [Op.like]: "%" + req.query.title + "%",
+              },
+            },
+          })
+        : await postModel.findAll({
+            where: {
+              address: {
+                [Op.like]: "%" + address + "%",
+              },
+              tag: {
+                [Op.like]: "%" + req.query.tag + "%",
+              },
+            },
+          });
 
       const sendData = [];
       for (let i = 0; i < nearPosts.length; i++) {
