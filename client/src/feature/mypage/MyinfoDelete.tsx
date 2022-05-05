@@ -22,7 +22,7 @@ export default function MyinfoDelete() {
   const handleDeleteClick = async () => {
     try {
       const user = await signout(myinfo).unwrap();
-      dispatch(setIsMyinfoDeleteModal()); //바로 회원가입창이 열린다.
+      dispatch(setIsMyinfoDeleteModal()); //바로 닫힌다.
       toast.success("성공적으로 회원탈퇴 완료");
       // console.log(user);
       push("/");

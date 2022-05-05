@@ -1,4 +1,5 @@
 import { setIsMyinfoEditModal } from "feature/modal/modalMyinfoEditSlice";
+import { getMyinfo } from "feature/mypage/myinfoSlice";
 import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -7,6 +8,7 @@ import {
   useEditMutation,
   useChecknicknameMutation,
   MyinfoEditRequest,
+  useMypageMutation,
 } from "services/api";
 import type { NicknameRequest } from "services/api";
 import DaumPostCode from "react-daum-postcode";
@@ -19,6 +21,7 @@ function MyinfoEdit() {
   const myinfo = useAppSelector((state) => state.myinfo.user);
   //api로 보내는 트리거들
   const [checknickname, {}] = useChecknicknameMutation();
+  const [mypage] = useMypageMutation();
   const [edit, { data, isLoading, isSuccess }] = useEditMutation();
   // api로 보낼 데이터 상태들 정리
   const [editValue, setEditValue] = useState<MyinfoEditRequest>({
@@ -152,17 +155,21 @@ function MyinfoEdit() {
 
   const handleSubmit = async () => {
     try {
-      console.log(editValue);
+      // console.log(editValue);
       const user = await edit(editValue).unwrap();
       dispatch(setIsMyinfoEditModal());
-
-      // dispatch(setCredentials(user));
+      handleGetInfo();
       toast.success("성공적으로 회원정보 수정완료");
 
-      console.log(user);
+      // console.log(user, "결과");
     } catch (err) {
       console.log("error", err);
     }
+  };
+  const handleGetInfo = async () => {
+    const user = await mypage().unwrap();
+    dispatch(getMyinfo(user));
+    // push("/mypage");
   };
   const handleOutClick = (e: any) => {
     e.preventDefault();
@@ -195,10 +202,16 @@ function MyinfoEdit() {
               </h2>
             </div>
             <form className="mt-8 space-y-6">
-              <input type="hidden" name="remember" value="true" />
               <div className="rounded-md shadow-sm -space-y-px text-left ">
                 <div className="mb-3">
                   <div>
+                    <label className="flex justify-center">
+                      <img
+                        src="https://images.chosun.com/resizer/4x-9d82p_V1EtPiYQqqCVRsYtPw=/640x336/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/INIQA7ICE7Z2EV2WYDVNXR2PSE.jpg"
+                        className="h-20 w-20 xs:h-20 xs:block xs:w-20 lg:h-40 lg:w-40 rounded-full object-cover"
+                        alt="username"
+                      />
+                    </label>
                     <label className="text-sm font-medium text-gray-900 block mb-2">
                       닉네임
                     </label>
@@ -266,7 +279,10 @@ function MyinfoEdit() {
               </div>
               <div>
                 <button
-                  onClick={handleEditMyinfo}
+                  onClick={() => {
+                    handleEditMyinfo();
+                    // handleGetInfo();
+                  }}
                   /* disabled={!isValidate}  */ type="submit"
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >

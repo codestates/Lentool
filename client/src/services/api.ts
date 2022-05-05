@@ -86,6 +86,10 @@ export interface MyinfoEditRequest {
 export interface MyinfoEditResponse {
   message: string;
 }
+//사진수정
+export interface EditDpResponse {
+  message: string;
+}
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000/",
@@ -206,6 +210,14 @@ export const api = createApi({
         body: MyinfoEditData,
       }),
     }),
+    editdp: builder.mutation<any, void>({
+      query: (formdata) => ({
+        url: "users/editdp",
+        credentials: "include", // true
+        method: "PATCH",
+        body: formdata,
+      }),
+    }),
   }),
 });
 
@@ -225,4 +237,5 @@ export const {
   useSearchroomMutation,
   useSignoutMutation,
   useEditMutation,
+  useEditdpMutation,
 } = api;

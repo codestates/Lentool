@@ -12,7 +12,7 @@ import type {
   NicknameRequest,
   EmailRequest,
 } from "services/api";
-import axios from "axios";
+
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import DaumPostCode from "react-daum-postcode";
@@ -135,8 +135,9 @@ function Signup() {
   /*이메일 중복 검사 */
   const checkEmailOverlapping = async () => {
     try {
+      console.log(emailValue);
       const user = await checkemail(emailValue).unwrap();
-      // console.log(user);
+      console.log(user);
       if (user.message === "중복 없음") {
         setEmailOverlappingValidity(false);
         toast.success("사용가능한 이메일입니다.");

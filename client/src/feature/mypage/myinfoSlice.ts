@@ -12,7 +12,7 @@ export const myinfoSlice = createSlice({
     getMyinfo: (state, { payload: { data } }: PayloadAction<{ data: any }>) => {
       state.user = data.userinfo;
       state.post = data.user_posts;
-      console.log("user", state.user);
+      // console.log("user", state.user);
       // console.log('token',state.token)
     },
   },
