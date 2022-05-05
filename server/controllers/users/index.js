@@ -60,8 +60,13 @@ module.exports = {
       longitude,
       latitude,
     } = req.body;
-    const imgPath = "/image/" + req.file.filename;
-    if (!inputPassword & !nickname & !imgPath & !user_address /*추후수정 */) {
+
+    // const imgPath = "/image/" + req.file.filename;
+    if (
+      !inputPassword &
+      !nickname /*& !imgPath*/ &
+      !user_address /*추후수정 */
+    ) {
       return res.status(400).json({ message: "입력값 없음" });
     }
     if (inputPassword) {
@@ -100,25 +105,29 @@ module.exports = {
           res.status(500).json({ message: "server error" });
         });
     }
-    if (imgPath) {
-      userModel
-        .update({ user_photo: imgPath }, { where: { id: userInfo.id } })
-        .then(([result]) => {
-          if (!result) {
-            return res.status(500).json({ message: "user_photo update fail" });
-          } else {
-            return res.status(200).json({ message: "user_photo 수정 성공" });
-          }
-        })
-        .catch((err) => {
-          res.status(500).json({ message: "server error" });
-        });
-    }
-    if (address & longitude & latitude) {
+    // if (imgPath) {
+    //   userModel
+    //     .update({ user_photo: imgPath }, { where: { id: userInfo.id } })
+    //     .then(([result]) => {
+    //       if (!result) {
+    //         return res.status(500).json({ message: "user_photo update fail" });
+    //       } else {
+    //         return res.status(200).json({ message: "user_photo 수정 성공" });
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       res.status(500).json({ message: "server error" });
+    //     });
+    // }
+    if (user_address && longitude && latitude) {
       //여기는 주소 방법 학습후 수정
       userModel
         .update(
-          { address: address, longitude: longitude, latitude: latitude },
+          {
+            user_address: user_address,
+            longitude: longitude,
+            latitude: latitude,
+          },
           { where: { id: userInfo.id } }
         )
         .then(([result]) => {
@@ -126,6 +135,37 @@ module.exports = {
             return res.status(500).json({ message: "address update fail" });
           } else {
             return res.status(200).json({ message: "address 수정 성공" });
+          }
+        })
+        .catch((err) => {
+          res.status(500).json({ message: "server error" });
+        });
+    }
+  },
+  editdp: (req, res) => {
+    const userInfo = isAuthorized(req);
+    console.log(req.files);
+
+    console.log(userInfo);
+    if (!userInfo) {
+      return res.status(400).json({ message: "유효하지 않은 토큰" });
+    }
+    const imgPath = `/userimage/${req.files[0].filename}`;
+    console.log(imgPath);
+    if (!imgPath) {
+      return res.status(400).json({ message: "입력값 없음" });
+    }
+    if (imgPath) {
+      userModel
+        .update({ user_photo: imgPath }, { where: { id: userInfo.id } })
+        .then(([result]) => {
+          if (!result) {
+            return res.status(500).json({ message: "user_photo update fail" });
+          } else {
+            return res.status(200).json({
+              message: "user_photo 수정 성공",
+              data: { user_photo: imgPath },
+            });
           }
         })
         .catch((err) => {
