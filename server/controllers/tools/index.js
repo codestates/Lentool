@@ -4,7 +4,6 @@ const { isAuthorized } = require("../tokenFunctions");
 module.exports = {
   tools: async (req, res) => {
     const userInfo = isAuthorized(req);
-
     try {
       if (!userInfo) {
         return res.status(400).json({
