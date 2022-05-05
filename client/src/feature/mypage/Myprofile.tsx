@@ -82,7 +82,11 @@ export default function Myprofile() {
       <div className="flex justify-center">
         {/* 실제프로필 */}
         <img
-          src={Image}
+          src={
+            Image === "http://localhost:4000empty"
+              ? "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+              : Image
+          }
           alt="Image not found"
           className="h-20 w-20 xs:h-20 xs:block xs:w-20 lg:h-40 lg:w-40 rounded-full object-cover"
           onClick={() => {
