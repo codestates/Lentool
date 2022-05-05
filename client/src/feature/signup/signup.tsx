@@ -12,7 +12,7 @@ import type {
   NicknameRequest,
   EmailRequest,
 } from "services/api";
-import axios from "axios";
+
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import DaumPostCode from "react-daum-postcode";

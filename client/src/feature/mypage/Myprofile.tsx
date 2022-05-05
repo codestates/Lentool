@@ -1,11 +1,18 @@
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { getMyinfo } from "feature/mypage/myinfoSlice";
 import { setIsMyinfoEditModal } from "feature/modal/modalMyinfoEditSlice";
 import { setIsMyinfoDeleteModal } from "feature/modal/modalMyinfoDeleteSlice";
+import { useState, useRef } from "react";
 import MyinfoEdit from "./MyinfoEdit";
 import MyinfoDelete from "./MyinfoDelete";
+import { toast } from "react-toastify";
+import { useEditdpMutation, useMypageMutation } from "services/api";
+
 export default function Myprofile() {
   const dispatch = useAppDispatch();
   const myinfo = useAppSelector((state) => state.myinfo.user);
+  const [editdp, { data, isLoading, isSuccess }] = useEditdpMutation();
+  const [mypage] = useMypageMutation();
   const isMyinfoEditModal = useAppSelector(
     (state) => state.myinfoEdit.isMyinfoEditModal
   );
@@ -23,16 +30,80 @@ export default function Myprofile() {
     e.preventDefault();
     dispatch(setIsMyinfoDeleteModal());
   };
+  //실제 서버로 보내는 프로필 사진 상태
+  const [userPhoto, setUserPhoto] = useState([]);
+  //화면에 보여지는 프로필 사진 상태
+  const [Image, setImage] = useState(
+    `http://localhost:4000${myinfo.user_photo}`
+  );
+
+  const fileInput: any = useRef(null);
+
+  const handlePosting = async () => {
+    const formdata: any = new FormData();
+    formdata.append("user_photo", userPhoto);
+    await editdp(formdata).unwrap();
+    handleGetInfo(); //즉시 데이터 받아와서 업데이트 실제로 업데이트
+    // for (let key of formdata.keys()) {
+    //   console.log(key, ":", formdata.get(key));
+    // }
+    toast.success("프로필 사진변경 성공");
+  };
+  const handleGetInfo = async () => {
+    const user = await mypage().unwrap();
+    dispatch(getMyinfo(user));
+  };
+  const handleChoosePhoto = (e: any) => {
+    //실질적 서버로 보낼 데이터 변경
+    setUserPhoto(e.target.files[0]);
+    //아래는 잠시 화면만 즉시 변화하게 하는
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    } else {
+      //업로드 취소할 시 원상복구
+      setImage(`http://localhost:4000${myinfo.user_photo}`);
+      return;
+    }
+    const reader: any = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
+
+  // console.log(myinfo.user_photo);
+
   return (
     <div className="w-11/12 mt-10">
       {isMyinfoEditModal ? <MyinfoEdit /> : null}
       {isMyinfoDeleteModal ? <MyinfoDelete /> : null}
       <div className="flex justify-center">
+        {/* 실제프로필 */}
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+          src={
+            Image === "http://localhost:4000empty"
+              ? "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+              : Image
+          }
+          alt="Image not found"
           className="h-20 w-20 xs:h-20 xs:block xs:w-20 lg:h-40 lg:w-40 rounded-full object-cover"
-          alt="username"
+          onClick={() => {
+            fileInput.current.click();
+          }}
         />
+        <div>
+          <input
+            type="file"
+            onChange={handleChoosePhoto}
+            style={{ display: "none" }}
+            // accept="image/jpg,impge/png,image/jpeg"
+            // name="profile_img"
+            ref={fileInput}
+          />
+        </div>
+
         <div className="ml-10">
           <div className="flex items-center">
             <h2 className="block leading-relaxed font-light text-gray-700 text-3xl">
@@ -45,8 +116,11 @@ export default function Myprofile() {
               프로필 수정
             </a>
 
-            <button className="flex items-center ml-3 border border-blue-600 hover:bg-blue-600 hover:text-white rounded outline-none focus:outline-none bg-transparent text-blue-600 text-sm py-1 px-2">
-              <span className="block">동네인증</span>
+            <button
+              onClick={handlePosting}
+              className="flex items-center ml-3 border border-blue-600 hover:bg-blue-600 hover:text-white rounded outline-none focus:outline-none bg-transparent text-blue-600 text-sm py-1 px-2"
+            >
+              <span className="block">현재사진 적용</span>
               <svg
                 className="block h-5 w-5 pl-1"
                 xmlns="http://www.w3.org/2000/svg"
