@@ -11,6 +11,7 @@ import { setCredentials, setNewChat } from "./authSlice";
 import { setLogin } from "./loginSlice";
 import { getPosts } from "feature/post/postSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
+import { Link } from "react-router-dom";
 // import storage from '../../lib/storage';
 function Login() {
   const dispatch = useAppDispatch();
@@ -84,9 +85,7 @@ function Login() {
   };
   /*  */
   const handleSignup = (e: any) => {
-    e.preventDefault();
-    setIsSignup(!isSignup);
-    console.log("회원가입하러가자");
+    dispatch(setIsModal());  
   };
   const handleOutClick = (e: any) => {
     e.preventDefault();
@@ -208,14 +207,13 @@ function Login() {
                 <span className="mb-2 text-xs text-gray-700">
                   아직 회원이 아니십니까?
                 </span>
-                <a
-                  href="#"
+                <Link to="/signup"
                   onClick={handleSignup}
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   {" "}
                   회원가입하기{" "}
-                </a>
+                </Link>
               </div>
             </form>
           </div>
