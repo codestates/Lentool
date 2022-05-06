@@ -1,7 +1,5 @@
 import { Key, ReactChild, ReactFragment, ReactPortal, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { StarIcon } from "@heroicons/react/solid";
-import { RadioGroup } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { usePostidQuery } from "services/api";
 import { getDetailPost } from "./detailPostSlice";
@@ -64,10 +62,11 @@ export default function Post() {
   const dispatch = useAppDispatch();
   let { post_id }: any = useParams();
   const { data, isLoading, error } = usePostidQuery(post_id);
+  console.log(data)
   const myUserId = useAppSelector(
     (state) => state.persistedReducer.myinfo.user.id
   );
-  console.log(myUserId);
+  // console.log(myUserId);
 
   return (
     <div className="bg-white">
@@ -77,26 +76,6 @@ export default function Post() {
             role="list"
             className="max-w-2xl mx-auto px-4 flex items-center space-x-2 sm:px-6 lg:max-w-2xl lg:px-8"
           >
-            {/* {product.breadcrumbs.map((breadcrumb: { id: Key | null | undefined; href: string | undefined; name: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined }) => (
-              <li key={breadcrumb.id}>
-                <div className="flex items-center">
-                  <a href={breadcrumb.href} className="mr-2 text-sm font-medium text-gray-900">
-                    {breadcrumb.name}
-                  </a>
-                  <svg
-                    width={16}
-                    height={20}
-                    viewBox="0 0 16 20"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    className="w-4 h-5 text-gray-300"
-                  >
-                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                  </svg>
-                </div>
-              </li>
-            ))} */}
             <li className="text-sm">
               <a
                 href={product.href}
@@ -113,12 +92,7 @@ export default function Post() {
           /* Image gallery */
           <div>
             <div className="mt-6 max-w-2xl mx-auto ">
-              <div className="sm:rounded-lg sm:overflow-hidden lg:aspect-w-3 lg:aspect-h-4">
-                {/* <img
-                src={product.images[3].src}
-                alt={product.images[3].alt}
-                className="w-full h-full object-center object-cover"
-              /> */}
+              <div className="sm:rounded-lg sm:overflow-hidden">
                 <Carousel />
               </div>
             </div>

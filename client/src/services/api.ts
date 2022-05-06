@@ -94,7 +94,7 @@ export interface EditDpResponse {
 }
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4000/",
+    baseUrl: "http://localhost:80/",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
@@ -222,7 +222,14 @@ export const api = createApi({
     }),
     search: builder.mutation<any, any>({
       query: (title: any) => ({
-        url: `posts?search=${title}`,
+        url: `posts/search?title=${title}`,
+        credentials: "include",
+        method: "GET",
+      }),
+    }),
+    searchByTag: builder.mutation<any, any>({
+      query: (tag: any) => ({
+        url: `posts/search?tag=${tag}`,
         credentials: "include",
         method: "GET",
       }),
@@ -248,4 +255,5 @@ export const {
   useEditMutation,
   useEditdpMutation,
   useSearchMutation,
+  useSearchByTagMutation,
 } = api;
