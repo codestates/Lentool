@@ -38,7 +38,7 @@ module.exports = {
     Promise.all([
       postModel.destroy({ where: { user_id: delId } }),
       chatModel.destroy({ where: { user_id: delId } }),
-      user_roomModel.destroy({ where: { user_id: delId } }),
+      user_roomModel.destroy({ where: { user_id1: delId } }),
       userModel.destroy({
         where: { id: delId },
       }),

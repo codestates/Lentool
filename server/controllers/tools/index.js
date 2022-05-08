@@ -1,5 +1,6 @@
 const { post: postModel, user: userModel } = require("../../models");
 const { isAuthorized } = require("../tokenFunctions");
+const fs = require("fs");
 
 module.exports = {
   tools: async (req, res) => {
@@ -51,9 +52,55 @@ module.exports = {
           return res.status(200).json({ data: null, message: "ok" });
         });
     } catch (err) {
-      res.status(500).json({ data: err, message: "server error" });
+      return res.status(500).json({ data: err, message: "server error" });
     }
 
     // return res.status(200).json({ data: req.files[0].filename, messege: "ok" });
+  },
+
+  deletePost: async (req, res) => {
+    const userInfo = isAuthorized(req);
+    if (!userInfo) {
+      return res.status(400).json({
+        data: null,
+        message: "invalid access token",
+      });
+    }
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ data: null, message: "요청 정보 누락" });
+    }
+    const userCheck = await postModel.findOne({
+      where: { id, user_id: userInfo.id },
+    });
+    if (!userCheck) {
+      return res
+        .status(400)
+        .json({ data: null, message: "올바른 요청이 아닙니다." });
+    }
+
+    try {
+      if (userCheck.dataValues.photo1 !== "empty") {
+        const deleteimg = userCheck.dataValues.photo1.slice(11);
+        fs.unlinkSync("./postimg/" + deleteimg);
+        console.log("photo1 deleted");
+      }
+      if (userCheck.dataValues.photo2 !== "empty") {
+        const deleteimg = userCheck.dataValues.photo2.slice(11);
+        fs.unlinkSync("./postimg/" + deleteimg);
+        console.log("photo2 deleted");
+      }
+      if (userCheck.dataValues.photo3 !== "empty") {
+        const deleteimg = userCheck.dataValues.photo3.slice(11);
+        fs.unlinkSync("./postimg/" + deleteimg);
+        console.log("photo3 deleted");
+      }
+      const destroypost = await postModel.destroy({
+        where: { id },
+      });
+      return res.status(200).json({ data: null, message: "삭제 성공" });
+    } catch (err) {
+      return res.status(500).json({ data: err, message: "server error" });
+    }
   },
 };
