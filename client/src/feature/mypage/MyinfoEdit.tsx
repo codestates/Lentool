@@ -178,7 +178,7 @@ function MyinfoEdit() {
 
   return (
     <div
-      className="h-screen w-full absolute bg-black bg-opacity-70 text-center"
+      className="h-screen w-full z-50 absolute bg-black bg-opacity-70 text-center"
       ref={outSelect}
       onClick={handleOutClick}
     >

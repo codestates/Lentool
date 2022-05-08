@@ -70,6 +70,7 @@ module.exports = {
     if (!id) {
       return res.status(400).json({ data: null, message: "요청 정보 누락" });
     }
+    console.log(id);
     const userCheck = await postModel.findOne({
       where: { id, user_id: userInfo.id },
     });

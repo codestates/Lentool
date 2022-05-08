@@ -227,6 +227,13 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+    deletePost: builder.mutation<any, any>({
+      query: (params: any) => ({
+        url: `tools/:${params}`,
+        credentials: "include",
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -248,4 +255,5 @@ export const {
   useEditMutation,
   useEditdpMutation,
   useSearchMutation,
+  useDeletePostMutation,
 } = api;

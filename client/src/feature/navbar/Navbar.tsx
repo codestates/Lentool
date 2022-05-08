@@ -32,11 +32,7 @@ export default function Navbar() {
               <MenuIcon className="h-6 w-6" aria-hidden="true" />
             </Menu.Button>
           </div>
-          {!isLogin ? (
-            <Beforelogin />
-          ) : (
-            <Afterlogin />
-          )}
+          {!isLogin ? <Beforelogin /> : <Afterlogin />}
         </div>
       </div>
 
