@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom";
 import { usePosQuery, usePostidQuery } from "services/api"
-
+import './carousel.css'
 const TOTAL_SLIDER = 2
 export default function Carousel() {
   const products = [
@@ -55,17 +55,17 @@ export default function Carousel() {
   }, [index]);
 
   return (
-    <div className="px-7">
-      <div className="relative">
+    <div className="px-7 max-w-2xl mx-auto">
+      <div className="relative ">
         {/* <!-- Carousel wrapper --> */}
-        <div className="overflow-hidden ">
+        <div className="overflow-hidden">
           <div className="flex z-10" ref={slideRef}>
             {
               data.data.post &&
-                <div className="flex">
-                  <img src={`http://localhost:80${data.data.post.photo1}`} alt='' className='rounded-xl '/>
-                  <img src={`http://localhost:80${data.data.post.photo2}`} alt='' className='rounded-xl '/>
-                  <img src={`http://localhost:80${data.data.post.photo3}`} alt='' className='rounded-xl '/>
+                <div id="carousel">
+                  <img src={`http://localhost:80${data.data.post.photo1}`} alt='' className='rounded-xl w-full object-contain'/>
+                  <img src={`http://localhost:80${data.data.post.photo2}`} alt='' className='rounded-xl'/>
+                  <img src={`http://localhost:80${data.data.post.photo3}`} alt='' className='rounded-xl'/>
                 </div>
             }
           </div>

@@ -12,10 +12,9 @@ import { setLogin } from "./loginSlice";
 import { getPosts } from "feature/post/postSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
 import { Link } from "react-router-dom";
-// import storage from '../../lib/storage';
+
 function Login() {
   const dispatch = useAppDispatch();
-  const [isSignup, setIsSignup] = useState(false);
   const outSelect = useRef<any>();
   const [inputValue, setInputValue] = useState({
     id: "",
@@ -55,9 +54,7 @@ function Login() {
       setErrorMessage("");
       setIsPassword(true);
     }
-    // console.log(isEmail, isPassword)
     if (isEmail === true && isPassword === true) setIsValidate(true);
-    // console.log(isValidate)
   };
   /* 로그인 input 값 변경 */
   const handleInputValue =
@@ -69,7 +66,6 @@ function Login() {
     try {
       const user = await login(inputValue).unwrap();
       dispatch(setCredentials(user));
-      // console.log(user.data.userInfo.newchat)
       dispatch(setNewChat(user.data.userInfo.newchat))
       dispatch(setLogin(true));
       dispatch(setIsModal());
@@ -83,10 +79,11 @@ function Login() {
       console.log("error", err);
     }
   };
-  /*  */
+  /* 회원가입버튼 */
   const handleSignup = (e: any) => {
     dispatch(setIsModal());  
   };
+  /* 모달 바깥 쪽 눌렀을 때 꺼지게 하기 */
   const handleOutClick = (e: any) => {
     e.preventDefault();
     if (e.target === outSelect.current) dispatch(setIsModal());
@@ -94,11 +91,11 @@ function Login() {
 
   return (
     <div
-      className="h-screen w-full z-50 absolute bg-black bg-opacity-70 text-center"
+      className="h-screen w-full z-50 fixed bg-black bg-opacity-40 text-center"
       ref={outSelect}
       onClick={handleOutClick}
     >
-      <div className="bg-white absolute top-1/4 left-1/3 rounded w-10/12 md:w-1/3">
+      <div className="max-w-2xl bg-white fixed mx-auto my-40 w-96 inset-0 rounded ">
         <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
           <div className="max-w-md w-full space-y-4">
             <span
@@ -108,19 +105,13 @@ function Login() {
               &times;
             </span>
             <div>
-              <img
-                className="mx-auto h-12 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                alt="Workflow"
-              />
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                 로그인
               </h2>
             </div>
             <form className="mt-8 space-y-6">
-              <input type="hidden" name="remember" value="true" />
               <div className="rounded-md shadow-sm -space-y-px text-left ">
-                <div className="mb-3">
+                <div className="py-3">
                   <label htmlFor="email-address" className="text-sm">
                     이메일
                   </label>
@@ -130,8 +121,7 @@ function Login() {
                     type="email"
                     onChange={handleInputValue("id")}
                     onKeyUp={validate}
-                    /* autoComplete="email" */ required
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     placeholder="Email address"
                   />
                   <p className="mt-1 text-xs text-red-500">{emailValidate}</p>
@@ -146,8 +136,7 @@ function Login() {
                     type="password"
                     onChange={handleInputValue("password")}
                     onKeyUp={validate}
-                    /* autoComplete="current-password" */ required
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     placeholder="Password"
                   />
                   <p className="mt-1 text-xs text-red-500">{errorMessage}</p>
@@ -156,11 +145,10 @@ function Login() {
               <div>
                 <button
                   onClick={handleSubmit}
-                  /* disabled={!isValidate}  */ type="submit"
+                  type="submit"
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    {/* <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="../images/icons8-google.svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"> */}
                     <svg
                       className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
                       xmlns="http://www.w3.org/2000/svg"
@@ -175,7 +163,7 @@ function Login() {
                       />
                     </svg>
                   </span>
-                  Sign in
+                  로그인
                 </button>
               </div>
               <div className="text-xs text-gray-700">또는</div>
@@ -186,7 +174,6 @@ function Login() {
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    {/* <!-- Heroicon name: solid/lock-closed --> */}
                     <svg
                       className="h-5 w-5 text-gray-500 group-hover:text-gray-400"
                       xmlns="http://www.w3.org/2000/svg"
@@ -204,15 +191,14 @@ function Login() {
                 </button>
               </div>
               <div className="text-sm">
-                <span className="mb-2 text-xs text-gray-700">
+                <span className="mb-2 mx-2 text-xs text-gray-700">
                   아직 회원이 아니십니까?
                 </span>
                 <Link to="/signup"
                   onClick={handleSignup}
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
-                  {" "}
-                  회원가입하기{" "}
+                  회원가입하기
                 </Link>
               </div>
             </form>
