@@ -1,11 +1,12 @@
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useSearchMutation } from "services/api";
 import { getSearch } from "./searchSlice";
 import SearchTag from "./SearchTag";
 
 export default function Searchbar () {
   const dispatch = useAppDispatch()
+  const outSelect = useRef()
   const [inputValue, setInputValue] = useState('')
   const isLogin = useAppSelector((state) => state.login.isLogin)
   const [result] = useSearchMutation();
@@ -23,19 +24,19 @@ export default function Searchbar () {
     setInputValue('')
   }
   return (
-    <>
+    <div className="my-auto mx-4">
     { isLogin ?
       // <div className="relative grow text-gray-600">
       <SearchTag />
       :
-      <div className="relative grow text-gray-600">
+      <div className="relative text-gray-600 w-80">
         <input
           type="search"
           name="search"
           placeholder="Search"
           onMouseDown={handleSearchDisabled}
-          className="pt-2 pb-2 border-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
-          />
+          className="pt-2 pb-2 border focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
+        />
         <button type="submit" onClick={searchPost} className="absolute right-0 top-0 mt-3 mr-4">
           <svg
             className="h-4 w-4 fill-current"
@@ -55,6 +56,6 @@ export default function Searchbar () {
         </button>
       </div>
     }
-    </>
+    </div>
   )
 }

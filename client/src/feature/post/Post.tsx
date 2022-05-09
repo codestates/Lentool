@@ -91,7 +91,7 @@ export default function Post() {
         {data && (
           /* Image gallery */
           <div>
-            <div className="mt-6 max-w-2xl mx-auto ">
+            <div className="mt-6 ">
               <div className="sm:rounded-lg sm:overflow-hidden">
                 <Carousel />
               </div>
