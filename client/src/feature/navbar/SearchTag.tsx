@@ -49,14 +49,14 @@ export default function SearchTag() {
   return (
     <div className="relative bg-white">
       <div className="md:flex space-x-10">
-        <div className="relative grow text-gray-600">
+        <div className="relative text-gray-600 w-80">
           <input
             type="search"
             name="search"
             placeholder="Search"
             onChange={(e) => handleSearch(e)}
             onMouseDown={onTag}
-            className="pt-2 pb-2 border-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
+            className="pt-2 pb-2 border focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
           />
           <button type="submit" onClick={searchPost} className="absolute right-0 top-0 mt-3 mr-4">
             <svg
