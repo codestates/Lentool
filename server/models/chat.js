@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  post.init(
+  chat.init(
     {
       id: {
         allowNull: false,
@@ -26,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "chat",
+      freezeTableName: true,
+      tableName: "chat",
     }
   );
   return chat;

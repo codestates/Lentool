@@ -7,12 +7,13 @@
 var app = require("../app");
 var debug = require("debug")("server:server");
 var http = require("http");
+const { chat: chatModel, user: userModel } = require("../models");
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || "3000");
+var port = normalizePort(process.env.PORT || "80");
 app.set("port", port);
 
 /**
@@ -21,6 +22,44 @@ app.set("port", port);
 
 var server = http.createServer(app);
 
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("연결됨");
+  socket.on("message", async ({ user_id, content, room_id, user_id2 }) => {
+    const createdChat = await chatModel.create({
+      user_id,
+      room_id,
+      content,
+    });
+    const update = await userModel.update(
+      { newchat: true },
+      { where: { id: user_id2 } }
+    );
+
+    io.to(room_id).emit("message", { user_id, content });
+  });
+  socket.on("join", ({ room_id }) => {
+    console.log(room_id);
+    socket.join(room_id);
+    io.to(room_id).emit("message", {
+      user_id: "새로운 유저가",
+      content: "입장했습니다.",
+    });
+  });
+  socket.on("leave", ({ room_id }) => {
+    socket.leave(room_id);
+    io.to(room_id).emit("message", {
+      user_id: "유저가",
+      content: "떠났습니다.",
+    });
+  });
+});
 /**
  * Listen on provided port, on all network interfaces.
  */

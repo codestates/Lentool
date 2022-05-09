@@ -33,6 +33,12 @@ module.exports = {
       address: {
         type: Sequelize.STRING,
       },
+      latitude: {
+        type: Sequelize.STRING,
+      },
+      longitude: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -40,6 +46,9 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+      },
+      tag: {
+        type: Sequelize.STRING,
       },
     });
   },

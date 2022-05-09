@@ -31,6 +31,19 @@ module.exports = {
       user_photo: {
         type: Sequelize.STRING,
       },
+      latitude: {
+        type: Sequelize.STRING,
+      },
+      longitude: {
+        type: Sequelize.STRING,
+      },
+      salt: {
+        type: Sequelize.STRING,
+      },
+      newchat: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
     });
   },
   async down(queryInterface, Sequelize) {

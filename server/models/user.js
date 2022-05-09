@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: "id",
       });
       user.hasMany(models.user_room, {
-        foreignKey: "user_id",
+        foreignKey: "user_id1",
+        sourceKey: "id",
+      });
+      user.hasMany(models.user_room, {
+        foreignKey: "user_id2",
         sourceKey: "id",
       });
     }
@@ -33,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       user_address: DataTypes.STRING,
       user_photo: DataTypes.STRING,
+      salt: DataTypes.STRING,
+      latitude: DataTypes.STRING,
+      longitude: DataTypes.STRING,
+      newchat: DataTypes.BOOLEAN,
     },
     {
       sequelize,

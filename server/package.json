@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "sudo nodemon ./bin/www"
+    "start": " nodemon ./bin/www"
   },
   "dependencies": {
     "axios": "^0.27.0",
@@ -21,6 +21,6 @@
     "nodemon": "^2.0.15",
     "pug": "2.0.0-beta11",
     "sequelize": "^6.19.0",
-    "soket.io": "^0.0.1-security"
+    "socket.io": "^4.5.0"
   }
 }
