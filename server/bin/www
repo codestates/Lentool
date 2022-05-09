@@ -45,12 +45,12 @@ io.on("connection", (socket) => {
     io.to(room_id).emit("message", { user_id, content });
   });
   socket.on("join", ({ room_id }) => {
-    console.log(room_id);
+    console.log(room_id, "룸아이디");
     socket.join(room_id);
-    io.to(room_id).emit("message", {
-      user_id: "새로운 유저가",
-      content: "입장했습니다.",
-    });
+    // io.to(room_id).emit("message", {
+    //   user_id: "새로운 유저가",
+    //   content: "입장했습니다.",
+    // });
   });
   socket.on("leave", ({ room_id }) => {
     socket.leave(room_id);
