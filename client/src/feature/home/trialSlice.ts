@@ -13,7 +13,7 @@ export const trialSlice = createSlice({
       { payload: { data }}: PayloadAction<any>
     ) => {
       state.trial = data
-      // console.log('받은데이터',data)
+      console.log('받은데이터',data)
     }
   },
 });

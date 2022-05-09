@@ -21,6 +21,8 @@ import Post from "feature/post/Post";
 import { usePostsMutation } from "services/api";
 import Carousel from "feature/post/carousel";
 import SearchTag from "feature/navbar/SearchTag";
+import PostSearch from "feature/post/PostSearch";
+import TitleSearch from "feature/post/TitleSearch";
 
 function App() {
   const dispatch = useAppDispatch()
@@ -56,7 +58,6 @@ function App() {
         <Route exact path='/'>
           { !isLogin ? <Main /> : <PostLogin /> }
         </Route>
-
         <Route path="/login">
           <Login />
         </Route>
@@ -81,8 +82,11 @@ function App() {
         <Route path="/carousel">
           <Carousel />
         </Route>
-        <Route path="/searchtag">
-          <SearchTag />
+        <Route path="/search/:search_id">
+          <TitleSearch />
+        </Route>
+        <Route path="/search">
+          <PostSearch />
         </Route>
       </Switch>
       <ToastContainer

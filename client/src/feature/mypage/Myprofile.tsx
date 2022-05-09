@@ -81,19 +81,19 @@ export default function Myprofile() {
       {isMyinfoDeleteModal ? <MyinfoDelete /> : null}
       <div className="flex justify-center">
         {/* 실제프로필 */}
-        <img
-          src={
-            Image === "http://localhost:4000empty"
-              ? "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
-              : Image
-          }
-          alt="Image not found"
-          className="h-20 w-20 xs:h-20 xs:block xs:w-20 lg:h-40 lg:w-40 rounded-full object-cover"
-          onClick={() => {
-            fileInput.current.click();
-          }}
-        />
         <div>
+          <img
+            src={
+              Image === "http://localhost:4000empty"
+                ? "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+                : Image
+            }
+            alt="Image not found"
+            className="h-20 w-20 xs:h-20 xs:block xs:w-20 lg:h-40 lg:w-40 rounded-full object-cover"
+            onClick={() => {
+              fileInput.current.click();
+            }}
+          />
           <input
             type="file"
             onChange={handleChoosePhoto}
@@ -102,6 +102,26 @@ export default function Myprofile() {
             // name="profile_img"
             ref={fileInput}
           />
+          <button
+            onClick={handlePosting}
+            className="flex mx-auto items-center mt-5 border border-gray-600 hover:bg-green-500 hover:text-white rounded outline-none focus:outline-none bg-transparent text-gray-600 text-sm py-1 px-2 font-semibold"
+          >
+            <span className="block ">사진 적용</span>
+            <svg
+              className="block h-5 w-5 pl-1"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L20 7"
+              />
+            </svg>
+          </button>
         </div>
 
         <div className="ml-10">
@@ -111,16 +131,16 @@ export default function Myprofile() {
             </h2>
             <a
               onClick={handleEditInfo}
-              className="cursor-pointer h-7 px-3 ml-3 focus:outline-none hover:border-transparent text-center rounded border border-gray-400 hover:bg-blue-500 hover:text-white bg-transparent text-gray-500 font-semibold"
+              className="cursor-pointer h-7 px-3 ml-3 focus:outline-none hover:border-transparent text-center rounded border border-gray-400 hover:bg-green-500 hover:text-white bg-transparent text-gray-600 font-semibold"
             >
               프로필 수정
             </a>
 
             <button
-              onClick={handlePosting}
+              // onClick={handlePosting}
               className="flex items-center ml-3 border border-blue-600 hover:bg-blue-600 hover:text-white rounded outline-none focus:outline-none bg-transparent text-blue-600 text-sm py-1 px-2"
             >
-              <span className="block">현재사진 적용</span>
+              <span className="block">동네 인증</span>
               <svg
                 className="block h-5 w-5 pl-1"
                 xmlns="http://www.w3.org/2000/svg"

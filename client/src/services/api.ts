@@ -222,14 +222,21 @@ export const api = createApi({
     }),
     search: builder.mutation<any, any>({
       query: (title: any) => ({
-        url: `posts?search=${title}`,
+        url: `posts/search?title=${title}`,
+        credentials: "include",
+        method: "GET",
+      }),
+    }),
+    searchByTag: builder.mutation<any, any>({
+      query: (tag: any) => ({
+        url: `posts/search?tag=${tag}`,
         credentials: "include",
         method: "GET",
       }),
     }),
     deletePost: builder.mutation<any, any>({
       query: (params: any) => ({
-        url: `tools/:${params}`,
+        url: `tools/${params}`,
         credentials: "include",
         method: "DELETE",
       }),
@@ -256,4 +263,5 @@ export const {
   useEditdpMutation,
   useSearchMutation,
   useDeletePostMutation,
+  useSearchByTagMutation,
 } = api;

@@ -31,7 +31,7 @@ export default function Room() {
               <div key={room.room_id} className="border-2">
                 <div>{room.content}</div>
                 <div>{room.address}</div>
-                <img src={`http://localhost:4000${room.user_photo}`} />
+                <img src={`http://localhost:80${room.user_photo}`} />
               </div>
             </Link>
           );

@@ -1,7 +1,7 @@
 import { Menu } from "@headlessui/react";
 import { useAppSelector } from "app/hooks";
-import PostDropdown from "./PostDropdown";
 import { useMypageMutation, useDeletePostMutation } from "services/api";
+import { useState } from "react";
 const products = [
   {
     id: 1,
@@ -49,14 +49,28 @@ const products = [
 export default function Mycontents() {
   const [deletePost, { data, isLoading, isSuccess }] = useDeletePostMutation();
   const myposts: any = useAppSelector((state) => state.myinfo.post);
-  const postid = myposts.id;
-  const handleDeletePost = async () => {
+  const [isContents, setIsContents]: any = useState([...myposts]);
+
+  // console.log(myposts);
+  // console.log(isContents);
+
+  const handleContents = (e: any) => {
+    setIsContents([...isContents, e]);
+  };
+  const handleRemoveContents = (e: any) => {
+    const remove = isContents.filter((el: any) => {
+      return el !== e;
+    });
+    setIsContents(remove);
+  };
+  const handleDeletePost = async (e: any) => {
     try {
-      console.log(postid);
-      const result = await deletePost(postid).unwrap();
+      // console.log(myposts);
+      console.log(e);
+      const result = await deletePost(e).unwrap();
 
       //   toast.success("성공적으로 게시물 삭제");
-      console.log(result);
+      // console.log(result);
     } catch (err) {
       console.log("server error", err);
     }
@@ -68,10 +82,10 @@ export default function Mycontents() {
         <h2 className="sr-only">Products</h2>
         <h1 className="mb-5 ml-2 text-left text-gray-700">내가 쓴 게시글</h1>
         <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {myposts &&
-            myposts.map((mypost: any) => (
+          {isContents &&
+            isContents.map((mypost: any) => (
               <a key={mypost.id} href={mypost.href} className="group">
-                <div className="w-full h-80 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
+                <div className="w-full h-80 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg xl:aspect-w-7 xl:aspect-h-8">
                   <img
                     src={`http://localhost:4000${mypost.photo1}`}
                     alt="my-posting"
@@ -81,18 +95,13 @@ export default function Mycontents() {
                     <Menu.Button>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 absolute top-4 right-4 fill-gray-500	 shadow-md rounded-full"
+                        className="h-6 w-6 absolute top-4 right-4 fill-gray-600	 shadow-md rounded-full"
                         viewBox="0 0 20 20"
                       >
                         <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                       </svg>
                     </Menu.Button>
-                    {/* 사진위가 아닌 사진 아래로 메뉴 버튼이 렌더됨. CSS로 PostDropdown 수정 예정 */}
-
-                    <Menu.Items
-                      id={`${mypost.id}`}
-                      className="focus:outline-none absolute right-0 mt-2 w-36 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
-                    >
+                    <Menu.Items className="focus:outline-none absolute top-4 right-4 mt-10 w-36 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                       <div className="px-1 py-1 ">
                         <Menu.Item>
                           {({ active }) => (
@@ -100,7 +109,7 @@ export default function Mycontents() {
                               // onClick={handleEditPost}
                               className={`${
                                 active
-                                  ? "bg-violet-500 text-white "
+                                  ? "bg-blue-500 text-white "
                                   : "text-gray-900"
                               } justify-center group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                             >
@@ -113,10 +122,13 @@ export default function Mycontents() {
                         <Menu.Item>
                           {({ active }) => (
                             <button
-                              onClick={handleDeletePost}
+                              onClick={() => {
+                                handleDeletePost(mypost.id);
+                                handleRemoveContents(mypost);
+                              }}
                               className={`${
                                 active
-                                  ? "bg-violet-500 text-white"
+                                  ? "bg-blue-500 text-white"
                                   : "text-gray-900"
                               } justify-center group flex w-full items-center rounded-md px-2 py-2 text-sm `}
                             >
@@ -127,6 +139,7 @@ export default function Mycontents() {
                       </div>
                     </Menu.Items>
                   </Menu>
+
                   {/* <PostDropdown /> */}
                 </div>
 
