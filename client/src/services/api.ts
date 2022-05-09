@@ -95,7 +95,8 @@ export interface EditDpResponse {
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4000/",
+    baseUrl: process.env.REACT_APP_SERVER_URL,
+
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;

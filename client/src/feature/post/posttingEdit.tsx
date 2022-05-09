@@ -6,6 +6,7 @@ import {
 } from "services/api";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useAppSelector } from "app/hooks";
+import Beforelogin from "feature/navbar/Beforelogin";
 const src = [
   ["망치", "hammer"],
   ["렌치", "wrench"],
@@ -27,11 +28,11 @@ export default function PostingEdit() {
   const post_id = location.state.data.id;
   //   console.log(post_id);
   const { data, isLoading, error } = usePostidQuery(post_id);
-  //   console.log(data);
-  const beforeTitle = data.data.post.title;
-  const beforePrice = data.data.post.price;
-  const beforeDescription = data.data.post.description;
-  const beforeTag = console.log(data.data.post.tag);
+  // console.log(data.data.post.title);
+  // let beforeTitle = data.data.post.title;
+  // let beforePrice = data.data.post.price;
+  // let beforeDescription = data.data.post.description;
+  // const beforeTag = console.log(data.data.post.tag);
 
   //   console.log(location.state.data.price);
   //   const post = useAppSelector(
@@ -44,7 +45,7 @@ export default function PostingEdit() {
   const [preview3, setPreview3] = useState("");
   const [isTag, setIsTag]: any = useState([]);
   const [inputValue, setInputValue] = useState({
-    title: "",
+    title: `${data.data.post.title}`,
     price: "",
     description: "",
   });
@@ -110,7 +111,7 @@ export default function PostingEdit() {
                   id="title"
                   name="title"
                   type="text"
-                  value={beforeTitle}
+                  // value={inputValue.title}
                   onChange={handleInputValue("title")}
                   /* autoComplete="email" */ required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -125,7 +126,7 @@ export default function PostingEdit() {
                   id="price"
                   name="price"
                   type="number"
-                  value={beforePrice}
+                  // value={inputValue.title}
                   onChange={handleInputValue("price")}
                   /* autoComplete="current-password" */ required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -134,12 +135,7 @@ export default function PostingEdit() {
               </div>
             </div>
             <div className="text-left">
-              <input
-                type="file"
-                alt=""
-                multiple
-                onChange={() => handlePreview(post_id)}
-              />
+              <input type="file" alt="" multiple onChange={handlePreview} />
               <div className="flex">
                 {preview1 && (
                   <img
@@ -171,7 +167,7 @@ export default function PostingEdit() {
               <textarea
                 id="description"
                 name="description"
-                value={beforeDescription}
+                // value={inputValue.description}
                 onChange={handleInputValue("description")}
                 /* autoComplete="current-password" */ required
                 className="appearance-none relative block w-full px-3 py-20 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -218,7 +214,7 @@ export default function PostingEdit() {
               )}
             <button
               type="button"
-              onClick={handlePosting}
+              onClick={() => handlePosting(post_id)}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">

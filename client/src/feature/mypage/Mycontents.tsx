@@ -3,49 +3,7 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "app/hooks";
 import { useMypageMutation, useDeletePostMutation } from "services/api";
 import { useState } from "react";
-const products = [
-  {
-    id: 1,
-    name: "Earthen Bottle",
-    href: "#",
-    price: "$48",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg",
-    imageAlt:
-      "Tall slender porcelain bottle with natural clay textured body and cork stopper.",
-  },
-  {
-    id: 2,
-    name: "Nomad Tumbler",
-    href: "#",
-    price: "$35",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg",
-    imageAlt:
-      "Olive drab green insulated bottle with flared screw lid and flat top.",
-  },
-  {
-    id: 3,
-    name: "Focus Paper Refill",
-    href: "#",
-    price: "$89",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg",
-    imageAlt:
-      "Person using a pen to cross a task off a productivity paper card.",
-  },
-  {
-    id: 4,
-    name: "Machined Mechanical Pencil",
-    href: "#",
-    price: "$35",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg",
-    imageAlt:
-      "Hand holding black machined steel mechanical pencil with brass tip and top.",
-  },
-  // More products...
-];
+import imagePlaceHolder from "../../images/image_placeholder.svg";
 
 export default function Mycontents() {
   const [deletePost, { data, isLoading, isSuccess }] = useDeletePostMutation();
@@ -83,6 +41,7 @@ export default function Mycontents() {
     }
   };
   // console.log(myposts);
+  console.log(myposts);
   return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -94,9 +53,13 @@ export default function Mycontents() {
               <a key={mypost.id} href={mypost.href} className="group">
                 <div className="w-full h-80 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg xl:aspect-w-7 xl:aspect-h-8">
                   <img
-                    src={`http://localhost:4000${mypost.photo1}`}
+                    src={
+                      mypost.photo1 !== "emty"
+                        ? `${process.env.REACT_APP_SERVER_URL}${mypost.photo1}`
+                        : imagePlaceHolder
+                    }
                     alt="my-posting"
-                    className="w-full h-full object-center object-cover group-hover:opacity-75"
+                    className="w-full h-full object-center object-contain group-hover:opacity-75"
                   />
                   <Menu>
                     <Menu.Button>

@@ -32,7 +32,7 @@ export default function PostSearch() {
                   >
                     <div className="w-full relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
                       <img
-                        src={`http://localhost:4000${post.photo1}`}
+                        src={`${process.env.REACT_APP_SERVER_URL}${post.photo1}`}
                         alt={post.photo1}
                         className="w-full h-full object-center object-cover group-hover:opacity-75"
                       />
@@ -66,7 +66,7 @@ export default function PostSearch() {
                   >
                     <div className="w-full relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
                       <img
-                        src={`http://localhost:4000${post.photo1}`}
+                        src={`${process.env.REACT_APP_SERVER_URL}${post.photo1}`}
                         alt={post.photo1}
                         className="w-full h-full object-center object-cover group-hover:opacity-75"
                       />

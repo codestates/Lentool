@@ -24,6 +24,8 @@ import SearchTag from "feature/navbar/SearchTag";
 import PostSearch from "feature/post/PostSearch";
 import TitleSearch from "feature/post/TitleSearch";
 import PostingEdit from "feature/post/posttingEdit";
+import Footer from "feature/footer/Footer";
+import Loading from "feature/indicator/Loading";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -38,6 +40,7 @@ function App() {
     const a: any = localStorage.getItem("user");
     const b: any = localStorage.getItem("posts");
     const c: any = localStorage.getItem("persist:root");
+
     // console.log(JSON.parse(c))
     if (a) {
       dispatch(setCredentials(JSON.parse(a)));
@@ -52,59 +55,67 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Navbar />
-      <Switch>
-        <Route exact path="/">
-          {!isLogin ? <Main /> : <PostLogin />}
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/mypage">
-          <Mypage />
-        </Route>
-        <Route path="/posting">
-          <Posting />
-        </Route>
-        <Route path="/signup">
-          <Signup />
-        </Route>
-        <Route path="/room">
-          <Room />
-        </Route>
-        <Route path="/chatting">
-          <Chatting />
-        </Route>
-        <Route path="/post/:post_id">
-          <Post />
-        </Route>
-        <Route path="/carousel">
-          <Carousel />
-        </Route>
-        <Route path="/search/:search_id">
-          <TitleSearch />
-        </Route>
-        <Route path="/search">
-          <PostSearch />
-        </Route>
-        <Route path="/postingEdit">
-          <PostingEdit />
-        </Route>
-      </Switch>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={1520}
-        // 시간
-        hideProgressBar
-        //시간 작대기 숨기기
-        closeOnClick
-        //클릭하면 닫기
-        draggable
-        //끌기 가능
-        pauseOnHover
-        //마우스 올리면 멈추기
-      />
+    <div className="App flex flex-col h-screen">
+      <div className="z-10">
+        <Navbar />
+      </div>
+      {/* <Loading /> */}
+      <div className="flex-grow">
+        <Switch>
+          <Route exact path="/">
+            {!isLogin ? <Main /> : <PostLogin />}
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/mypage">
+            <Mypage />
+          </Route>
+          <Route path="/posting">
+            <Posting />
+          </Route>
+          <Route path="/signup">
+            <Signup />
+          </Route>
+          <Route path="/room">
+            <Room />
+          </Route>
+          <Route path="/chatting">
+            <Chatting />
+          </Route>
+          <Route path="/post/:post_id">
+            <Post />
+          </Route>
+          <Route path="/carousel">
+            <Carousel />
+          </Route>
+          <Route path="/search/:search_id">
+            <TitleSearch />
+          </Route>
+          <Route path="/search">
+            <PostSearch />
+          </Route>
+          <Route path="/postingEdit">
+            <PostingEdit />
+          </Route>
+        </Switch>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={1520}
+          // 시간
+          hideProgressBar
+          //시간 작대기 숨기기
+          closeOnClick
+          //클릭하면 닫기
+          draggable
+          //끌기 가능
+          pauseOnHover
+          //마우스 올리면 멈추기
+        />
+      </div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 }
