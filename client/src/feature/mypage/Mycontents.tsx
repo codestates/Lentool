@@ -46,7 +46,6 @@ const products = [
 
 export default function Mycontents() {
   const myposts: any = useAppSelector((state) => state.myinfo.post);
-
   return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -58,7 +57,7 @@ export default function Mycontents() {
               <a key={mypost.id} href={mypost.href} className="group">
                 <div className="w-full h-80 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
                   <img
-                    src={`http://localhost:4000${mypost.photo1}`}
+                    src={`http://localhost:80${mypost.photo1}`}
                     alt="my-posting"
                     className="w-full h-full object-center object-cover group-hover:opacity-75"
                   />

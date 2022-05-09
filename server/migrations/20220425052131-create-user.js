@@ -30,6 +30,7 @@ module.exports = {
       },
       user_photo: {
         type: Sequelize.STRING,
+        defaultValue: "empty",
       },
       latitude: {
         type: Sequelize.STRING,

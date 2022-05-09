@@ -4,6 +4,7 @@ const { post: postModel } = require("../../models");
 const { user_room: user_roomModel } = require("../../models");
 const { generateAccessToken, isAuthorized } = require("../tokenFunctions");
 const crypto = require("crypto");
+const fs = require("fs");
 
 module.exports = {
   mypage: async (req, res) => {
@@ -37,7 +38,7 @@ module.exports = {
     Promise.all([
       postModel.destroy({ where: { user_id: delId } }),
       chatModel.destroy({ where: { user_id: delId } }),
-      user_roomModel.destroy({ where: { user_id: delId } }),
+      user_roomModel.destroy({ where: { user_id1: delId } }),
       userModel.destroy({
         where: { id: delId },
       }),
@@ -142,20 +143,32 @@ module.exports = {
         });
     }
   },
-  editdp: (req, res) => {
+  editdp: async (req, res) => {
     const userInfo = isAuthorized(req);
-    console.log(req.files);
 
-    console.log(userInfo);
     if (!userInfo) {
       return res.status(400).json({ message: "유효하지 않은 토큰" });
     }
-    const imgPath = `/userimage/${req.files[0].filename}`;
-    console.log(imgPath);
-    if (!imgPath) {
+
+    if (!req.files[0]) {
       return res.status(400).json({ message: "입력값 없음" });
     }
+    const imgPath = `/userimage/${req.files[0].filename}`;
+    const lastimg = await userModel.findOne({
+      attributes: ["user_photo"],
+      where: { id: userInfo.id },
+    });
+
     if (imgPath) {
+      if (lastimg.dataValues.user_photo !== "empty") {
+        const deleteimg = lastimg.dataValues.user_photo.slice(11);
+        try {
+          fs.unlinkSync("./userimg/" + deleteimg);
+          console.log("img deleted");
+        } catch (err) {
+          console.log(err, "img delete err");
+        }
+      }
       userModel
         .update({ user_photo: imgPath }, { where: { id: userInfo.id } })
         .then(([result]) => {

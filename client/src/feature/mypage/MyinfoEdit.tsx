@@ -1,4 +1,5 @@
 import { setIsMyinfoEditModal } from "feature/modal/modalMyinfoEditSlice";
+import { getMyinfo } from "feature/mypage/myinfoSlice";
 import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -7,6 +8,7 @@ import {
   useEditMutation,
   useChecknicknameMutation,
   MyinfoEditRequest,
+  useMypageMutation,
 } from "services/api";
 import type { NicknameRequest } from "services/api";
 import DaumPostCode from "react-daum-postcode";
@@ -19,6 +21,7 @@ function MyinfoEdit() {
   const myinfo = useAppSelector((state) => state.myinfo.user);
   //api로 보내는 트리거들
   const [checknickname, {}] = useChecknicknameMutation();
+  const [mypage] = useMypageMutation();
   const [edit, { data, isLoading, isSuccess }] = useEditMutation();
   // api로 보낼 데이터 상태들 정리
   const [editValue, setEditValue] = useState<MyinfoEditRequest>({
@@ -152,17 +155,21 @@ function MyinfoEdit() {
 
   const handleSubmit = async () => {
     try {
-      console.log(editValue);
+      // console.log(editValue);
       const user = await edit(editValue).unwrap();
       dispatch(setIsMyinfoEditModal());
-
-      // dispatch(setCredentials(user));
+      handleGetInfo();
       toast.success("성공적으로 회원정보 수정완료");
 
-      console.log(user);
+      // console.log(user, "결과");
     } catch (err) {
       console.log("error", err);
     }
+  };
+  const handleGetInfo = async () => {
+    const user = await mypage().unwrap();
+    dispatch(getMyinfo(user));
+    // push("/mypage");
   };
   const handleOutClick = (e: any) => {
     e.preventDefault();
@@ -171,7 +178,7 @@ function MyinfoEdit() {
 
   return (
     <div
-      className="h-screen w-full absolute bg-black bg-opacity-70 text-center"
+      className="h-screen w-full z-50 absolute bg-black bg-opacity-70 text-center"
       ref={outSelect}
       onClick={handleOutClick}
     >
@@ -195,7 +202,6 @@ function MyinfoEdit() {
               </h2>
             </div>
             <form className="mt-8 space-y-6">
-              <input type="hidden" name="remember" value="true" />
               <div className="rounded-md shadow-sm -space-y-px text-left ">
                 <div className="mb-3">
                   <div>

@@ -1,25 +1,49 @@
-import { useState } from "react";
+import { ReactChild, ReactFragment, ReactPortal, useState } from "react";
 import { useToolsMutation } from "services/api";
 import { Link, useHistory } from "react-router-dom";
-import { getPosts } from "feature/post/postSlice";
 import { useAppSelector } from "app/hooks";
-
+const src = [
+  ["망치", 'hammer'],
+  ["렌치", 'wrench'],
+  ["몽키스패너", 'monkey_spanne'],
+  ["육각렌치", 'hexagon_wrench'],
+  ["줄자", 'tape_measure'],
+  ["니퍼", 'nipper'],
+  ["소", 'saw'],
+  ["플라이어", 'pliers'],
+  ["쇼벨", 'shovel'],
+  ["솔더링", 'soldering_iron'],
+  ["롱노즈", 'long_nose'],
+  ["기타", 'etc'],
+]
 export default function Posting() {
   const { push } = useHistory();
   const post = useAppSelector(
     (state) => state.persistedReducer.posts.posts.posts
   );
+  console.log(post)
   const [photo, setPhoto] = useState([]);
   const [preview1, setPreview1] = useState("");
   const [preview2, setPreview2] = useState("");
   const [preview3, setPreview3] = useState("");
+  const [isTag, setIsTag]:any = useState([]);
   const [inputValue, setInputValue] = useState({
     title: "",
     price: "",
     description: "",
   });
   const [tools] = useToolsMutation();
-  // const { data } = usePostidQuery(2)
+  /* Tag 추가 */
+  const handleTag = (e: any) => {
+    setIsTag([...isTag, e])
+  }
+  /* Tag 삭제 */
+  const handleRemoveTag = (e: any) => {
+    const remove = isTag.filter((el: any) => {
+      return el !== e
+    })
+    setIsTag(remove)
+  }
   /* input 상태값 저장 */
   const handleInputValue =
     (key: string) => (e: { target: { value: string } }) => {
@@ -27,11 +51,6 @@ export default function Posting() {
     };
   /* 프리뷰 이미지 생성 및 사진 상태 저장 */
   const handlePreview = (e: any) => {
-    // const p: any = [];
-    // for (let i = 0; i < e.target.files.length; i++) {
-    //   p.push(e.target.files[i]);
-    // }
-    // setPhoto(p);
     setPhoto(e.target.files);
 
     if (e.target.files[0]) setPreview1(URL.createObjectURL(e.target.files[0]));
@@ -45,12 +64,13 @@ export default function Posting() {
     formdata.append("title", inputValue.title);
     formdata.append("price", inputValue.price);
     formdata.append("description", inputValue.description);
+    formdata.append("tag", isTag[0][1])
     for (let i = 0; i < photo.length; i++) {
       formdata.append("photo", photo[i]);
     }
     await tools(formdata).unwrap();
 
-    push(`/post/${post.length - 1}`);
+    push('/');
   };
 
   return (
@@ -59,7 +79,7 @@ export default function Posting() {
         <div className="w-full space-y-4">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              로그인
+              공유하기 🛠
             </h2>
           </div>
           <form className="mt-8 space-y-6">
@@ -133,6 +153,29 @@ export default function Posting() {
                 placeholder="ex. 크기, 상태 등"
               />
             </div>
+            {
+              src.map(el => {
+                return (
+                  <button onClick={() => handleTag(el)} type="button"
+                  className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-gray-600 bg-gray-200 uppercase last:mr-0 mr-1">
+                    {el[0]}
+                  </button>
+                )
+              })
+            }
+            {
+              isTag && isTag.map((el: (boolean | ReactChild | ReactFragment | ReactPortal | null | undefined)[]) => {
+                return (
+                  <>
+                    <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-indigo-600 bg-indigo-200 uppercase last:mr-0 mr-1">
+                      {el[0]}
+                    </span>
+                    <button onClick={() => handleRemoveTag(el)} className='text-gray-500 pr-1'>&times;</button>
+                  </>
+                )
+              })
+              
+            }
             <button
               type="button"
               onClick={handlePosting}
