@@ -67,7 +67,10 @@ module.exports = {
               .status(500)
               .json({ data: null, message: "데이터 저장 실패" });
           }
-          return res.status(200).json({ data: null, message: "ok" });
+          return res.status(200).json({
+            data: { post: { id: created.dataValues.id } },
+            message: "ok",
+          });
         });
     } catch (err) {
       return res.status(500).json({ data: err, message: "server error" });
@@ -193,7 +196,8 @@ module.exports = {
       const updatedata = { title, description, price, tag, islend };
 
       const result = await postModel.update(updatedata, { where: { id } });
-      return res.status(200).json({ data: null, message: "ok" });
+      const senddata = await postModel.findOne({ where: { id } });
+      return res.status(200).json({ data: { post: senddata }, message: "ok" });
     } catch (err) {
       return res.status(500).json({ data: err, message: "server error" });
     }
