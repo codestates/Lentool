@@ -8,7 +8,7 @@ export default function Trialifno () {
 
   return (
     <div className="flex">
-      { trialInfo.trial.data.posts === [] ? trialInfo.trial.data.posts.map((trial: any) => {
+      { trialInfo.trial === [] ? trialInfo.trial.data.posts.map((trial: any) => {
         return (
           <div className="flex-1 border-2">
             <div className="w-full h-50 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
