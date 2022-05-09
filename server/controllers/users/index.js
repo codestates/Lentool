@@ -190,11 +190,11 @@ module.exports = {
     const userInfo = isAuthorized(req);
 
     try {
-      if (!userInfo) {
-        return res
-          .status(400)
-          .json({ data: null, message: "로그인되지 않은 사용자 입니다" });
-      }
+      // if (!userInfo) {
+      //   return res
+      //     .status(400)
+      //     .json({ data: null, message: "로그인되지 않은 사용자 입니다" });
+      // }
       return res.status(200).json({ data: null, message: "ok" });
     } catch (err) {
       console.log("로그아웃서버에러");
