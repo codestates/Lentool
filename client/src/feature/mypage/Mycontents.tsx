@@ -1,4 +1,5 @@
 import { Menu } from "@headlessui/react";
+import { Link } from "react-router-dom";
 import { useAppSelector } from "app/hooks";
 import { useMypageMutation, useDeletePostMutation } from "services/api";
 import { useState } from "react";
@@ -63,6 +64,12 @@ export default function Mycontents() {
     });
     setIsContents(remove);
   };
+  const handleEditPost = async (e: any) => {
+    try {
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
   const handleDeletePost = async (e: any) => {
     try {
       // console.log(myposts);
@@ -105,16 +112,25 @@ export default function Mycontents() {
                       <div className="px-1 py-1 ">
                         <Menu.Item>
                           {({ active }) => (
-                            <button
-                              // onClick={handleEditPost}
-                              className={`${
-                                active
-                                  ? "bg-blue-500 text-white "
-                                  : "text-gray-900"
-                              } justify-center group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            // react-dom5버젼용, 6버젼이면 안먹음.
+                            <Link
+                              to={{
+                                pathname: "/postingEdit",
+                                state: {
+                                  data: mypost,
+                                },
+                              }}
                             >
-                              수정하기
-                            </button>
+                              <button
+                                className={`${
+                                  active
+                                    ? "bg-blue-500 text-white "
+                                    : "text-gray-900"
+                                } justify-center group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                              >
+                                수정하기
+                              </button>
+                            </Link>
                           )}
                         </Menu.Item>
                       </div>

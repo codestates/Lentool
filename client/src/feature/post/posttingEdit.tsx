@@ -1,6 +1,10 @@
 import { ReactChild, ReactFragment, ReactPortal, useState } from "react";
-import { useToolsMutation, usePostidQuery } from "services/api";
-import { Link, useHistory, useParams } from "react-router-dom";
+import {
+  usePostidQuery,
+  useToolsEditMutation,
+  useToolsMutation,
+} from "services/api";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useAppSelector } from "app/hooks";
 const src = [
   ["망치", "hammer"],
@@ -17,13 +21,23 @@ const src = [
   ["기타", "etc"],
 ];
 export default function PostingEdit() {
-  let { post_id }: any = useParams();
+  const location: any = useLocation();
   const { push } = useHistory();
+
+  const post_id = location.state.data.id;
+  //   console.log(post_id);
   const { data, isLoading, error } = usePostidQuery(post_id);
-  const post = useAppSelector(
-    (state) => state.persistedReducer.posts.posts.posts
-  );
-  console.log(post);
+  //   console.log(data);
+  const beforeTitle = data.data.post.title;
+  const beforePrice = data.data.post.price;
+  const beforeDescription = data.data.post.description;
+  const beforeTag = console.log(data.data.post.tag);
+
+  //   console.log(location.state.data.price);
+  //   const post = useAppSelector(
+  //     (state) => state.persistedReducer.posts.posts.posts
+  //   );
+  //   console.log(post);
   const [photo, setPhoto] = useState([]);
   const [preview1, setPreview1] = useState("");
   const [preview2, setPreview2] = useState("");
@@ -35,6 +49,7 @@ export default function PostingEdit() {
     description: "",
   });
   const [tools] = useToolsMutation();
+  const [toolsEdit] = useToolsEditMutation();
   /* Tag 추가 */
   const handleTag = (e: any) => {
     setIsTag([...isTag, e]);
@@ -61,7 +76,7 @@ export default function PostingEdit() {
   };
 
   /* 포스팅 완료 버튼 */
-  const handlePosting = async () => {
+  const handlePosting = async (e: any) => {
     const formdata: any = new FormData();
     formdata.append("title", inputValue.title);
     formdata.append("price", inputValue.price);
@@ -70,7 +85,7 @@ export default function PostingEdit() {
     for (let i = 0; i < photo.length; i++) {
       formdata.append("photo", photo[i]);
     }
-    await tools(formdata).unwrap();
+    await toolsEdit([e, formdata]).unwrap();
 
     push("/");
   };
@@ -81,7 +96,7 @@ export default function PostingEdit() {
         <div className="w-full space-y-4">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              공유하기 수정🛠
+              포스트 수정하기 🛠
             </h2>
           </div>
           <form className="mt-8 space-y-6">
@@ -95,7 +110,7 @@ export default function PostingEdit() {
                   id="title"
                   name="title"
                   type="text"
-                  value={data.data.post.title}
+                  value={beforeTitle}
                   onChange={handleInputValue("title")}
                   /* autoComplete="email" */ required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -110,7 +125,7 @@ export default function PostingEdit() {
                   id="price"
                   name="price"
                   type="number"
-                  value={data.data.post.price}
+                  value={beforePrice}
                   onChange={handleInputValue("price")}
                   /* autoComplete="current-password" */ required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -119,7 +134,12 @@ export default function PostingEdit() {
               </div>
             </div>
             <div className="text-left">
-              <input type="file" alt="" multiple onChange={handlePreview} />
+              <input
+                type="file"
+                alt=""
+                multiple
+                onChange={() => handlePreview(post_id)}
+              />
               <div className="flex">
                 {preview1 && (
                   <img
@@ -151,7 +171,7 @@ export default function PostingEdit() {
               <textarea
                 id="description"
                 name="description"
-                value={data.data.post.description}
+                value={beforeDescription}
                 onChange={handleInputValue("description")}
                 /* autoComplete="current-password" */ required
                 className="appearance-none relative block w-full px-3 py-20 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"

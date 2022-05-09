@@ -92,6 +92,7 @@ export interface MyinfoEditResponse {
 export interface EditDpResponse {
   message: string;
 }
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000/",
@@ -241,6 +242,14 @@ export const api = createApi({
         method: "DELETE",
       }),
     }),
+    toolsEdit: builder.mutation<any, any>({
+      query: (array) => ({
+        url: `tools/edit/${array[0]}`,
+        credentials: "include", // true
+        method: "PATCH",
+        body: array[1],
+      }),
+    }),
   }),
 });
 
@@ -264,4 +273,5 @@ export const {
   useSearchMutation,
   useDeletePostMutation,
   useSearchByTagMutation,
+  useToolsEditMutation,
 } = api;
