@@ -19,7 +19,6 @@ export default function Chatting() {
   let location = useLocation();
   const roomdata: any = location.state;
   const [createroom, { isLoading }] = useCreateroomMutation();
-  console.log(isLoading);
 
   const serchchat = async () => {
     const user = await createroom({
@@ -63,12 +62,19 @@ export default function Chatting() {
       <h1 className="text-xl">{roomdata.title}</h1>
       <div className="flex py-4">
         <div className="flex flex-1 text-left">
-          <img
-            src="https://www.seekpng.com/png/detail/966-9665317_placeholder-image-person-jpg.png"
-            alt="user_profile"
-            className="w-12 h-12 rounded-full mx-4"
-          />
-          <span className="my-auto">유저 닉네임</span>
+          {roomdata.photo !== "empty" ? (
+            <img
+              src={`${process.env.REACT_APP_SERVER_URL}${roomdata.photo}`}
+              alt="user_profile"
+            />
+          ) : (
+            <img
+              src="https://www.seekpng.com/png/detail/966-9665317_placeholder-image-person-jpg.png"
+              alt="user_profile"
+              className="w-12 h-12 rounded-full"
+            />
+          )}
+          <span className="my-auto">{roomdata.nickname}</span>
           {/* <div>{roomdata.user_id2}</div> */}
         </div>
         <div>
