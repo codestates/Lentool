@@ -45,6 +45,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
+      kakao_id: {
+        type: Sequelize.STRING,
+        defaultValue: null,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
