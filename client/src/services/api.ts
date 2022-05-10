@@ -107,6 +107,7 @@ export const api = createApi({
       return headers;
     },
   }),
+  refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: (credentials: any) => ({
@@ -236,6 +237,7 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+
     deletePost: builder.mutation<any, any>({
       query: (params: any) => ({
         url: `tools/${params}`,
@@ -249,6 +251,13 @@ export const api = createApi({
         credentials: "include", // true
         method: "PATCH",
         body: array[1],
+      }),
+    }),
+    oauthLogin: builder.mutation<any, any>({
+      query: (code: any) => ({
+        url: `users/oauth?code=${code}`,
+        credentials: "include",
+        method: "GET",
       }),
     }),
   }),
@@ -275,4 +284,5 @@ export const {
   useDeletePostMutation,
   useSearchByTagMutation,
   useToolsEditMutation,
+  useOauthLoginMutation,
 } = api;

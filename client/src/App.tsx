@@ -26,6 +26,7 @@ import TitleSearch from "feature/post/TitleSearch";
 import PostingEdit from "feature/post/posttingEdit";
 import Footer from "feature/footer/Footer";
 import Loading from "feature/indicator/Loading";
+import KakaoLogin from "feature/login/kakaoLogin";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -95,8 +96,12 @@ function App() {
           <Route path="/search">
             <PostSearch />
           </Route>
+
           <Route path="/postingEdit">
             <PostingEdit />
+          </Route>
+          <Route path="/oauth/callback/kakao">
+            <KakaoLogin />
           </Route>
         </Switch>
         <ToastContainer

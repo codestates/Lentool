@@ -25,9 +25,9 @@ const src = [
 ];
 export default function Posting() {
   const { push } = useHistory();
-  const post = useAppSelector(
-    (state) => state.persistedReducer.posts.posts.posts
-  );
+  // const post = useAppSelector(
+  //   (state) => state.persistedReducer.posts.posts.posts
+  // );
   const [photo, setPhoto] = useState([]);
   const [preview1, setPreview1] = useState("");
   const [preview2, setPreview2] = useState("");
@@ -43,9 +43,7 @@ export default function Posting() {
 
   /* Tag 추가 */
   const handleTag = (e: any) => {
-    const tagValue = [];
-    tagValue.push(e[0]);
-    setIsTag(tagValue);
+    setIsTag(e);
   };
   /* Tag 삭제 */
   const handleRemoveTag = (e: any) => {
@@ -72,12 +70,13 @@ export default function Posting() {
     formdata.append("title", inputValue.title);
     formdata.append("price", inputValue.price);
     formdata.append("description", inputValue.description);
-    formdata.append("tag", isTag[0][1]);
+    formdata.append("tag", isTag[1]);
     for (let i = 0; i < photo.length; i++) {
       formdata.append("photo", photo[i]);
     }
     const getPostId = await tools(formdata).unwrap();
-    push("/");
+
+    push(`/post/${getPostId.data.post.id}`);
   };
 
   return (
@@ -179,7 +178,6 @@ export default function Posting() {
                 />
               </div>
             </div>
-
             <div className="rounded-md -space-y-px text-left">
               <label htmlFor="tag" className="text-sm text-gray-700">
                 태그

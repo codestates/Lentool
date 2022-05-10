@@ -1,9 +1,16 @@
+import { MouseEventHandler } from 'react'
 import image from '../../images/undraw_deliveries_2r4y.svg'
 
-export default function Intro1 () {
+export default function Intro1 ({ trialRef }:any) {
+
+  const onTrialClick = () => {
+    console.log(window.onwheel)
+    console.log('버튼눌림')
+    trialRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
   return (
     <div className="flex">
-      <div className='flex-1 my-auto'>
+      <div className='flex-1 -mt-32'>
         <p className="text-zinc-700 font-semibold	text-5xl text-left leading-snug">
           안 쓰는 공구,<br />
           창고 안 공구들,<br />
@@ -14,9 +21,12 @@ export default function Intro1 () {
           한번 쓰기에 사기 비싼 공구들<br />
           LENTOOL에서 대여를 통해 사용해 보세요!
         </p>
-        <button className="border-2 bg-slate-700 py-3 px-10 rounded-lg text-gray-300 mt-5">체험하기</button>
+        <button className="bg-slate-700 py-3 px-10 scroll-smooth rounded-lg text-gray-300 mt-5 hover:bg-slate-500"
+                onClick={onTrialClick}>
+          체험하기
+        </button>
       </div>
-      <div className="flex-1">
+      <div className="flex-2">
         <img src={image} alt='services'/>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { setIsModal } from "feature/modal/modalSlice";
 import { useRef, useState } from "react"
 import { useSearchMutation } from "services/api";
 import { getSearch } from "./searchSlice";
@@ -6,16 +7,17 @@ import SearchTag from "./SearchTag";
 
 export default function Searchbar () {
   const dispatch = useAppDispatch()
-  const outSelect = useRef()
   const [inputValue, setInputValue] = useState('')
   const isLogin = useAppSelector((state) => state.login.isLogin)
+
   const [result] = useSearchMutation();
-  const handleSearch = (e: any) => {
-    setInputValue(e.target.value)
-  }
-  const handleSearchDisabled = () => {
-    alert('로그인하세요')
-  }
+  // const handleSearch = (e: any) => {
+  //   setInputValue(e.target.value)
+  // }
+  const handleSearchDisabled = (e:any) => {
+    e.preventDefault();
+    dispatch(setIsModal());  
+  };
   const searchPost = async () => {
     console.log('clicked')
     const title = await result(inputValue)
@@ -26,7 +28,6 @@ export default function Searchbar () {
   return (
     <div className="my-auto mx-4">
     { isLogin ?
-      // <div className="relative grow text-gray-600">
       <SearchTag />
       :
       <div className="relative text-gray-600 w-80">

@@ -65,7 +65,10 @@ export default function Carousel() {
       <div className="relative ">
         {/* <!-- Carousel wrapper --> */}
         <div className="overflow-hidden">
-          <div className="flex z-10" ref={slideRef}>
+          <div
+            className="flex  items-center justify-center z-10"
+            ref={slideRef}
+          >
             {data.data.post && (
               <div id="carousel">
                 <img
