@@ -2,6 +2,7 @@ import { Route, Switch, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCreateroomMutation } from "services/api";
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { removeEmitHelper } from "typescript";
 
 export default function Room() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,8 @@ export default function Room() {
                     post_id: room.post_id,
                     title: room.title,
                     islend: room.islend,
+                    nickname: room.nickname,
+                    photo: room.user_photo,
                   },
                 }}
               >
@@ -34,7 +37,7 @@ export default function Room() {
                   className="flex border-b-2 py-4 px-4 last:border-b"
                 >
                   <div>
-                    {!room.user_photo ? (
+                    {room.user_photo !== "empty" ? (
                       <img
                         src={`${process.env.REACT_APP_SERVER_URL}${room.user_photo}`}
                         alt="user_profile"
@@ -48,7 +51,7 @@ export default function Room() {
                     )}
                   </div>
                   <div className="text-left px-4">
-                    <span className="pr-2">유저명</span>
+                    <span className="pr-2">{room.nickname}</span>
                     <span className="text-sm text-gray-700">
                       {room.address}
                     </span>
