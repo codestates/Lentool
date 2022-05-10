@@ -3,29 +3,35 @@ import { setLogin } from "./loginSlice";
 import { setIsModal } from "../modal/modalSlice";
 import { getPosts } from "feature/post/postSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
-import { useOauthLoginMutation } from "../../services/api";
+import { useOauthLoginMutation, useOauthQuery } from "../../services/api";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 export default function KakaoLogin() {
   const url = new URL(window.location.href);
   const authorizationCode = url.searchParams.get("code");
   const dispatch = useAppDispatch();
 
-  const [oauthLogin, { data, isLoading, isSuccess }] = useOauthLoginMutation();
+  // const [oauthLogin, { data, isLoading, isSuccess }] = useOauthLoginMutation();
+  const { data, isLoading, isSuccess } = useOauthQuery(authorizationCode)
+  if (isSuccess) {
+    dispatch(setCredentials(data));
+  }
+  const [userUpdate, setUserUpdate] = useState({})
+  const handle = () => {
+    setUserUpdate({
+      latitude: 37.333333,
+      longitude: 37.333333,
+      nickname:'koko',
+      user_address:'제주특별시'
+    })
+  }
+  // console.log(data.data.userInfo)
+  console.log(userUpdate)
 
-  const handleLogin = async () => {
-    const user = await oauthLogin(authorizationCode).unwrap();
-    console.log(user);
-    if (user.message === "ok") {
-      console.log("로그인 완료 프로세스");
-    } else if (user.message === "회원가입 필요") {
-      console.log("추가 정보 입력 창");
-    }
-  };
-
-  useEffect(() => {
-    handleLogin();
-  }, []);
-  return <div>hello</div>;
+  return (
+  <div>
+    <button onClick={handle}>바꿔줌</button>
+  </div>
+  )
 }

@@ -411,5 +411,54 @@ module.exports = {
       return res.status(500).json({ data: err, message: "server error" });
     }
   },
-  oauthsignup: () => {},
+  oauthsignup: async (req, res) => {
+    const userInfo = isAuthorized(req);
+    if (!userInfo) {
+      return res
+        .status(400)
+        .json({ data: null, message: "유효하지 않은 토큰" });
+    }
+    if (!userInfo.kakao_id) {
+      return res
+        .status(400)
+        .json({ data: null, message: "유효하지 않은 토큰" });
+    }
+    if (
+      !req.body.nickname ||
+      !req.body.user_address ||
+      !req.body.latitude ||
+      !req.body.longitude
+    ) {
+      return res.status(400).json({ data: null, message: "필수 정보 누락" });
+    }
+    try {
+      const updateData = {
+        nickname: req.body.nickname,
+        user_address: req.body.user_address,
+        latitude: req.body.latitude,
+        longitude: req.body.longitude,
+      };
+      console.log(userInfo);
+      const newuser = await userModel.update(updateData, {
+        where: { kakao_id: userInfo.kakao_id },
+      });
+      const newUserInfo = await userModel.findOne({
+        where: { kakao_id: userInfo.kakao_id },
+      });
+      delete newUserInfo.dataValues.password;
+      delete newUserInfo.dataValues.salt;
+      delete newUserInfo.dataValues.email;
+
+      const accessToken = generateAccessToken(newUserInfo.dataValues);
+      if (accessToken) {
+        return res.status(200).json({
+          message: "ok",
+          data: { accessToken, userInfo: newUserInfo.dataValues },
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ data: err, message: "server error" });
+    }
+  },
 };

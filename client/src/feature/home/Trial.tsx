@@ -12,7 +12,7 @@ declare global {
 
 export default function Test() {
   const dispatch = useAppDispatch();
-  const [trial] = useTrialMutation();
+  const [trial, {isLoading}] = useTrialMutation();
 
   useEffect(() => {
     var mapContainer = document.getElementById("map"), // 지도를 표시할 div
@@ -100,8 +100,15 @@ export default function Test() {
           className="rounded-xl mx-8 flex-1"
           style={{ width: "35rem", margin: "4rem" }}
         />
-        <div className="my-auto mx-8 flex-1">{/* <Trialifno /> */}</div>
-      </div>
+
+        <div className="my-auto mx-8 flex-1">
+          {/* {
+            !isLoading &&
+            <Trialifno />
+          } */}
+        </div>
+      </div>      
+
     </div>
   );
 }

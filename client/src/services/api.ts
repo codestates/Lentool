@@ -260,6 +260,9 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+    oauth: builder.query<any, any>({
+      query: (code) => `users/oauth?code=${code}`,
+    }),
   }),
 });
 
@@ -285,4 +288,5 @@ export const {
   useSearchByTagMutation,
   useToolsEditMutation,
   useOauthLoginMutation,
+  useOauthQuery,
 } = api;
