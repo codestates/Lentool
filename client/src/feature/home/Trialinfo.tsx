@@ -4,13 +4,12 @@ import notFound from "../../images/undraw_traveling_re_weve.svg";
 export default function Trialifno () {
   const trialInfo = useAppSelector(state => state.persistedReducer.trial)
   // console.log(trialInfo)
-  console.log(trialInfo.trial.data.posts)
 
   return (
     // <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
 
     <div className="grid grid-cols-2 gap-x-10 gap-y-4">
-      { trialInfo.trial.data.posts ? trialInfo.trial.data.posts.map((trial: any) => {
+      { trialInfo ? trialInfo.trial.data.posts.map((trial: any) => {
         return (
           <div className="py-2 rounded-2xl max-w-sm text-left">
             <div className="relative rounded-xl xl:aspect-w-7 xl:aspect-h-8">

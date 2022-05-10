@@ -19,9 +19,9 @@ const src = [
 ]
 export default function Posting() {
   const { push } = useHistory();
-  const post = useAppSelector(
-    (state) => state.persistedReducer.posts.posts.posts
-  );
+  // const post = useAppSelector(
+  //   (state) => state.persistedReducer.posts.posts.posts
+  // );
   const [photo, setPhoto] = useState([]);
   const [preview1, setPreview1] = useState("");
   const [preview2, setPreview2] = useState("");
@@ -37,6 +37,7 @@ export default function Posting() {
 
   /* Tag 추가 */
   const handleTag = (e: any) => {
+    console.log(e)
     const tagValue = []
     tagValue.push(e[0])
     setIsTag(tagValue)
@@ -71,7 +72,7 @@ export default function Posting() {
       formdata.append("photo", photo[i]);
     }
     const getPostId = await tools(formdata).unwrap();
-    
+
     push(`/post/${getPostId.data.post.id}`);
   };
 
