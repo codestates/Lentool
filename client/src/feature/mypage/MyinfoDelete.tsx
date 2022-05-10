@@ -1,11 +1,9 @@
 import { setIsMyinfoDeleteModal } from "feature/modal/modalMyinfoDeleteSlice";
-import * as React from "react";
-import { useState, useRef, useEffect } from "react";
+import { useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { toast } from "react-toastify";
 import { useSignoutMutation } from "services/api";
-import type { SignoutRequest } from "services/api";
 
 export default function MyinfoDelete() {
   const { push } = useHistory();
@@ -21,6 +19,7 @@ export default function MyinfoDelete() {
   };
   const handleDeleteClick = async () => {
     try {
+      console.log(myinfo);
       const user = await signout(myinfo).unwrap();
       dispatch(setIsMyinfoDeleteModal()); //바로 모달창 닫히는 기능
       toast.success("성공적으로 회원탈퇴 완료");
@@ -32,7 +31,7 @@ export default function MyinfoDelete() {
   };
   return (
     <div
-      className="h-screen w-full absolute bg-black bg-opacity-70 text-center"
+      className="h-screen w-full z-50 absolute bg-black bg-opacity-70 text-center"
       ref={outSelect}
       onClick={handleOutClick}
     >
