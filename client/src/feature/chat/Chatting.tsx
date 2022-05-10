@@ -2,23 +2,28 @@ import { useAppSelector } from "app/hooks";
 import Loading from "feature/indicator/Loading";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useCreateroomMutation } from "services/api";
+import { useCreateroomMutation, useToolsEditMutation } from "services/api";
 
 import io from "socket.io-client";
 
 const socket = io(process.env.REACT_APP_SERVER_URL);
 
 export default function Chatting() {
+  let location = useLocation();
+  const roomdata: any = location.state;
+
   const [chattings, setchattings]: any = useState([]);
   const [chat, setchat] = useState("");
   const [roomid, setroomid] = useState(null);
+  const [isLend, setIsLend] = useState(roomdata.islend);
   // const [isMe, setIsMe]:any = useState(true)
   const myUserId = useAppSelector(
     (state) => state.persistedReducer.myinfo.user.id
   );
-  let location = useLocation();
-  const roomdata: any = location.state;
+  const isowner = myUserId === roomdata.owner;
+
   const [createroom, { isLoading }] = useCreateroomMutation();
+  const [toolsEdit] = useToolsEditMutation();
 
   const serchchat = async () => {
     const user = await createroom({
@@ -52,6 +57,12 @@ export default function Chatting() {
     setchat("");
   };
 
+  const handleLend = async () => {
+    const sendData = [roomdata.post_id, { islend: !isLend }];
+    const lend = await toolsEdit(sendData).unwrap();
+    setIsLend(lend.data.post.islend);
+  };
+
   if (isLoading) return <Loading />;
 
   return (
@@ -78,9 +89,18 @@ export default function Chatting() {
           {/* <div>{roomdata.user_id2}</div> */}
         </div>
         <div>
-          <button className="bg-yellow-300 text-white text-right px-4 py-2 rounded-lg">
-            {roomdata.island ? "대여중" : "대여 시작"}
-          </button>
+          {isowner ? (
+            <button
+              onClick={handleLend}
+              className="bg-yellow-300 text-white text-right px-4 py-2 rounded-lg"
+            >
+              {isLend ? "대여중" : "대여 시작"}
+            </button>
+          ) : isLend ? (
+            <button className="bg-yellow-300 text-white text-right px-4 py-2 rounded-lg">
+              대여중
+            </button>
+          ) : null}
         </div>
       </div>
 

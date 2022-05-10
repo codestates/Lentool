@@ -29,6 +29,7 @@ export default function Room() {
                     islend: room.islend,
                     nickname: room.nickname,
                     photo: room.user_photo,
+                    owner: room.owner,
                   },
                 }}
               >

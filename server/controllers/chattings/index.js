@@ -38,7 +38,7 @@ module.exports = {
               },
               {
                 model: postModel,
-                attributes: ["address", "id", "title", "islend"],
+                attributes: ["address", "id", "title", "islend", "user_id"],
               },
             ],
           },
@@ -62,6 +62,7 @@ module.exports = {
           title: dataInfo[i].dataValues.room.post.title,
           islend: dataInfo[i].dataValues.room.post.islend,
           nickname: dataInfo[i].dataValues.user.nickname,
+          owner: dataInfo[i].dataValues.room.post.user_id,
         };
         roomdata.push(data);
       }
