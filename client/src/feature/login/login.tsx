@@ -7,11 +7,13 @@ import {
   usePostsMutation,
   useMypageMutation,
 } from "../../services/api";
+// import { useKakaoLoginMutation } from "../../services/kakaoapi";
 import { setCredentials, setNewChat } from "./authSlice";
 import { setLogin } from "./loginSlice";
 import { getPosts } from "feature/post/postSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
 import { Link } from "react-router-dom";
+import image from "../../images/kakao_login_medium_wide.png";
 
 function Login() {
   const dispatch = useAppDispatch();
@@ -22,6 +24,7 @@ function Login() {
   });
 
   const [login, { data, isLoading, isSuccess }] = useLoginMutation();
+  // const [kakaoLogin] = useKakaoLoginMutation();
   const [posts] = usePostsMutation();
   const [mypage] = useMypageMutation();
   const { id, password } = inputValue;
@@ -66,7 +69,7 @@ function Login() {
     try {
       const user = await login(inputValue).unwrap();
       dispatch(setCredentials(user));
-      dispatch(setNewChat(user.data.userInfo.newchat))
+      dispatch(setNewChat(user.data.userInfo.newchat));
       dispatch(setLogin(true));
       dispatch(setIsModal());
       const user1 = await mypage().unwrap();
@@ -81,13 +84,15 @@ function Login() {
   };
   /* 회원가입버튼 */
   const handleSignup = (e: any) => {
-    dispatch(setIsModal());  
+    dispatch(setIsModal());
   };
   /* 모달 바깥 쪽 눌렀을 때 꺼지게 하기 */
   const handleOutClick = (e: any) => {
     e.preventDefault();
     if (e.target === outSelect.current) dispatch(setIsModal());
   };
+
+  const handleKakaoLogin = async () => {};
 
   return (
     <div
@@ -190,11 +195,21 @@ function Login() {
                   Google 계정으로 계속하기
                 </button>
               </div>
+              <button
+                onClick={() =>
+                  window.open(
+                    `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_API}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`
+                  )
+                }
+              >
+                <img src={image} />
+              </button>
               <div className="text-sm">
                 <span className="mb-2 mx-2 text-xs text-gray-700">
                   아직 회원이 아니십니까?
                 </span>
-                <Link to="/signup"
+                <Link
+                  to="/signup"
                   onClick={handleSignup}
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >

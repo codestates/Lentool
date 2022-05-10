@@ -1,12 +1,12 @@
 import "./App.css";
 import { Route, Switch, useParams } from "react-router-dom";
-import Navbar from './feature/navbar/Navbar';
-import Login from './feature/login/login';
-import Mypage from './feature/mypage/Mypage';
-import Posting from 'feature/post/posting';
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { setCredentials } from 'feature/login/authSlice';
+import Navbar from "./feature/navbar/Navbar";
+import Login from "./feature/login/login";
+import Mypage from "./feature/mypage/Mypage";
+import Posting from "feature/post/posting";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { setCredentials } from "feature/login/authSlice";
 import Signup from "feature/signup/signup";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,32 +25,33 @@ import PostSearch from "feature/post/PostSearch";
 import TitleSearch from "feature/post/TitleSearch";
 import Footer from "feature/footer/Footer";
 import Loading from "feature/indicator/Loading";
+import KakaoLogin from "feature/login/kakaoLogin";
 
 function App() {
-  const dispatch = useAppDispatch()
-  const isLogin = useAppSelector(state => state.persistedReducer.login.isLogin)
+  const dispatch = useAppDispatch();
+  const isLogin = useAppSelector(
+    (state) => state.persistedReducer.login.isLogin
+  );
   // const allData = useAppSelector(state => state.persistedReducer)
 
   // console.log(isLogin)
 
-
   useEffect(() => {
-    const a:any = localStorage.getItem('user')
-    const b:any = localStorage.getItem('posts')
-    const c:any = localStorage.getItem('persist:root')
+    const a: any = localStorage.getItem("user");
+    const b: any = localStorage.getItem("posts");
+    const c: any = localStorage.getItem("persist:root");
     // console.log(JSON.parse(c))
     if (a) {
-      dispatch(setCredentials(JSON.parse(a)))
-      dispatch(setLogin(true))
+      dispatch(setCredentials(JSON.parse(a)));
+      dispatch(setLogin(true));
     }
     if (b) {
-      dispatch(getPosts(JSON.parse(b)))
+      dispatch(getPosts(JSON.parse(b)));
     }
     // if (c) {
     //   dispatch(getMyinfo(JSON.parse(c)))
     // }
-  }, [])
-
+  }, []);
 
   return (
     <div className="App flex flex-col h-screen">
@@ -60,16 +61,16 @@ function App() {
       {/* <Loading /> */}
       <div className="flex-grow">
         <Switch>
-          <Route exact path='/'>
-            { !isLogin ? <Main /> : <PostLogin /> }
+          <Route exact path="/">
+            {!isLogin ? <Main /> : <PostLogin />}
           </Route>
           <Route path="/login">
             <Login />
           </Route>
-          <Route path='/mypage'>
+          <Route path="/mypage">
             <Mypage />
           </Route>
-          <Route path='/posting'>
+          <Route path="/posting">
             <Posting />
           </Route>
           <Route path="/signup">
@@ -92,6 +93,9 @@ function App() {
           </Route>
           <Route path="/search">
             <PostSearch />
+          </Route>
+          <Route path="/oauth/callback/kakao">
+            <KakaoLogin />
           </Route>
         </Switch>
         <ToastContainer

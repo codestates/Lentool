@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { api } from "../services/api";
+import { kakaoapi } from "../services/kakaoapi";
 import authReducer from "../feature/login/authSlice";
 import modalReducer from "../feature/modal/modalSlice";
 import myinfoReducer from "../feature/mypage/myinfoSlice";
@@ -11,7 +12,7 @@ import trialReducer from "../feature/home/trialSlice";
 import roomReducer from "../feature/chat/roomSlice";
 import myinfoEditReducer from "../feature/modal/modalMyinfoEditSlice";
 import myinfoDeleteReducer from "../feature/modal/modalMyinfoDeleteSlice";
-import searchReducer from "../feature/navbar/searchSlice"
+import searchReducer from "../feature/navbar/searchSlice";
 import {
   FLUSH,
   REHYDRATE,
