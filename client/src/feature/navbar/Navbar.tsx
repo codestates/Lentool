@@ -7,7 +7,7 @@ import Searchbar from "./Searchbar";
 import Beforelogin from "./Beforelogin";
 import Afterlogin from "./Afterlogin";
 import Dropdown from "./Dropdown";
-import logo from '../../images/lentool(logo+word).png'
+import logo from "../../images/lentool(logo+word).png";
 import NewChat from "./Newchat";
 export default function Navbar() {
   const isModal = useAppSelector((state) => state.modal.isModal);
@@ -20,11 +20,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link to="/">
-              <img
-                className="h-8 w-auto sm:h-14"
-                src={logo}
-                alt=""
-              />
+              <img className="h-8 w-auto sm:h-14" src={logo} alt="" />
             </Link>
             <Searchbar />
           </div>
@@ -33,15 +29,11 @@ export default function Navbar() {
               <div className="fixed right-7 top-16">
                 <NewChat />
               </div>
-              <MenuIcon className="h-6 w-6" aria-hidden="true">
-              </MenuIcon>
+              <MenuIcon className="h-6 w-6" aria-hidden="true"></MenuIcon>
             </Menu.Button>
           </div>
-          {!isLogin ? (
-            <Beforelogin />
-            ) : (
-            <Afterlogin />
-          )}
+
+          {!isLogin ? <Beforelogin /> : <Afterlogin />}
         </div>
         <Dropdown />
       </div>

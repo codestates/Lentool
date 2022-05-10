@@ -92,9 +92,11 @@ export interface MyinfoEditResponse {
 export interface EditDpResponse {
   message: string;
 }
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_SERVER_URL,
+
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
@@ -235,12 +237,31 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+
+    deletePost: builder.mutation<any, any>({
+      query: (params: any) => ({
+        url: `tools/${params}`,
+        credentials: "include",
+        method: "DELETE",
+      }),
+    }),
+    toolsEdit: builder.mutation<any, any>({
+      query: (array) => ({
+        url: `tools/edit/${array[0]}`,
+        credentials: "include", // true
+        method: "PATCH",
+        body: array[1],
+      }),
+    }),
     oauthLogin: builder.mutation<any, any>({
       query: (code: any) => ({
         url: `users/oauth?code=${code}`,
         credentials: "include",
         method: "GET",
       }),
+    }),
+    oauth: builder.query<any, any>({
+      query: (code) => `users/oauth?code=${code}`,
     }),
   }),
 });
@@ -263,6 +284,9 @@ export const {
   useEditMutation,
   useEditdpMutation,
   useSearchMutation,
+  useDeletePostMutation,
   useSearchByTagMutation,
+  useToolsEditMutation,
   useOauthLoginMutation,
+  useOauthQuery,
 } = api;
