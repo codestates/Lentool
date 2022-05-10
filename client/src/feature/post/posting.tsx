@@ -71,7 +71,8 @@ export default function Posting() {
       formdata.append("photo", photo[i]);
     }
     const getPostId = await tools(formdata).unwrap();
-    push('/');
+    
+    push(`/post/${getPostId.data.post.id}`);
   };
 
   return (

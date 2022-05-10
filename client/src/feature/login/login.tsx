@@ -72,9 +72,10 @@ function Login() {
       const user1 = await mypage().unwrap();
       dispatch(getMyinfo(user1));
       localStorage.setItem("user", JSON.stringify(user));
-      const p = await posts().unwrap();
-      localStorage.setItem("posts", JSON.stringify(p));
-      dispatch(getPosts(p));
+      // const p = await posts().unwrap();
+      // console.log(p)
+      // localStorage.setItem("posts", JSON.stringify(p));
+      // dispatch(getPosts(p));
     } catch (err) {
       console.log("error", err);
     }

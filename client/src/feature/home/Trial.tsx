@@ -83,29 +83,7 @@ export default function Test() {
   }
     setDraggable(false);
     setZoomable(false)
-    // 지도에 마커와 인포윈도우를 표시하는 함수입니다
-    // function displayMarker(locPosition: any) {
-    //   // 마커를 생성합니다
-    //   var marker = new window.kakao.maps.Marker({
-    //     map: map,
-    //     position: locPosition,
-    //   });
 
-    //   var iwContent = message, // 인포윈도우에 표시할 내용
-    //     iwRemoveable = true;
-
-    //   // 인포윈도우를 생성합니다
-    //   var infowindow = new window.kakao.maps.InfoWindow({
-    //     content: iwContent,
-    //     removable: iwRemoveable,
-    //   });
-
-    //   // 인포윈도우를 마커위에 표시합니다
-    //   infowindow.open(map, marker);
-
-    //   // 지도 중심좌표를 접속위치로 변경합니다
-    //   map.setCenter(locPosition);
-    // }
   }, []);
 
   return (
@@ -116,10 +94,10 @@ export default function Test() {
       <div className="flex rounded-xl px-8 py-12 shadow-[0_10px_30px_5px_rgba(0,0,0,0.2)]">
         <div
           id="map"
-          className="rounded-xl mx-8"
+          className="rounded-xl mx-8 flex-1"
           style={{ width: "35rem", margin: "4rem"}}
         />
-        <div className="my-auto mx-8">
+        <div className="my-auto mx-8 flex-1">
           <Trialifno />
         </div>
       </div>      

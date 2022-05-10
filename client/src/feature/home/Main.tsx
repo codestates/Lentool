@@ -1,32 +1,38 @@
+import { useRef, useState } from "react";
 import Intro1 from "./Intro1";
 import Intro2 from "./Intro2";
 import Intro3 from "./Intro3";
 import Intro4 from "./Intro4";
 import Intro5 from "./Intro5";
 import Trial from "./Trial";
-import Trialifno from "./Trialinfo";
 
 export default function Main() {
+  const trialRef = useRef<HTMLDivElement>(null)
+  const [pageY, setPageY] = useState(0)
+  const handleScroll = (e: any) => {
+    console.log(e.target)
+  }
+  
   return (
-    <div className="flex max-w-7xl max-h-full mx-auto px-4 flex-col">
-      <div className="my-24 first:mt-32">
-        <Intro1 />
-      </div>
-      <div className="my-40 mx-auto">
+    <div /* onWheel={handleScroll}  */className="scroll-smooth flex max-w-7xl max-h-full mx-auto px-4 flex-col">
+      <section className="h-[1024px] flex mx-auto items-center">
+        <Intro1 trialRef={trialRef}/>
+      </section>
+      <section className="h-[1024px] flex mx-auto items-center">
         <Intro2 />
-      </div>
-      <div className="my-32">
+      </section>
+      <section className="h-[1024px] flex mx-auto items-center">
         <Intro3 />
-      </div>
-      <div className="my-32">
+      </section>
+      <section className="h-[1024px] flex mx-auto items-center">
         <Intro4 />
-      </div>
-      <div className="my-32 mx-auto">
+      </section>
+      <section className="h-[1024px] flex mx-auto items-center" ref={trialRef}>
         <Trial />
-      </div>
-      <div className="my-24 last:mb-0 mx-auto">
+      </section>
+      <section className="h-[1024px] flex mx-auto items-center">
         <Intro5 />
-      </div>
+      </section>
     </div>
   );
 }
