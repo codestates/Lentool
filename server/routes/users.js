@@ -9,6 +9,8 @@ const {
   checknickname,
   edit,
   editdp,
+  oauth,
+  oauthsignup,
 } = require("../controllers/users");
 
 const multer = require("multer");
@@ -23,5 +25,7 @@ router.post("/signup", signup);
 router.post("/checkemail", checkemail);
 router.post("/checknickname", checknickname);
 router.patch("/editdp", upload.array("user_photo"), editdp);
+router.get("/oauth", oauth);
+router.patch("/oauth/signup", oauthsignup);
 
 module.exports = router;

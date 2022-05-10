@@ -3,7 +3,7 @@ import Myprofile from "./Myprofile";
 import MyinfoEdit from "./MyinfoEdit";
 export default function Mypage() {
   return (
-    <div>
+    <div className="">
       <Myprofile />
       <Mycontents />
     </div>

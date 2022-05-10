@@ -23,6 +23,7 @@ module.exports = {
         user_photo: userData.dataValues.user_photo,
         post_id: postData.dataValues.id,
         islend: postData.dataValues.islend,
+        tag: postData.dataValues.tag,
       };
 
       console.log(data);

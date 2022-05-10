@@ -12,6 +12,10 @@ import {
   useLogoutMutation,
   useMypageMutation,
 } from "services/api";
+import { store } from '../../app/store';
+import { persistStore } from 'redux-persist'
+let persistor = persistStore(store)
+
 export default function Dropdown () {
   const dispatch = useAppDispatch()
   const { push } = useHistory();
@@ -42,74 +46,99 @@ export default function Dropdown () {
     dispatch(setCredentials(reset));
     localStorage.removeItem("user");
     localStorage.removeItem("posts");
-    
+    setTimeout(() => persistor.purge(), 200)
+
+    // localStorage.removeItem("persist:root")
     push("/");
   };
   if (mypage.isLoading) return <Loading />
+  
   return (
     <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        {isLogin ? (
-          <div className="max-w-7xl">
-          <Menu.Items className="focus:outline-none absolute right-0 -mt-4 w-48 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-            <Menu.Item>
-              <span className="my-3 bg-white text-gray-900 justify-center group flex w-full items-center rounded-t-md px-2 py-2 text-sm">
-                <span className="text-slate-500">김남현</span>님, 안녕하세요!
-              </span>
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                onClick={handleGetInfo}
+      as={Fragment}
+      enter="transition ease-out duration-100"
+      enterFrom="transform opacity-0 scale-95"
+      enterTo="transform opacity-100 scale-100"
+      leave="transition ease-in duration-75"
+      leaveFrom="transform opacity-100 scale-100"
+      leaveTo="transform opacity-0 scale-95"
+    >
+    {isLogin ? (
+      <div className="max-w-7xl">
+      <Menu.Items className="focus:outline-none absolute right-0 -mt-4 w-48 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+        <Menu.Item>
+          <span className="my-3 bg-white text-gray-900 justify-center group flex w-full items-center rounded-t-md px-2 py-2 text-sm">
+            <span className="text-slate-500">김남현</span>님, 안녕하세요!
+          </span>
+        </Menu.Item>
+        <Menu.Item>
+          {({ active }) => (
+            <button
+            onClick={handleGetInfo}
+            className={`${
+              active ? "bg-gray-200 text-gray-900" : "text-gray-900"
+            } md:hidden justify-center group flex w-full items-center rounded-t-md px-2 py-3 text-sm`}
+            >
+              채팅방
+            </button>
+          )}
+        </Menu.Item>
+        <Menu.Item>
+          {({ active }) => (
+            <button
+            onClick={handleGetInfo}
+            className={`${
+              active ? "bg-gray-200 text-gray-900" : "text-gray-900"
+            } md:hidden justify-center group flex w-full items-center rounded-t-md px-2 py-3 text-sm`}
+            >
+              공유하기
+            </button>
+          )}
+        </Menu.Item>
+        <Menu.Item>
+          {({ active }) => (
+            <button
+            onClick={handleGetInfo}
+            className={`${
+              active ? "bg-gray-200 text-gray-900" : "text-gray-900"
+            } justify-center group flex w-full items-center rounded-t-md px-2 py-3 text-sm`}
+            >
+              마이페이지
+            </button>
+          )}
+        </Menu.Item>
+        <Menu.Item>
+          {({ active }) => (
+            <button
+            onClick={handleLogout}
+            className={`${
+              active ? "bg-gray-200 text-gray-900" : "text-gray-900"
+            } justify-center group flex w-full items-center rounded-md px-2 py-3 text-sm `}
+            >
+              로그아웃
+            </button>
+          )}
+        </Menu.Item>
+      </Menu.Items>
+    </div>
+    ) : (
+      <div className="max-w-7xl">
+        <Menu.Items className="focus:outline-none absolute right-0 -mt-4 w-48 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+          <Menu.Item>
+            {({ active }) => (
+              <button
+                onClick={handleModal}
                 className={`${
                   active ? "bg-gray-200 text-gray-900" : "text-gray-900"
-                } justify-center group flex w-full items-center rounded-t-md px-2 py-2 text-sm`}
+                } justify-center group flex w-full items-center rounded-md px-2 py-3 text-sm `}
                 >
-                  마이페이지
-                </button>
-              )}
-            </Menu.Item>
-            <div className="px-1 py-1 ">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                  onClick={handleLogout}
-                  className={`${
-                    active ? "bg-gray-300 text-white " : "text-gray-900"
-                  } justify-center group flex w-full items-center rounded-md px-2 py-2 text-sm `}
-                  >
-                    로그아웃
-                  </button>
-                )}
-              </Menu.Item>
-            </div>
-          </Menu.Items>
-        </div>
-        ) : (
-          <Menu.Items className="focus:outline-none absolute right-0 mt-2 w-36 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-            <div className="px-1 py-1 ">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={handleModal}
-                    className={`${
-                      active ? "bg-violet-500 text-white " : "text-gray-900"
-                    } justify-center group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    로그인
-                  </button>
-                )}
-              </Menu.Item>
-            </div>
-          </Menu.Items>
-        )}
-      </Transition>
+                로그인
+              </button>
+            )}
+          </Menu.Item>
+        </Menu.Items>
+      </div>
+    )}
+  </Transition>
   )
 }

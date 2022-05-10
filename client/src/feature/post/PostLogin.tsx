@@ -1,19 +1,22 @@
 import { useAppSelector } from "app/hooks"
 import Loading from "feature/indicator/Loading"
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import { usePosQuery } from "services/api"
 import imagePlaceHolder from "../../images/image_placeholder.svg"
 export default function PostLogin () {
-  const postList = useAppSelector(state => state.posts.posts)
-  const posts = useAppSelector(state => state.persistedReducer.posts)
+  // const postList = useAppSelector(state => state.posts.posts)
+  // const posts = useAppSelector(state => state.persistedReducer.posts)
   // console.log('postList', postList)
   // console.log('posts', posts)
   const { data, error, isLoading, isFetching } = usePosQuery()
+  const [postData, setPostData] = useState('')
   console.log(data)
   // console.log(isLoading)
   // console.log(isFetching)
   if (isLoading) return <Loading />
   if (error) return <div>error</div>
+  
 
   return (
     <div>
