@@ -140,6 +140,7 @@ module.exports = {
         });
       }
       const { id } = req.params;
+
       if (!id) {
         if (req.files) {
           for (let i = 0; i < req.files.length; i++) {
@@ -162,7 +163,7 @@ module.exports = {
           .json({ data: null, message: "올바른 요청이 아닙니다." });
       }
 
-      if (req.files.length !== 0) {
+      if (req.files) {
         if (userCheck.dataValues.photo1 !== "empty") {
           const deleteimg = userCheck.dataValues.photo1.slice(11);
           fs.unlinkSync("./postimg/" + deleteimg);
@@ -192,6 +193,7 @@ module.exports = {
           { where: { id } }
         );
       }
+
       const { title, description, price, tag, islend } = req.body;
       const updatedata = { title, description, price, tag, islend };
 
