@@ -9,15 +9,18 @@ import io from "socket.io-client";
 const socket = io(process.env.REACT_APP_SERVER_URL);
 
 export default function Chatting() {
+  let location = useLocation();
+  const roomdata: any = location.state;
+
   const [chattings, setchattings]: any = useState([]);
   const [chat, setchat] = useState("");
   const [roomid, setroomid] = useState(null);
+  const [isLend, setIsLend] = useState(roomdata.island);
   // const [isMe, setIsMe]:any = useState(true)
   const myUserId = useAppSelector(
     (state) => state.persistedReducer.myinfo.user.id
   );
-  let location = useLocation();
-  const roomdata: any = location.state;
+
   const [createroom, { isLoading }] = useCreateroomMutation();
 
   const serchchat = async () => {
@@ -52,6 +55,8 @@ export default function Chatting() {
     setchat("");
   };
 
+  const handleLend = async () => {};
+
   if (isLoading) return <Loading />;
 
   return (
@@ -78,8 +83,11 @@ export default function Chatting() {
           {/* <div>{roomdata.user_id2}</div> */}
         </div>
         <div>
-          <button className="bg-yellow-300 text-white text-right px-4 py-2 rounded-lg">
-            {roomdata.island ? "대여중" : "대여 시작"}
+          <button
+            onClick={handleLend}
+            className="bg-yellow-300 text-white text-right px-4 py-2 rounded-lg"
+          >
+            {isLend ? "대여중" : "대여 시작"}
           </button>
         </div>
       </div>
