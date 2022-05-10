@@ -5,6 +5,8 @@ const { user_room: user_roomModel } = require("../../models");
 const { generateAccessToken, isAuthorized } = require("../tokenFunctions");
 const crypto = require("crypto");
 const fs = require("fs");
+const axios = require("axios");
+require("dotenv").config();
 
 module.exports = {
   mypage: async (req, res) => {
@@ -190,11 +192,11 @@ module.exports = {
     const userInfo = isAuthorized(req);
 
     try {
-      if (!userInfo) {
-        return res
-          .status(400)
-          .json({ data: null, message: "로그인되지 않은 사용자 입니다" });
-      }
+      // if (!userInfo) {
+      //   return res
+      //     .status(400)
+      //     .json({ data: null, message: "로그인되지 않은 사용자 입니다" });
+      // }
       return res.status(200).json({ data: null, message: "ok" });
     } catch (err) {
       console.log("로그아웃서버에러");
@@ -326,4 +328,88 @@ module.exports = {
       res.status(500).json({ message: "server error" });
     }
   },
+  oauth: async (req, res) => {
+    const formUrlEncoded = (x) =>
+      Object.keys(x).reduce(
+        (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
+        ""
+      );
+
+    try {
+      const kakaoToken = await axios.post(
+        "https://kauth.kakao.com/oauth/token",
+        formUrlEncoded({
+          grant_type: "authorization_code",
+          client_id: `${process.env.REACT_APP_KAKAO_REST_API}`,
+          redirect_uri: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
+          code: req.query.code,
+        }),
+        { "Content-type": "application/x-www-form-urlencoded;charset=utf-8" }
+      );
+
+      const kakaoid = await axios.get(
+        "https://kapi.kakao.com/v1/user/access_token_info",
+        {
+          headers: {
+            Authorization: `Bearer ${kakaoToken.data.access_token}`,
+          },
+        }
+      );
+      const userInfo = await userModel.findOne({
+        where: { kakao_id: kakaoid.data.id },
+      });
+      if (!userInfo) {
+        const create = await userModel.create({
+          email: null,
+          password: null,
+          nickname: null,
+          salt: null,
+          user_address: null,
+          longitude: null,
+          latitude: null,
+          kakao_id: kakaoid.data.id,
+        });
+        const accessToken = generateAccessToken(create.dataValues);
+        if (accessToken) {
+          return res.status(200).json({
+            message: "회원가입 필요",
+            data: { accessToken, userInfo: create.dataValues },
+          });
+        }
+      } else if (
+        userInfo.dataValues.nickname === null ||
+        userInfo.dataValues.user_address === null ||
+        userInfo.dataValues.longitude === null ||
+        userInfo.dataValues.latitude === null
+      ) {
+        delete userInfo.dataValues.password;
+        delete userInfo.dataValues.salt;
+        delete userInfo.dataValues.email;
+        const accessToken = generateAccessToken(userInfo.dataValues);
+
+        if (accessToken) {
+          return res.status(200).json({
+            message: "회원가입 필요",
+            data: { accessToken, userInfo: userInfo.dataValues },
+          });
+        }
+      } else {
+        delete userInfo.dataValues.password;
+        delete userInfo.dataValues.salt;
+        delete userInfo.dataValues.email;
+        const accessToken = generateAccessToken(userInfo.dataValues);
+
+        if (accessToken) {
+          return res.status(200).json({
+            message: "ok",
+            data: { accessToken, userInfo: userInfo.dataValues },
+          });
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ data: err, message: "server error" });
+    }
+  },
+  oauthsignup: () => {},
 };

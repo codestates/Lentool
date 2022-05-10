@@ -235,6 +235,13 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+    oauthLogin: builder.mutation<any, any>({
+      query: (code: any) => ({
+        url: `users/oauth?code=${code}`,
+        credentials: "include",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -257,4 +264,5 @@ export const {
   useEditdpMutation,
   useSearchMutation,
   useSearchByTagMutation,
+  useOauthLoginMutation,
 } = api;
