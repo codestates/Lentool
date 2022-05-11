@@ -260,6 +260,18 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+    oauth: builder.query<any, any>({
+      query: (code) => `users/oauth?code=${code}`,
+    }),
+    // PATCH oauth/signup 으로 
+    oauthSignup: builder.mutation<any, any>({
+      query: (body) => ({
+        url: 'users/oauth/signup',
+        credentials: "include",
+        method: "PATCH",
+        body: body
+      })
+    })
   }),
 });
 
@@ -285,4 +297,6 @@ export const {
   useSearchByTagMutation,
   useToolsEditMutation,
   useOauthLoginMutation,
+  useOauthQuery,
+  useOauthSignupMutation,
 } = api;

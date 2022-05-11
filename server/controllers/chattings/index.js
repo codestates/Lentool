@@ -24,7 +24,7 @@ module.exports = {
         include: [
           {
             model: userModel,
-            attributes: ["user_photo", "email"],
+            attributes: ["user_photo", "nickname"],
           },
           {
             model: roomModel,
@@ -38,7 +38,7 @@ module.exports = {
               },
               {
                 model: postModel,
-                attributes: ["address", "id", "title", "islend"],
+                attributes: ["address", "id", "title", "islend", "user_id"],
               },
             ],
           },
@@ -61,6 +61,8 @@ module.exports = {
           post_id: dataInfo[i].dataValues.room.post.id,
           title: dataInfo[i].dataValues.room.post.title,
           islend: dataInfo[i].dataValues.room.post.islend,
+          nickname: dataInfo[i].dataValues.user.nickname,
+          owner: dataInfo[i].dataValues.room.post.user_id,
         };
         roomdata.push(data);
       }

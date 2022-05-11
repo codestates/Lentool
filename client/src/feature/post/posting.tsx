@@ -43,8 +43,10 @@ export default function Posting() {
 
   /* Tag 추가 */
   const handleTag = (e: any) => {
+
     setIsTag(e);
   };
+
   /* Tag 삭제 */
   const handleRemoveTag = (e: any) => {
     setIsTag("");
