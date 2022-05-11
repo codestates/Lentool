@@ -9,7 +9,9 @@ export default function PostLogin() {
   // const posts = useAppSelector(state => state.persistedReducer.posts)
   // console.log('postList', postList)
   // console.log('posts', posts)
-  const { data, error, isLoading, isFetching } = usePosQuery();
+  const { data, error, isLoading, isFetching } = usePosQuery({
+    refetchOnMountOrArgChange: true,
+  });
   const [postData, setPostData] = useState("");
   console.log(data);
   // console.log(isLoading)

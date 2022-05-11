@@ -147,7 +147,7 @@ export const api = createApi({
         body: setSignupData,
       }),
     }),
-    pos: builder.query<any, void>({
+    pos: builder.query<any, any>({
       query: () => "posts",
     }),
     posts: builder.mutation<any, void>({
@@ -263,15 +263,15 @@ export const api = createApi({
     oauth: builder.query<any, any>({
       query: (code) => `users/oauth?code=${code}`,
     }),
-    // PATCH oauth/signup 으로 
+    // PATCH oauth/signup 으로
     oauthSignup: builder.mutation<any, any>({
       query: (body) => ({
-        url: 'users/oauth/signup',
+        url: "users/oauth/signup",
         credentials: "include",
         method: "PATCH",
-        body: body
-      })
-    })
+        body: body,
+      }),
+    }),
   }),
 });
 

@@ -97,7 +97,6 @@ function App() {
           <Route path="/search">
             <PostSearch />
           </Route>
-
           <Route path="/postingEdit/:post_id">
             <PostingEdit />
           </Route>
