@@ -198,7 +198,7 @@ function Login() {
               </div>
               <button
                 onClick={() =>
-                  window.open(
+                  window.location.assign(
                     `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_API}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`
                   )
                 }
