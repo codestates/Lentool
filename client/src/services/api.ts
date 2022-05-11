@@ -92,6 +92,13 @@ export interface MyinfoEditResponse {
 export interface EditDpResponse {
   message: string;
 }
+//KAKAO 소셜로그인
+export interface KakaoOauthRequest {
+  nickname: string;
+  user_address: string;
+  longitude: string;
+  latitude: string;
+}
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -264,7 +271,7 @@ export const api = createApi({
       query: (code) => `users/oauth?code=${code}`,
     }),
     // PATCH oauth/signup 으로
-    oauthSignup: builder.mutation<any, any>({
+    oauthSignup: builder.mutation<any, KakaoOauthRequest>({
       query: (body) => ({
         url: "users/oauth/signup",
         credentials: "include",

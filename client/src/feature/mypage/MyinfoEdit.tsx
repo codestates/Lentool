@@ -13,15 +13,16 @@ import {
 import type { NicknameRequest } from "services/api";
 import DaumPostCode from "react-daum-postcode";
 import { toast } from "react-toastify";
-
+import Lentoollogo from "../../images/lentool_logo.png";
 function MyinfoEdit() {
   const { push } = useHistory();
   const dispatch = useAppDispatch();
   const outSelect = useRef<any>();
   const myinfo = useAppSelector((state) => state.myinfo.user);
+  const [mypage] = useMypageMutation();
   //api로 보내는 트리거들
   const [checknickname, {}] = useChecknicknameMutation();
-  const [mypage] = useMypageMutation();
+  //edit 보내는 뮤테이션
   const [edit, { data, isLoading, isSuccess }] = useEditMutation();
   // api로 보낼 데이터 상태들 정리
   const [editValue, setEditValue] = useState<MyinfoEditRequest>({
@@ -81,13 +82,14 @@ function MyinfoEdit() {
       handleLatLongEditValue(latitude, longitude);
     });
   }, [fullAddress, latitude]);
+
   const handleAddressEditValue = (value: string) => {
     setEditValue({ ...editValue, user_address: value });
   };
   const handleLatLongEditValue = (value1: string, value2: string) => {
     setEditValue({ ...editValue, latitude: value1, longitude: value2 });
   };
-  /*************카카오 API  핸들러**********/
+  /*************카카오 주소 API  핸들러**********/
   const handleComplete = (data: any) => {
     let fullAddress = data.address; // 주소 할당
     let extraAddress = ""; //빌딩의 경우 추가 주소를 받는다.
@@ -194,7 +196,7 @@ function MyinfoEdit() {
             <div>
               <img
                 className="mx-auto h-12 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                src={Lentoollogo}
                 alt="Workflow"
               />
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
