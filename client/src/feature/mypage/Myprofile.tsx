@@ -108,7 +108,7 @@ export default function Myprofile() {
             onClick={handlePosting}
             className="flex mx-auto items-center mt-5 border border-gray-600 hover:bg-green-500 hover:text-white rounded outline-none focus:outline-none bg-transparent text-gray-600 text-sm py-1 px-2 font-semibold"
           >
-            <span className="block ">사진 적용</span>
+            <span className="block ">사진 적</span>
             <svg
               className="block h-5 w-5 pl-1"
               xmlns="http://www.w3.org/2000/svg"
