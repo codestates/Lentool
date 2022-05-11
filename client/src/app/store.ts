@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { api } from "../services/api";
-import { kakaoapi } from "../services/kakaoapi";
 import authReducer from "../feature/login/authSlice";
 import modalReducer from "../feature/modal/modalSlice";
 import myinfoReducer from "../feature/mypage/myinfoSlice";

@@ -2,12 +2,18 @@ import {
   ReactChild,
   ReactFragment,
   ReactPortal,
-  useRef,
   useState,
+  useEffect,
+  useRef,
 } from "react";
-import { useToolsMutation } from "services/api";
-import { Link, useHistory } from "react-router-dom";
+import {
+  usePostidQuery,
+  useToolsEditMutation,
+  useToolsMutation,
+} from "services/api";
+import { Link, useHistory, useParams, useLocation } from "react-router-dom";
 import { useAppSelector } from "app/hooks";
+import Beforelogin from "feature/navbar/Beforelogin";
 import camera from "../../images/photo_upload.png";
 const src = [
   ["망치", "hammer"],
@@ -23,51 +29,80 @@ const src = [
   ["롱펜치", "long_nose"],
   ["기타", "etc"],
 ];
-export default function Posting() {
+export default function PostingEdit() {
+  // const location: any = useLocation();
   const { push } = useHistory();
-  // const post = useAppSelector(
-  //   (state) => state.persistedReducer.posts.posts.posts
-  // );
+  let { post_id }: any = useParams();
+
+  // const post_id = location.state.data.id;
+  // console.log(post_id);
+  const { data, isLoading, error } = usePostidQuery(post_id, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  // console.log(data);
+  // const beforeTag = console.log(data.data.post.tag);
+
+  // console.log(location.state.data.price);
+
+  // console.log(post);
   const [photo, setPhoto] = useState([]);
   const [preview1, setPreview1] = useState("");
   const [preview2, setPreview2] = useState("");
   const [preview3, setPreview3] = useState("");
   const [isTag, setIsTag]: any = useState(null);
   const [inputValue, setInputValue] = useState({
-    title: "",
-    price: "",
-    description: "",
+    title: ``,
+    price: ``,
+    description: ``,
   });
-  const [tools] = useToolsMutation();
-  const fileInput: any = useRef(null);
+  // const beforeTitle = data.data.post.title;
+  // const beforePrice = data.data.post.price;
+  // const beforeDescription = data.data.post.description;
 
+  useEffect(() => {
+    if (!isLoading) {
+      setInputValue({
+        title: data.data.post.title,
+        price: data.data.post.price,
+        description: data.data.post.description,
+      });
+      const resulttag = src.filter((a) => a[1] === data.data.post.tag);
+      setIsTag(resulttag[0], resulttag[1]);
+
+      console.log(data.data.post);
+    }
+  }, [data]);
+  const fileInput: any = useRef(null);
+  //요소 필터로 src에서 요소 찾아서 그 배열만 가져오기
+
+  const [tools] = useToolsMutation();
+  const [toolsEdit] = useToolsEditMutation();
   /* Tag 추가 */
   const handleTag = (e: any) => {
-
     setIsTag(e);
   };
-
   /* Tag 삭제 */
   const handleRemoveTag = (e: any) => {
     setIsTag("");
   };
-  console.log(isTag);
   /* input 상태값 저장 */
   const handleInputValue =
     (key: string) => (e: { target: { value: string } }) => {
       setInputValue({ ...inputValue, [key]: e.target.value });
     };
+
   /* 프리뷰 이미지 생성 및 사진 상태 저장 */
   const handlePreview = (e: any) => {
     setPhoto(e.target.files);
-
+    console.log(e.target.files);
     if (e.target.files[0]) setPreview1(URL.createObjectURL(e.target.files[0]));
     if (e.target.files[1]) setPreview2(URL.createObjectURL(e.target.files[1]));
     if (e.target.files[2]) setPreview3(URL.createObjectURL(e.target.files[2]));
   };
 
   /* 포스팅 완료 버튼 */
-  const handlePosting = async () => {
+  const handlePostingEdit = async (e: any) => {
     const formdata: any = new FormData();
     formdata.append("title", inputValue.title);
     formdata.append("price", inputValue.price);
@@ -76,53 +111,58 @@ export default function Posting() {
     for (let i = 0; i < photo.length; i++) {
       formdata.append("photo", photo[i]);
     }
-    const getPostId = await tools(formdata).unwrap();
+    await toolsEdit([e, formdata]).unwrap();
 
-    push(`/post/${getPostId.data.post.id}`);
+    push("/");
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="min-h-full flex items-center justify-center px-4 sm:px-6 lg:px-6">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+      <div className="min-h-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="w-full space-y-4">
           <div>
-            <h2 className="mt-12 text-center text-3xl font-extrabold text-gray-900">
-              공유하기
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              포스트 수정하기 🛠
             </h2>
           </div>
           <form className="mt-8 space-y-6">
+            <input type="hidden" name="remember" value="true" />
             <div className="rounded-md shadow-sm -space-y-px text-left ">
               <div className="mb-3">
-                <label htmlFor="title" className="text-sm text-gray-700">
+                <label htmlFor="title" className="text-sm">
                   제목
                 </label>
                 <input
                   id="title"
                   name="title"
                   type="text"
+                  // defaultValue={`data.data.post.title`}
+
+                  value={`${inputValue.title}`}
                   onChange={handleInputValue("title")}
-                  className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  /* autoComplete="email" */ required
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="제목을 입력해주세요"
-                  required
                 />
               </div>
               <div>
-                <label htmlFor="price" className="text-sm text-gray-700">
+                <label htmlFor="price" className="text-sm">
                   가격
                 </label>
                 <input
                   id="price"
                   name="price"
                   type="number"
+                  // defaultValue={`${inputValue.price}`}
+                  value={`${inputValue.price}`}
                   onChange={handleInputValue("price")}
-                  className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  /* autoComplete="current-password" */ required
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="가격을 정해주세요"
-                  required
                 />
               </div>
             </div>
-
-            <div className="text-left flex">
+            <div className="text-left">
               <button
                 className="flex flex-col w-20 px-2 py-2 border-2 rounded-lg mr-1"
                 onClick={() => fileInput.current.click()}
@@ -140,43 +180,45 @@ export default function Posting() {
                 ref={fileInput}
                 hidden
               />
+
               <div className="flex">
                 {preview1 && (
                   <img
                     src={preview1}
-                    className="rounded-md w-20 h-20 mx-1"
+                    className="rounded-md w-20 h-20 bg-gray-300"
                     alt=""
                   />
                 )}
                 {preview2 && (
                   <img
                     src={preview2}
-                    className="rounded-md w-20 h-20 mx-1"
+                    className="rounded-md w-20 h-20 bg-gray-300"
                     alt=""
                   />
                 )}
                 {preview3 && (
                   <img
                     src={preview3}
-                    className="rounded-md w-20 h-20 mx-1"
+                    className="rounded-md w-20 h-20 bg-gray-300"
                     alt=""
                   />
                 )}
               </div>
             </div>
-            <div className="rounded-md shadow-sm -space-y-px text-left">
+            <div className="rounded-md shadow-sm -space-y-px text-left ">
               <div>
-                <label htmlFor="description" className="text-sm text-gray-700">
+                <label htmlFor="description" className="text-sm">
                   내용
                 </label>
                 <textarea
                   id="description"
                   name="description"
+                  // defaultValue={`${inputValue.description}`}
+                  value={`${inputValue.description}`}
                   onChange={handleInputValue("description")}
-                  rows={10}
-                  className="resize-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  /* autoComplete="current-password" */ required
+                  className="appearance-none relative block w-full px-3 py-20 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="ex. 크기, 상태 등"
-                  required
                 />
               </div>
             </div>
@@ -216,7 +258,7 @@ export default function Posting() {
             </div>
             <button
               type="button"
-              onClick={handlePosting}
+              onClick={() => handlePostingEdit(post_id)}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
