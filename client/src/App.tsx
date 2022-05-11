@@ -97,7 +97,7 @@ function App() {
             <PostSearch />
           </Route>
 
-          <Route path="/postingEdit">
+          <Route path="/postingEdit/:post_id">
             <PostingEdit />
           </Route>
           <Route path="/oauth/callback/kakao">
