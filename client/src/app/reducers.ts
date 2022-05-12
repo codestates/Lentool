@@ -9,9 +9,12 @@ import detailPost from "feature/post/detailPostSlice";
 import trial from "../feature/home/trialSlice";
 import rooms from "../feature/chat/roomSlice";
 import search from "../feature/navbar/searchSlice";
+import { api } from "services/api";
+
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: [api.reducerPath]
 };
 const rootReducer = combineReducers({
   auth,

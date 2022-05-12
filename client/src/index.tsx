@@ -8,18 +8,19 @@ import './index.css';
 import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react';
 import 'flowbite';
+import Loading from 'feature/indicator/Loading';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
-let persistor = persistStore(store)
-
+export let persistor = persistStore(store)
+const loading = <Loading />
 root.render(
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+  <Provider store={store}>
+    <PersistGate loading={loading} persistor={persistor}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-      </PersistGate>
-    </Provider>
+    </PersistGate>
+  </Provider>
 );

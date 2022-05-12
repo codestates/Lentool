@@ -146,6 +146,7 @@ export default function Posting() {
                 <span className="mt-2 text-gray-500 text-xs mx-auto">
                   {photo.length} / 3
                 </span>
+
               </label>
 
               <div className="flex">

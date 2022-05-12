@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import {  } from 'redux-persist'
+import { PURGE } from "redux-persist";
 
 type loginState = {
   isLogin: boolean
@@ -17,6 +17,9 @@ export const loginSlice = createSlice({
       // console.log(state.isLogin)
     },
   },
+  // extraReducers: (builder) => {
+  //   builder.addCase(PURGE, () => initialState);
+  // }
 })
 
 export const { setLogin } = loginSlice.actions;

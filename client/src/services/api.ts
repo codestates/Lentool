@@ -154,7 +154,7 @@ export const api = createApi({
         body: setSignupData,
       }),
     }),
-    pos: builder.query<any, any>({
+    pos: builder.query<any, void>({
       query: () => "posts",
     }),
     posts: builder.mutation<any, void>({
@@ -205,6 +205,9 @@ export const api = createApi({
         credentials: "include",
         method: "GET",
       }),
+    }),
+    searchRooms: builder.query<any, any>({
+      query: () => "chat",
     }),
     signout: builder.mutation<SignoutResponse, SignoutRequest>({
       query: (SignoutData: any) => ({
@@ -296,6 +299,7 @@ export const {
   useTrialMutation,
   useCreateroomMutation,
   useSearchroomMutation,
+  useSearchRoomsQuery,
   useSignoutMutation,
   useEditMutation,
   useEditdpMutation,
