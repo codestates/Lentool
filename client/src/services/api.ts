@@ -154,7 +154,7 @@ export const api = createApi({
         body: setSignupData,
       }),
     }),
-    pos: builder.query<any, any>({
+    pos: builder.query<any, void>({
       query: () => "posts",
     }),
     posts: builder.mutation<any, void>({
