@@ -1,8 +1,8 @@
 import { useAppDispatch } from "app/hooks";
+import Loading from "feature/indicator/Loading";
 import { useEffect } from "react";
 import { useTrialMutation } from "services/api";
-import Trialifno from "./Trialinfo";
-import { getTrial } from "./trialSlice";
+import notFound from "../../images/undraw_traveling_re_weve.svg";
 
 declare global {
   interface Window {
@@ -11,18 +11,20 @@ declare global {
 }
 
 export default function Test() {
-  const dispatch = useAppDispatch();
-  const [trial, {isLoading}] = useTrialMutation();
+  const [trial, {data, isLoading, isSuccess}] = useTrialMutation();
+  console.log('isLoading',isLoading)
+  console.log('isSuccess',isSuccess)
+  console.log('data',data)
 
   useEffect(() => {
-    var mapContainer = document.getElementById("map"), // 지도를 표시할 div
-      mapOption = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 7, // 지도의 확대 레벨
-      };
-    var lat = 0;
-    var lon = 0;
-    var map = new window.kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    const mapContainer = document.getElementById("map") // 지도를 표시할 div
+    const mapOption = {
+      center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+      level: 7, // 지도의 확대 레벨
+    };
+    let lat = 0;
+    let lon = 0;
+    const map = new window.kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
     // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
     if (navigator.geolocation) {
@@ -31,62 +33,56 @@ export default function Test() {
         lat = position.coords.latitude; // 위도
         lon = position.coords.longitude; // 경도
 
-        var imageSrc = "https://i.ibb.co/GFBFKGG/location-back.png", // 마커이미지의 주소입니다
-          imageSize = new window.kakao.maps.Size(60, 60), // 마커이미지의 크기입니다
-          imageOption = { offset: new window.kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+        const imageSrc = "https://i.ibb.co/GFBFKGG/location-back.png" // 마커이미지의 주소입니다
+        const imageSize = new window.kakao.maps.Size(60, 60) // 마커이미지의 크기입니다
+        const imageOption = { offset: new window.kakao.maps.Point(27, 69) } // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
-        var markerImage = new window.kakao.maps.MarkerImage(
-            imageSrc,
-            imageSize,
-            imageOption
-          ),
-          locPosition = new window.kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-        // console.log(lat, lon)
-        var marker = new window.kakao.maps.Marker({
+        const markerImage = new window.kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        )
+        const locPosition = new window.kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        const marker = new window.kakao.maps.Marker({
           position: locPosition,
           image: markerImage, // 마커이미지 설정
         });
-        map.setCenter(locPosition);
-        marker.setMap(map);
 
-        var geocoder = new window.kakao.maps.services.Geocoder();
+        const geocoder = new window.kakao.maps.services.Geocoder();
 
-        var coord = new window.kakao.maps.LatLng(lat, lon);
-        var callback = function (result: any, status: any) {
+        const coord = new window.kakao.maps.LatLng(lat, lon);
+        const callback = function (result: any, status: any) {
           if (status === window.kakao.maps.services.Status.OK) {
-            // console.log(result[0].address.address_name);
             const addressInfo = {
               latitude: lat,
               longitude: lon,
               address: result[0].address.address_name,
             };
             const getGeo = async function () {
-              const geo = await trial(addressInfo);
-              dispatch(getTrial(geo));
+              await trial(addressInfo);
             };
             getGeo();
           }
         };
         geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
-        // 마커와 인포윈도우를 표시합니다
-        // displayMarker(locPosition);
+        map.setCenter(locPosition);
+        marker.setMap(map);
       });
     } else {
+      alert('위치정보확인 동의하셔야 체험하기 이용이 가능합니다')
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-      var locPosition = new window.kakao.maps.LatLng(33.450701, 126.570667),
-        message = "geolocation을 사용할수 없어요..";
-      // displayMarker(locPosition);
+      const locPosition = new window.kakao.maps.LatLng(33.450701, 126.570667)
+      const message = "geolocation을 사용할수 없어요..";
     }
     function setDraggable(draggable: boolean) {
-      // 마우스 드래그로 지도 이동 가능여부를 설정합니다
       map.setDraggable(draggable);
     }
     function setZoomable(zoomable: boolean) {
-      // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
       map.setZoomable(zoomable);
     }
-    setDraggable(false);
+    // setDraggable(false);
     setZoomable(false);
+
   }, []);
 
   return (
@@ -96,19 +92,47 @@ export default function Test() {
       </p>
       <div className="flex rounded-xl px-8 py-12 shadow-[0_10px_30px_5px_rgba(0,0,0,0.2)]">
         <div
-          id="map"
-          className="rounded-xl mx-8 flex-1"
-          style={{ width: "35rem", margin: "4rem" }}
+        id="map"
+        className="rounded-xl mx-8 flex-1"
+        style={{ width: "35rem",/*  margin: "4rem"  */}}
         />
-
         <div className="my-auto mx-8 flex-1">
-          {/* {
-            !isLoading &&
-            <Trialifno />
-          } */}
+          { !data ? <div>Loading...</div> 
+            : <div className="grid">
+            { data.data.posts.length !== 0 ?  
+              ( 
+                data.data.posts.map((trial: any) => {
+                return (
+                  <div key={trial.id} className="py-2 grid-cols-2 gap-x-10 gap-y-4 rounded-2xl max-w-sm text-left">
+                    <div className="relative rounded-xl xl:aspect-w-7 xl:aspect-h-8">
+                      <img
+                        src={`http://localhost:80${trial.photo1}`}
+                        alt="my-posting"
+                        className="h-[14rem] w-auto rounded-xl object-center object-cover"
+                      />
+                    </div>
+                    <h3 className="mt-2 text-sm font-medium text-gray-900">
+                      {trial.title}
+                    </h3>
+                    <h3 className="text-xs text-gray-700">{trial.address}</h3>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="">
+                <div className="w-full h-50 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
+                  <img
+                    src={notFound}
+                    alt="my-posting"
+                    className="w-full h-full object-center object-cover group-hover:opacity-75"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          }
         </div>
       </div>      
-
     </div>
   );
 }

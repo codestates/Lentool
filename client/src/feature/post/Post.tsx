@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { usePostidQuery } from "services/api";
 import { getDetailPost } from "./detailPostSlice";
 import Carousel from "./carousel";
+import imagePlaceHolder from "../../images/image_placeholder.svg";
 
 const product = {
   name: "공구 > 소공구 > 몽키스패너",
@@ -59,23 +60,19 @@ const product = {
 };
 
 export default function Post() {
-  const dispatch = useAppDispatch();
   let { post_id }: any = useParams();
   const { data, isLoading, error } = usePostidQuery(post_id);
   console.log(data)
   const myUserId = useAppSelector(
-    (state) => state.persistedReducer.myinfo.user.id
+    (state) => state.persistedReducer.myinfo
   );
-  // console.log(myUserId);
+  console.log(myUserId)
 
   return (
     <div className="bg-white">
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
-          <ol
-            role="list"
-            className="max-w-2xl mx-auto px-4 flex items-center space-x-2 sm:px-6 lg:max-w-2xl lg:px-8"
-          >
+          <ul className="max-w-2xl mx-auto px-4 flex items-center space-x-2 sm:px-6 lg:max-w-2xl lg:px-8">
             <li className="text-sm">
               <a
                 href={product.href}
@@ -85,7 +82,7 @@ export default function Post() {
                 {product.name}
               </a>
             </li>
-          </ol>
+          </ul>
         </nav>
 
         {data && (
@@ -103,9 +100,12 @@ export default function Post() {
                 {/* Userinfo  */}
                 <div className="">
                   <div className="flex items-center ">
-                    <div className="flex-none w-14 items-center">
-                      사진
-                      {/* {data.data.post.user_photo} */}
+                    <div className="flex-none w-14 mr-2 items-center">
+                      { 
+                        myUserId.user.user_photo !== 'empty' ? 
+                          <img src={`${process.env.REACT_APP_SERVER_URL}${myUserId.user.user_photo}`} alt='profile'/>
+                        : <img src="https://www.seekpng.com/png/detail/966-9665317_placeholder-image-person-jpg.png" alt='profile' className='rounded-full'/>
+                      }
                     </div>
                     <div className="flex-1 w-32 text-left">
                       <h3>{data.data.post.nickname}</h3>
@@ -141,7 +141,7 @@ export default function Post() {
                     <p className="text-xl text-left flex-1 pl-2 text-gray-900">
                       {data.data.post.price}원
                     </p>
-                    {data.data.post.id === myUserId ? null : (
+                    {data.data.post.id === myUserId.user.id ? null : (
                       <Link
                         to={{
                           pathname: "/chatting",

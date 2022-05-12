@@ -206,6 +206,9 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+    searchRooms: builder.query<any, any>({
+      query: () => 'chat',
+    }),
     signout: builder.mutation<SignoutResponse, SignoutRequest>({
       query: (SignoutData: any) => ({
         url: "users/signout",
@@ -296,6 +299,7 @@ export const {
   useTrialMutation,
   useCreateroomMutation,
   useSearchroomMutation,
+  useSearchRoomsQuery,
   useSignoutMutation,
   useEditMutation,
   useEditdpMutation,

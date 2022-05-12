@@ -1,23 +1,28 @@
 import { useAppSelector } from "app/hooks";
 import Loading from "feature/indicator/Loading";
+import Error from "feature/indicator/Error";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { usePosQuery } from "services/api";
 import imagePlaceHolder from "../../images/image_placeholder.svg";
+import NotFound from "feature/indicator/NotFound";
+
 export default function PostLogin() {
-  // const postList = useAppSelector(state => state.posts.posts)
-  // const posts = useAppSelector(state => state.persistedReducer.posts)
-  // console.log('postList', postList)
-  // console.log('posts', posts)
-  const { data, error, isLoading, isFetching } = usePosQuery({
-    refetchOnMountOrArgChange: true,
-  });
-  const [postData, setPostData] = useState("");
-  console.log(data);
-  // console.log(isLoading)
-  // console.log(isFetching)
+
+  const { data, error, isLoading } = usePosQuery();
+  // console.log(data)
+  let filtered = null
+  if (data) {
+    filtered = data.data.posts.map((posts: any) => {
+      return posts
+    }).filter((post: any) => {
+      return post.islend === false
+    })
+  }
+  // console.log(filtered)
+
   if (isLoading) return <Loading />;
-  if (error) return <div>error</div>;
+  if (error) return <Error />;
 
   return (
     <div>
@@ -26,11 +31,9 @@ export default function PostLogin() {
           <h2 className="sr-only">Products</h2>
           <h1 className="mb-5 ml-2 text-left text-gray-700">최근 게시글</h1>
           <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            {isFetching ? (
-              <>fetching...</>
-            ) : (
-              data.data.posts &&
-              data.data.posts.map((post: any) => (
+            {
+              filtered.length !== 0 ?
+              filtered.map((post: any) => (
                 <Link
                   to={`/post/${post.id}`}
                   key={post.id}
@@ -40,7 +43,7 @@ export default function PostLogin() {
                   <div className="w-full h-80 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
                     <img
                       src={
-                        post.photo1 !== "emty"
+                        post.photo1 !== "empty"
                           ? `${process.env.REACT_APP_SERVER_URL}${post.photo1}`
                           : imagePlaceHolder
                       }
@@ -57,8 +60,8 @@ export default function PostLogin() {
                     <p className="text-gray-700">{post.price}원</p>
                   </div>
                 </Link>
-              ))
-            )}
+              )) : <NotFound />
+            }
           </div>
         </div>
       </div>
