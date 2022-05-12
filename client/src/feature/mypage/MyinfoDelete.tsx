@@ -9,6 +9,8 @@ import { setCredentials } from "feature/login/authSlice";
 import { persistStore } from "redux-persist";
 import { setLogin } from "feature/login/loginSlice";
 
+// let persistor = persistStore(store);
+import { persistor } from "../../index";
 export default function MyinfoDelete() {
   const { push } = useHistory();
 

@@ -17,16 +17,16 @@ import Beforelogin from "feature/navbar/Beforelogin";
 import camera from "../../images/photo_upload.png";
 const src = [
   ["망치", "hammer"],
-  ["렌치", "wrench"],
+  ["수레", "wagon"],
   ["몽키스패너", "monkey_spanne"],
   ["육각렌치", "hexagon_wrench"],
   ["줄자", "tape_measure"],
   ["니퍼", "nipper"],
   ["톱", "saw"],
-  ["펜치", "pliers"],
+  ["드릴", "drill"],
   ["삽", "shovel"],
   ["인두기", "soldering_iron"],
-  ["롱펜치", "long_nose"],
+  ["펜치", "long_nose"],
   ["기타", "etc"],
 ];
 export default function PostingEdit() {
@@ -129,11 +129,11 @@ export default function PostingEdit() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-      <div className="min-h-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="min-h-full flex items-center justify-center px-4 sm:px-6 lg:px-6">
         <div className="w-full space-y-4">
           <div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            <h2 className="mt-12 text-center text-3xl font-extrabold text-gray-900">
               포스트 수정하기 🛠
             </h2>
           </div>
