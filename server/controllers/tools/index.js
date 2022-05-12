@@ -163,7 +163,7 @@ module.exports = {
           .json({ data: null, message: "올바른 요청이 아닙니다." });
       }
 
-      if (req.files) {
+      if (req.files && req.files.length !== 0) {
         if (userCheck.dataValues.photo1 !== "empty") {
           const deleteimg = userCheck.dataValues.photo1.slice(11);
           fs.unlinkSync("./postimg/" + deleteimg);
