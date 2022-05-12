@@ -184,8 +184,8 @@ function MyinfoEdit() {
       ref={outSelect}
       onClick={handleOutClick}
     >
-      <div className="bg-white absolute top-1/4 left-1/3 rounded w-10/12 md:w-1/3">
-        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-white absolute mt-10 left-1/3 rounded w-1/12 md:w-3/12">
+        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-6">
           <div className="max-w-md w-full space-y-4">
             <span
               className="absolute top-4 right-6 hover:text-indigo-500 cursor-pointer"
@@ -194,11 +194,11 @@ function MyinfoEdit() {
               &times;
             </span>
             <div>
-              <img
+              {/* <img
                 className="mx-auto h-12 w-auto"
                 src={Lentoollogo}
                 alt="Workflow"
-              />
+              /> */}
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                 회원정보 수정
               </h2>
@@ -216,14 +216,14 @@ function MyinfoEdit() {
                         name="nickname"
                         id="nickname"
                         onChange={handleEditInputValue("nickname")}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-8/12 p-2.5"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                         placeholder="닉네임"
                       />
                       <button
-                        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        className="ml-4 w-9/12 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                         onClick={checkNicknameOverlapping}
                       >
-                        중복 체크
+                        중복 확인
                       </button>
                     </div>
                   </div>
@@ -242,16 +242,16 @@ function MyinfoEdit() {
                     />
                   </div>
                   <div>
-                    {/* <label className="text-sm font-medium text-gray-900 block mb-2">
-                주소
-              </label> */}
+                    <label className="text-left text-sm font-medium text-gray-900 block mb-2">
+                      주소 찾기
+                    </label>
 
-                    <button
+                    {/* <button
                       className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
                       onClick={handleOpen}
                     >
                       주소 찾기
-                    </button>
+                    </button> */}
                     {isAddClicked ? (
                       <div>
                         <DaumPostCode
@@ -265,6 +265,7 @@ function MyinfoEdit() {
                       name="address"
                       id="address"
                       value={fullAddress}
+                      onClick={handleOpen}
                       readOnly
                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       placeholder="주소"

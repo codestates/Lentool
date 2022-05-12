@@ -3,7 +3,7 @@ import Loading from "feature/indicator/Loading";
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useCreateroomMutation, useToolsEditMutation } from "services/api";
-
+import './scroll.css'
 import io from "socket.io-client";
 
 const socket = io(process.env.REACT_APP_SERVER_URL);
@@ -28,6 +28,7 @@ export default function Chatting() {
   const [toolsEdit] = useToolsEditMutation();
 
   const serchchat = async () => {
+    
     const user = await createroom({
       user_id1: myUserId,
       user_id2: roomdata.user_id2,
@@ -38,12 +39,9 @@ export default function Chatting() {
     setroomid(user.data.room_id);
   };
 
-  /* 확인하기 */
   useEffect(() => {
     serchchat();
-    // chatRef.current.scrollTo(0, chatRef.current.scrollHeight)
   }, []);
-
 
   socket.on("message", ({ user_id, content }) => {
     setchattings([...chattings, { user_id, content }]);
@@ -54,11 +52,7 @@ export default function Chatting() {
   };
   const onMessageSubmit = (e: any) => {
     e.preventDefault();
-    const scroll:number = chatRef.current.scrollHeight + 56
-    console.log(chatRef.current.scrollHeight)
-    console.log(scroll)
-    // chatRef.current.scrollTo(0, chatRef.current.scrollHeight)
-    chatRef.current.scrollTo(0, scroll)
+
     socket.emit("message", {
       user_id: myUserId,
       content: chat,
@@ -67,6 +61,11 @@ export default function Chatting() {
     });
     setchat("");
   };
+  
+  useEffect(() => {
+    const scroll:number = chatRef.current.scrollHeight
+    chatRef.current.scrollTo(0, scroll)
+  }, [chattings])
 
   const handleLend = async () => {
     const sendData = [roomdata.post_id, { islend: !isLend }];
@@ -111,8 +110,8 @@ export default function Chatting() {
         </div>
       </div>
 
-      <div className="border overflow-auto h-[32rem] rounded-t-lg mt-4 py-4"
-            ref={chatRef}>
+      <div className="border box-border	overflow-auto h-[32rem] rounded-t-lg mt-4 py-4"
+            ref={chatRef} id='scroll'>
         <div>
           {chattings.map(({ user_id, content }: any, index: any) => {
             return (
@@ -140,7 +139,7 @@ export default function Chatting() {
               onChange={(e) => onTextChange(e)}
               value={chat}
               maxLength={100}
-              className="w-full h-full my-1 mx-2 focus:outline-none" 
+              className="w-[98%] h-full my-1 pb-10 break-all focus:outline-none" 
               required
             />
           </div>

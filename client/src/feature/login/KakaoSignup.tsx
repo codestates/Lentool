@@ -12,7 +12,7 @@ import { setLogin } from "./loginSlice";
 import { useHistory } from "react-router-dom";
 import DaumPostCode from "react-daum-postcode";
 import { toast } from "react-toastify";
-import Lentoollogo from "../../images/lentool_logo.png";
+import logo from "../../images/Kakao_Logo.svg";
 
 export default function KakaoSignup() {
   const outSelect = useRef<any>();
@@ -79,13 +79,14 @@ export default function KakaoSignup() {
     setIsAddClicked(true);
   };
 
-  const handleOpenOut = () => {
+  const handleOpenOut = (e: any) => {
     if (isAddClicked === true) {
       setIsAddClicked(false);
     }
   };
   //kakao 주소창 CSS스타일 설정
   const modalStyle = {
+    Width: "full",
     zIndex: "100",
     border: "2px solid #000000",
     overflow: "hidden",
@@ -181,30 +182,26 @@ export default function KakaoSignup() {
   };
   return (
     <div
-      className="mx-auto md:h-screen flex flex-col justify-center items-center px-6 pt-8 pt:mt-0"
+      className="bg-gray-200 mx-auto md:h-screen flex flex-col justify-relative items-center px-6 pt-10 pt:mt-0"
       ref={outSelect}
-      onClick={handleOutClick}
+      onClick={(e) => {
+        handleOutClick(e);
+        handleOpenOut(e);
+      }}
     >
       <div className="bg-white shadow rounded-lg md:mt-0 w-50 sm:max-w-screen-sm xl:p-0">
         <div className="p-6 sm:p-8 lg:p-16 space-y-8">
           <div>
-            <img
-              className="mx-auto h-12 w-auto"
-              src={Lentoollogo}
-              alt="Workflow"
-            />
+            <img className="mx-auto h-12 w-auto" src={logo} alt="Workflow" />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              KAKAO 회원정보 등록
+              회원정보 등록
             </h2>
           </div>
           <form className="mt-8 space-y-6">
-            <div
-              className="rounded-md shadow-sm -space-y-px text-left "
-              onClick={handleOpenOut}
-            >
+            <div className="rounded-md shadow-sm -space-y-px text-left ">
               <div className="mb-3">
                 <div>
-                  <label className="text-sm text-center font-medium text-gray-900 block mb-2">
+                  <label className="text-left text-sm font-medium text-gray-900 block mb-2">
                     닉네임
                   </label>
                   <div className="justify-center mt-4 flex">
@@ -217,7 +214,7 @@ export default function KakaoSignup() {
                       placeholder="닉네임"
                     />
                     <button
-                      className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                      className="ml-4 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                       onClick={checkNicknameOverlapping}
                     >
                       중복 체크
@@ -226,7 +223,7 @@ export default function KakaoSignup() {
                 </div>
 
                 <div>
-                  <label className="text-sm text-center font-medium text-gray-900 block mb-2 mt-4">
+                  <label className="text-sm text-left font-medium text-gray-900 block mb-2 mt-4">
                     주소 찾기
                   </label>
                   {/* <div className="justify-center mt-4 flex">
@@ -239,7 +236,7 @@ export default function KakaoSignup() {
                   </div> */}
                   <div className="justify-center mt-4 flex">
                     {isAddClicked ? (
-                      <div className="justify-center w-5/12 mt-4 flex">
+                      <div className="justify-center w-full mt-4 flex">
                         <DaumPostCode
                           onComplete={handleComplete}
                           style={modalStyle}

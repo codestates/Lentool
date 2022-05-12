@@ -242,7 +242,7 @@ function Signup() {
 
   return (
     <div
-      className="mx-auto md:h-screen flex flex-col justify-center items-center px-6 pt-8 pt:mt-0"
+      className="bg-gray-200 mx-auto md:h-screen flex flex-col justify-center items-center px-6 pt-8 pt:mt-0"
       onClick={handleOpenOut}
     >
       {/* <a className="text-2xl font-semibold flex justify-center items-center mb-8 lg:mb-10">
@@ -259,7 +259,7 @@ function Signup() {
             action="#"
           >
             <div>
-              <label className="text-sm font-medium text-gray-900 block mb-2">
+              <label className="text-left text-sm font-medium text-gray-900 block mb-2">
                 이메일
               </label>
               <div className="justify-center mt-4 flex">
@@ -272,10 +272,10 @@ function Signup() {
                   placeholder="name@company.com"
                 />
                 <button
-                  className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded "
+                  className="ml-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded "
                   onClick={checkEmailOverlapping}
                 >
-                  이메일 중복 체크
+                  중복 확인
                 </button>
               </div>
             </div>
@@ -283,7 +283,7 @@ function Signup() {
               <span className="text-red-500">이메일 형식에 맞지 않습니다.</span>
             ) : null}
             <div>
-              <label className="text-sm font-medium text-gray-900 block mb-2">
+              <label className="text-left text-sm font-medium text-gray-900 block mb-2">
                 닉네임
               </label>
               <div className="justify-center mt-4 flex">
@@ -292,14 +292,14 @@ function Signup() {
                   name="nickname"
                   id="nickname"
                   onChange={handleInputValue("nickname")}
-                  className="md:w-52  p-2.5 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block "
+                  className=" md:w-52  p-2.5 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block "
                   placeholder="닉네임"
                 />
                 <button
-                  className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                  className="ml-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                   onClick={checkNicknameOverlapping}
                 >
-                  닉네임 중복 체크
+                  중복 확인
                 </button>
               </div>
             </div>
@@ -313,7 +313,7 @@ function Signup() {
               </span>
             ) : null}
             <div>
-              <label className="text-sm font-medium text-gray-900 block mb-2">
+              <label className="text-left text-sm font-medium text-gray-900 block mb-2">
                 비밀번호
               </label>
               <input
@@ -332,7 +332,7 @@ function Signup() {
               </span>
             ) : null}
             <div>
-              <label className="text-sm font-medium text-gray-900 block mb-2">
+              <label className=" text-left text-sm font-medium text-gray-900 block mb-2">
                 비밀번호 확인
               </label>
               <input
@@ -351,7 +351,7 @@ function Signup() {
             ) : null}
 
             <div>
-              <label className="text-sm font-medium text-gray-900 block mb-2">
+              <label className="text-left text-sm font-medium text-gray-900 block mb-2">
                 주소 찾기
               </label>
 

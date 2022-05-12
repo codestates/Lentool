@@ -2,6 +2,7 @@ const { user: userModel } = require("../../models");
 const { chat: chatModel } = require("../../models");
 const { post: postModel } = require("../../models");
 const { user_room: user_roomModel } = require("../../models");
+const { room: roomModel } = require("../../models");
 const { generateAccessToken, isAuthorized } = require("../tokenFunctions");
 const crypto = require("crypto");
 const fs = require("fs");
@@ -33,23 +34,88 @@ module.exports = {
   },
   signout: async (req, res) => {
     const userInfo = isAuthorized(req);
+    const formUrlEncoded = (x) =>
+      Object.keys(x).reduce(
+        (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
+        ""
+      );
     if (!userInfo) {
       return res.status(400).json({ message: "유효하지 않은 토큰" });
     }
     const delId = userInfo.id;
-    Promise.all([
-      postModel.destroy({ where: { user_id: delId } }),
-      chatModel.destroy({ where: { user_id: delId } }),
-      user_roomModel.destroy({ where: { user_id1: delId } }),
-      userModel.destroy({
+    const user = await userModel.findOne({ where: { id: delId } });
+    const userPost = await postModel.findAll({ where: { user_id: delId } });
+    const delUserRoom = await user_roomModel.findAll({
+      where: { user_id2: delId },
+    });
+
+    try {
+      if (user && user.dataValues.kakao_id !== null) {
+        const kakaosignout = await axios.post(
+          "https://kapi.kakao.com/v1/user/unlink",
+          formUrlEncoded({
+            target_id_type: "user_id",
+            target_id: `${user.dataValues.kakao_id}`,
+          }),
+          {
+            headers: {
+              "Content-type": "application/x-www-form-urlencoded",
+              Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_ADMIN}`,
+            },
+          }
+        );
+      }
+      let delpost_id = [];
+      let delchat_roomid = [];
+      if (delUserRoom) {
+        for (let i = 0; i < delUserRoom.length; i++) {
+          delchat_roomid.push(delUserRoom[i].dataValues.room_id);
+        }
+      }
+
+      if (userPost) {
+        for (let i = 0; i < userPost.length; i++) {
+          delpost_id.push(userPost[i].dataValues.id);
+          if (userPost[i].dataValues.photo1 !== "empty") {
+            const deleteimg = userPost[i].dataValues.photo1.slice(11);
+            fs.unlinkSync("./postimg/" + deleteimg);
+            console.log("photo1 deleted");
+          }
+          if (userPost[i].dataValues.photo2 !== "empty") {
+            const deleteimg = userPost[i].dataValues.photo2.slice(11);
+            fs.unlinkSync("./postimg/" + deleteimg);
+            console.log("photo1 deleted");
+          }
+          if (userPost[i].dataValues.photo3 !== "empty") {
+            const deleteimg = userPost[i].dataValues.photo3.slice(11);
+            fs.unlinkSync("./postimg/" + deleteimg);
+            console.log("photo1 deleted");
+          }
+        }
+      }
+
+      for (let i = 0; i < delchat_roomid.length; i++) {
+        const deletechat = await chatModel.destroy({
+          where: { room_id: delchat_roomid[i] },
+        });
+      }
+      const urd = await user_roomModel.destroy({ where: { user_id1: delId } });
+      const urd2 = await user_roomModel.destroy({ where: { user_id2: delId } });
+      for (let i = 0; i < delpost_id.length; i++) {
+        const deleteroom = await roomModel.destroy({
+          where: { post_id: delpost_id[i] },
+        });
+      }
+      const pd = await postModel.destroy({ where: { user_id: delId } });
+      const ud = await userModel.destroy({
         where: { id: delId },
-      }),
-    ])
-      .then(() => res.status(200).json({ data: null, message: "탈퇴 성공" }))
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({ data: null, message: "server error" });
       });
+
+      res.status(200).json({ data: null, message: "탈퇴 성공" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ data: null, message: "server error" });
+    }
   },
   edit: (req, res) => {
     const userInfo = isAuthorized(req);
