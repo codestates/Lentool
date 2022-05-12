@@ -42,7 +42,7 @@ module.exports = {
             user_longitude,
             post_latitude,
             post_longitude
-          ) < 2000
+          ) < 10000
         ) {
           sendData.push(nearPosts[i]);
         }
@@ -105,7 +105,7 @@ module.exports = {
             user_longitude,
             post_latitude,
             post_longitude
-          ) < 2000
+          ) < 10000
         ) {
           sendData.push(nearPosts[i]);
         }
