@@ -144,6 +144,9 @@ module.exports = {
           where: { room_id: roomIds[i].dataValues.id },
         });
       }
+      const destroyroom = await roomModel.destroy({
+        where: { post_id: id },
+      });
       const destroypost = await postModel.destroy({
         where: { id },
       });
