@@ -8,7 +8,7 @@ import { store } from "../../app/store";
 import { setCredentials } from "feature/login/authSlice";
 import { persistStore } from "redux-persist";
 import { setLogin } from "feature/login/loginSlice";
-let persistor = persistStore(store);
+// let persistor = persistStore(store);
 
 export default function MyinfoDelete() {
   const { push } = useHistory();
@@ -35,7 +35,7 @@ export default function MyinfoDelete() {
     dispatch(setCredentials(reset));
     localStorage.removeItem("user");
     localStorage.removeItem("posts");
-    setTimeout(() => persistor.purge(), 200);
+    // setTimeout(() => persistor.purge(), 200);
 
     // localStorage.removeItem("persist:root")
     push("/");
