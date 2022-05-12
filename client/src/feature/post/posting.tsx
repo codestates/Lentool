@@ -139,6 +139,7 @@ export default function Posting() {
                 onChange={handlePreview}
                 ref={fileInput}
                 hidden
+                required
               />
               <div className="flex">
                 {preview1 && (

@@ -1,6 +1,6 @@
 import { useAppSelector } from "app/hooks";
 import Loading from "feature/indicator/Loading";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useCreateroomMutation, useToolsEditMutation } from "services/api";
 
@@ -10,12 +10,14 @@ const socket = io(process.env.REACT_APP_SERVER_URL);
 
 export default function Chatting() {
   let location = useLocation();
+  const chatRef = useRef<any>()
   const roomdata: any = location.state;
 
   const [chattings, setchattings]: any = useState([]);
   const [chat, setchat] = useState("");
   const [roomid, setroomid] = useState(null);
   const [isLend, setIsLend] = useState(roomdata.islend);
+  const [scroll, setScroll]:any = useState(null)
   // const [isMe, setIsMe]:any = useState(true)
   const myUserId = useAppSelector(
     (state) => state.persistedReducer.myinfo.user.id
@@ -36,9 +38,13 @@ export default function Chatting() {
     setroomid(user.data.room_id);
   };
 
+  /* 확인하기 */
   useEffect(() => {
     serchchat();
+    // chatRef.current.scrollTo(0, chatRef.current.scrollHeight)
   }, []);
+
+
   socket.on("message", ({ user_id, content }) => {
     setchattings([...chattings, { user_id, content }]);
   });
@@ -48,6 +54,11 @@ export default function Chatting() {
   };
   const onMessageSubmit = (e: any) => {
     e.preventDefault();
+    const scroll:number = chatRef.current.scrollHeight + 56
+    console.log(chatRef.current.scrollHeight)
+    console.log(scroll)
+    // chatRef.current.scrollTo(0, chatRef.current.scrollHeight)
+    chatRef.current.scrollTo(0, scroll)
     socket.emit("message", {
       user_id: myUserId,
       content: chat,
@@ -66,11 +77,8 @@ export default function Chatting() {
   if (isLoading) return <Loading />;
 
   return (
-    // <div className="max-w-2xl mx-auto px-4 py-10">
-    // <h1 className="text-left mb-8">채팅 목록</h1>
-    // <div className="border-2 rounded-lg">
     <div className="max-w-2xl mx-auto px-4 py-10">
-      <h1 className="text-xl">{roomdata.title}</h1>
+      <h1 className="text-xl font-semibold text-gray-700 rounded-xl">{roomdata.title}</h1>
       <div className="flex py-4">
         <div className="flex flex-1 text-left">
           {roomdata.photo !== "empty" ? (
@@ -85,34 +93,34 @@ export default function Chatting() {
               className="w-12 h-12 rounded-full"
             />
           )}
-          <span className="my-auto">{roomdata.nickname}</span>
-          {/* <div>{roomdata.user_id2}</div> */}
+          <span className="my-auto pl-2">{roomdata.nickname}</span>
         </div>
         <div>
           {isowner ? (
             <button
               onClick={handleLend}
-              className="bg-yellow-300 text-white text-right px-4 py-2 rounded-lg"
+              className="bg-yellow-300 text-white text-right px-4 py-2 rounded-lg hover:bg-yellow-500"
             >
               {isLend ? "대여중" : "대여 시작"}
             </button>
           ) : isLend ? (
-            <button className="bg-yellow-300 text-white text-right px-4 py-2 rounded-lg">
+            <button className="disabled bg-zinc-300 text-white text-right px-4 py-2 rounded-lg">
               대여중
             </button>
           ) : null}
         </div>
       </div>
 
-      <div className="border-2 rounded-lg my-4 py-4">
+      <div className="border overflow-auto h-[32rem] rounded-t-lg mt-4 py-4"
+            ref={chatRef}>
         <div>
           {chattings.map(({ user_id, content }: any, index: any) => {
             return (
-              <div key={index} className="mx-4 my-4 pb-8">
+              <div key={index} className="mx-4 pb-4">
                 <div
-                  className={user_id === myUserId ? "text-right" : "text-left"}
+                  className={`flex text-left ${user_id === myUserId ? "justify-end" : "justify-start"}`}
                 >
-                  <span className="py-3 px-4 bg-gray-200 rounded-lg">
+                  <span className="break-all max-w-[20rem] h-auto py-2 px-4 bg-gray-200 rounded-lg">
                     {content}
                   </span>
                 </div>
@@ -120,27 +128,29 @@ export default function Chatting() {
             );
           })}
         </div>
+      </div>
+      <div className="bg-gray-100 py-4 border-x"></div>
         <form
           onSubmit={onMessageSubmit}
-          className="border-2 rounded-lg my-8 mx-4"
+          className="flex items-start relative h-full border rounded-b-lg"
         >
-          <div>
+          <div className="flex-grow">
             <input
               name="content"
               onChange={(e) => onTextChange(e)}
               value={chat}
               maxLength={100}
-              className="py-4 w-full"
+              className="w-full h-full my-1 mx-2 focus:outline-none" 
+              required
             />
           </div>
           <div className="text-right py-3">
-            <span className="text-sm text-gray-700">{chat.length} / 100</span>
-            <button className="bg-gray-300 py-1 px-4 rounded-lg mx-4 ">
+            <span className="text-xs text-gray-700">{chat.length} / 100</span>
+            <button className={`${chat ? 'bg-yellow-300' : 'bg-gray-300'} py-4 px-4 rounded-lg mx-4`}>
               전송
             </button>
           </div>
         </form>
-      </div>
     </div>
   );
 }
