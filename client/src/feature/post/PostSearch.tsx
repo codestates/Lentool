@@ -1,5 +1,7 @@
 import { useAppSelector } from "app/hooks";
 import { Link, useLocation } from "react-router-dom";
+import imagePlaceHolder from "../../images/image_placeholder.svg";
+
 import qs from "qs";
 export default function PostSearch() {
   const searchValue = useAppSelector((state) => state.persistedReducer.search);
@@ -32,7 +34,11 @@ export default function PostSearch() {
                   >
                     <div className="w-full relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
                       <img
-                        src={`${process.env.REACT_APP_SERVER_URL}${post.photo1}`}
+                        src={
+                          post.photo1 !== "empty"
+                            ? `${process.env.REACT_APP_SERVER_URL}${post.photo1}`
+                            : imagePlaceHolder
+                        }                        
                         alt={post.photo1}
                         className="w-full h-full object-center object-cover group-hover:opacity-75"
                       />
@@ -66,7 +72,11 @@ export default function PostSearch() {
                   >
                     <div className="w-full relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
                       <img
-                        src={`${process.env.REACT_APP_SERVER_URL}${post.photo1}`}
+                        src={
+                          post.photo1 !== "empty"
+                            ? `${process.env.REACT_APP_SERVER_URL}${post.photo1}`
+                            : imagePlaceHolder
+                        }                        
                         alt={post.photo1}
                         className="w-full h-full object-center object-cover group-hover:opacity-75"
                       />

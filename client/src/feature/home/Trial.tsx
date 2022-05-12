@@ -85,45 +85,44 @@ export default function Test() {
   }, []);
 
   return (
-    <div>
-      <p className="text-zinc-700 font-semibold	pb-8 text-5xl text-left leading-snug">
+    <div className="flex flex-col">
+      <p className="text-zinc-700 font-semibold	pb-8 text-3xl sm:text-3xl md:text-4xl lg:text-5xl text-left leading-snug">
         우리 동네에서는?
       </p>
-      <div className="flex rounded-xl px-8 py-12 shadow-[0_10px_30px_5px_rgba(0,0,0,0.2)]">
+      <div className="grid sm:grid md:grid lg:flex xl:flex 2xl:flex items-center rounded-xl px-8 py-12 shadow-[0_10px_30px_5px_rgba(0,0,0,0.2)]">
         <div
           id="map"
-          className="rounded-xl mx-8 flex-1"
-          style={{ width: "35rem" /*  margin: "4rem"  */ }}
+          className="rounded-xl mx-4 flex-1"
+          style={{ width: "26rem", height: "26rem" /*  margin: "4rem"  */ }}
         />
-        <div className="my-auto mx-8 flex-1">
+        <div className="my-auto mx-4 mt-8 sm:mt-8 md:mt-8 lg:mt-0 xl:mt-0 2xl:mt-0 flex-1">
           {!data ? (
             <div>Loading...</div>
           ) : (
-            <div className="grid">
+            <div className="grid grid-cols-2 gap-4 w-[26rem] h-[26rem]">
               {data.data.posts.length !== 0 ? (
                 data.data.posts.map((trial: any) => {
                   return (
-                    <div
-                      key={trial.id}
-                      className="py-2 grid-cols-2 gap-x-10 gap-y-4 rounded-2xl max-w-sm text-left"
-                    >
+                    <div key={trial.id} className="rounded-2xl max-w-sm ">
                       <div className="relative rounded-xl xl:aspect-w-7 xl:aspect-h-8">
                         <img
                           src={`http://localhost:80${trial.photo1}`}
                           alt="my-posting"
-                          className="h-[14rem] w-auto rounded-xl object-center object-cover"
+                          className="h-[9rem] mx-auto my-auto rounded-xl object-center object-cover"
                         />
                       </div>
-                      <h3 className="mt-2 text-sm font-medium text-gray-900">
+                      <h3 className="mt-2 text-left text-sm font-medium text-gray-900">
                         {trial.title}
                       </h3>
-                      <h3 className="text-xs text-gray-700">{trial.address}</h3>
+                      <h3 className="text-left text-xs text-gray-700">
+                        {trial.address.slice(0, 15)}
+                      </h3>
                     </div>
                   );
                 })
               ) : (
                 <div className="">
-                  <div className="w-full h-50 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
+                  <div className="w-[26rem] h-[26rem] relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
                     <img
                       src={notFound}
                       alt="my-posting"

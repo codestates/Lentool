@@ -8,7 +8,7 @@ import {
 import { useToolsMutation } from "services/api";
 import { Link, useHistory } from "react-router-dom";
 import { useAppSelector } from "app/hooks";
-import camera from "../../images/photo_upload.png";
+import camera from "../../images/camera.png";
 const src = [
   ["망치", "hammer"],
   ["수레", "wagon"],
@@ -92,11 +92,12 @@ export default function Posting() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#fbfbfb] py-10">
+    <div className="max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8 bg-white border rounded-lg">
       <div className="min-h-full flex items-center justify-center px-4 sm:px-6 lg:px-6">
-        <div className="w-full space-y-4">
+        <div className="w-full">
           <div>
-            <h2 className="mt-12 text-center text-3xl font-extrabold text-gray-900">
+            <h2 className="text-center text-3xl font-extrabold text-gray-900">
               공유하기
             </h2>
           </div>
@@ -111,7 +112,7 @@ export default function Posting() {
                   name="title"
                   type="text"
                   onChange={handleInputValue("title")}
-                  className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 focus:z-10 sm:text-sm"
                   placeholder="제목을 입력해주세요"
                   required
                 />
@@ -125,7 +126,7 @@ export default function Posting() {
                   name="price"
                   type="number"
                   onChange={handleInputValue("price")}
-                  className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 focus:z-10 sm:text-sm"
                   placeholder="가격을 정해주세요"
                   required
                 />
@@ -142,12 +143,11 @@ export default function Posting() {
                   hidden
                   required
                 />
-                <img src={camera} className="w-20 rounded-lg" alt="upload" />
+                <img src={camera} className="w-8 mt-1 opacity-70 mx-auto rounded-lg" alt="upload" />
                 <span className="mt-2 text-gray-500 text-xs mx-auto">
                   {photo.length} / 3
                 </span>
               </label>
-
               <div className="flex">
                 {preview1 && (
                   <img
@@ -182,7 +182,7 @@ export default function Posting() {
                   name="description"
                   onChange={handleInputValue("description")}
                   rows={10}
-                  className="resize-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="resize-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 focus:z-10 sm:text-sm"
                   placeholder="ex. 크기, 상태 등"
                   required
                 />
@@ -209,11 +209,11 @@ export default function Posting() {
               <div className="text-center pt-4">
                 {isTag && (
                   <>
-                    <span className="text-xs font-semibold inline-block py-1 px-2 rounded-full text-indigo-600 bg-indigo-200 last:mr-0 mr-1">
+                    <span className="text-xs font-semibold inline-block py-1 px-2 rounded-full text-yellow-600 bg-yellow-200 last:mr-0 mr-1">
                       {isTag[0]}
                       <button
                         onClick={() => handleRemoveTag(isTag[0])}
-                        className="text-gray-500 pl-1 text-xs"
+                        className="text-yellow-500 pl-1 text-xs"
                       >
                         &times;
                       </button>
@@ -225,18 +225,16 @@ export default function Posting() {
             <button
               type="button"
               onClick={handlePosting}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                {/* <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                </svg> */}
               </span>
               완료
             </button>
           </form>
         </div>
       </div>
+    </div>
     </div>
   );
 }

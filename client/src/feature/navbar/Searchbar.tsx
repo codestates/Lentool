@@ -11,9 +11,10 @@ export default function Searchbar() {
   const isLogin = useAppSelector((state) => state.login.isLogin);
 
   const [result] = useSearchMutation();
-  // const handleSearch = (e: any) => {
-  //   setInputValue(e.target.value)
-  // }
+
+  const handleSearch = (e: any) => {
+    setInputValue(e.target.value);
+  };
   const handleSearchDisabled = (e: any) => {
     e.preventDefault();
     dispatch(setIsModal());

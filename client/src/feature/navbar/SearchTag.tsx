@@ -24,9 +24,9 @@ const src = [
 export default function SearchTag() {
   const { push } = useHistory();
   const dispatch = useAppDispatch();
-  const tagRef = useRef<any>();
   const [inputValue, setInputValue] = useState("");
   const [isTag, setIsTag] = useState("hidden");
+
   const [result] = useSearchMutation();
   const [result2] = useSearchByTagMutation();
   const handleSearch = (e: any) => {
@@ -39,9 +39,13 @@ export default function SearchTag() {
     const title = await result(inputValue);
     console.log(title);
     dispatch(getSearch(title));
-    setInputValue("");
     push(`/search?title=${inputValue}`);
+    const clearInput = async () => {
+      setInputValue("");
+    };
+    await clearInput();
   };
+
   const searchByTag = async (tag: string) => {
     console.log(tag);
     const tagResult = await result2(tag);

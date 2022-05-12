@@ -1,4 +1,10 @@
-const { post: postModel, user: userModel } = require("../../models");
+const {
+  post: postModel,
+  user: userModel,
+  chat: chatModel,
+  user_room: user_roomModel,
+  room: roomModel,
+} = require("../../models");
 const { isAuthorized } = require("../tokenFunctions");
 const fs = require("fs");
 
@@ -9,7 +15,9 @@ module.exports = {
       if (!userInfo) {
         if (req.files) {
           for (let i = 0; i < req.files.length; i++) {
-            fs.unlinkSync("./postimg/" + req.files[i].filename);
+            if (fs.existsSync("./postimg/" + req.files[i].filename)) {
+              fs.unlinkSync("./postimg/" + req.files[i].filename);
+            }
           }
         }
         return res.status(400).json({
@@ -39,7 +47,9 @@ module.exports = {
       if (!title || !price || !description || !filepath1 || !tag) {
         if (req.files) {
           for (let i = 0; i < req.files.length; i++) {
-            fs.unlinkSync("./postimg/" + req.files[i].filename);
+            if (fs.existsSync("./postimg/" + req.files[i].filename)) {
+              fs.unlinkSync("./postimg/" + req.files[i].filename);
+            }
           }
         }
         return res.status(400).json({
@@ -104,18 +114,35 @@ module.exports = {
     try {
       if (userCheck.dataValues.photo1 !== "empty") {
         const deleteimg = userCheck.dataValues.photo1.slice(11);
-        fs.unlinkSync("./postimg/" + deleteimg);
-        console.log("photo1 deleted");
+        if (fs.existsSync("./postimg/" + deleteimg)) {
+          fs.unlinkSync("./postimg/" + deleteimg);
+          console.log("photo1 deleted");
+        }
       }
       if (userCheck.dataValues.photo2 !== "empty") {
         const deleteimg = userCheck.dataValues.photo2.slice(11);
-        fs.unlinkSync("./postimg/" + deleteimg);
-        console.log("photo2 deleted");
+        if (fs.existsSync("./postimg/" + deleteimg)) {
+          fs.unlinkSync("./postimg/" + deleteimg);
+          console.log("photo2 deleted");
+        }
       }
       if (userCheck.dataValues.photo3 !== "empty") {
         const deleteimg = userCheck.dataValues.photo3.slice(11);
-        fs.unlinkSync("./postimg/" + deleteimg);
-        console.log("photo3 deleted");
+        if (fs.existsSync("./postimg/" + deleteimg)) {
+          fs.unlinkSync("./postimg/" + deleteimg);
+          console.log("photo3 deleted");
+        }
+      }
+      const roomIds = await roomModel.findAll({ where: { post_id: id } });
+      for (let i = 0; i < roomIds.length; i++) {
+        dsetroychat = await chatModel.destroy({
+          where: { room_id: roomIds[i].dataValues.id },
+        });
+      }
+      for (let i = 0; i < roomIds.length; i++) {
+        dsetroyuser_room = await user_roomModel.destroy({
+          where: { room_id: roomIds[i].dataValues.id },
+        });
       }
       const destroypost = await postModel.destroy({
         where: { id },
@@ -131,7 +158,9 @@ module.exports = {
       if (!userInfo) {
         if (req.files) {
           for (let i = 0; i < req.files.length; i++) {
-            fs.unlinkSync("./postimg/" + req.files[i].filename);
+            if (fs.existsSync("./postimg/" + req.files[i].filename)) {
+              fs.unlinkSync("./postimg/" + req.files[i].filename);
+            }
           }
         }
         return res.status(400).json({
@@ -144,7 +173,9 @@ module.exports = {
       if (!id) {
         if (req.files) {
           for (let i = 0; i < req.files.length; i++) {
-            fs.unlinkSync("./postimg/" + req.files[i].filename);
+            if (fs.existsSync("./postimg/" + req.files[i].filename)) {
+              fs.unlinkSync("./postimg/" + req.files[i].filename);
+            }
           }
         }
         return res.status(400).json({ data: null, message: "요청 정보 누락" });
@@ -155,7 +186,9 @@ module.exports = {
       if (!userCheck) {
         if (req.files) {
           for (let i = 0; i < req.files.length; i++) {
-            fs.unlinkSync("./postimg/" + req.files[i].filename);
+            if (fs.existsSync("./postimg/" + req.files[i].filename)) {
+              fs.unlinkSync("./postimg/" + req.files[i].filename);
+            }
           }
         }
         return res
@@ -166,18 +199,24 @@ module.exports = {
       if (req.files && req.files.length !== 0) {
         if (userCheck.dataValues.photo1 !== "empty") {
           const deleteimg = userCheck.dataValues.photo1.slice(11);
-          fs.unlinkSync("./postimg/" + deleteimg);
-          console.log("photo1 deleted");
+          if (fs.existsSync("./postimg/" + deleteimg)) {
+            fs.unlinkSync("./postimg/" + deleteimg);
+            console.log("photo1 deleted");
+          }
         }
         if (userCheck.dataValues.photo2 !== "empty") {
           const deleteimg = userCheck.dataValues.photo2.slice(11);
-          fs.unlinkSync("./postimg/" + deleteimg);
-          console.log("photo2 deleted");
+          if (fs.existsSync("./postimg/" + deleteimg)) {
+            fs.unlinkSync("./postimg/" + deleteimg);
+            console.log("photo2 deleted");
+          }
         }
         if (userCheck.dataValues.photo3 !== "empty") {
           const deleteimg = userCheck.dataValues.photo3.slice(11);
-          fs.unlinkSync("./postimg/" + deleteimg);
-          console.log("photo3 deleted");
+          if (fs.existsSync("./postimg/" + deleteimg)) {
+            fs.unlinkSync("./postimg/" + deleteimg);
+            console.log("photo3 deleted");
+          }
         }
         const filepath1 = req.files[0]
           ? `/postimage/${req.files[0].filename}`
