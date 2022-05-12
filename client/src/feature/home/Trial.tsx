@@ -11,13 +11,13 @@ declare global {
 }
 
 export default function Test() {
-  const [trial, {data, isLoading, isSuccess}] = useTrialMutation();
-  console.log('isLoading',isLoading)
-  console.log('isSuccess',isSuccess)
-  console.log('data',data)
+  const [trial, { data, isLoading, isSuccess }] = useTrialMutation();
+  console.log("isLoading", isLoading);
+  console.log("isSuccess", isSuccess);
+  console.log("data", data);
 
   useEffect(() => {
-    const mapContainer = document.getElementById("map") // 지도를 표시할 div
+    const mapContainer = document.getElementById("map"); // 지도를 표시할 div
     const mapOption = {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
       level: 7, // 지도의 확대 레벨
@@ -33,15 +33,15 @@ export default function Test() {
         lat = position.coords.latitude; // 위도
         lon = position.coords.longitude; // 경도
 
-        const imageSrc = "https://i.ibb.co/GFBFKGG/location-back.png" // 마커이미지의 주소입니다
-        const imageSize = new window.kakao.maps.Size(60, 60) // 마커이미지의 크기입니다
-        const imageOption = { offset: new window.kakao.maps.Point(27, 69) } // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+        const imageSrc = "https://i.ibb.co/GFBFKGG/location-back.png"; // 마커이미지의 주소입니다
+        const imageSize = new window.kakao.maps.Size(60, 60); // 마커이미지의 크기입니다
+        const imageOption = { offset: new window.kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
         const markerImage = new window.kakao.maps.MarkerImage(
           imageSrc,
           imageSize,
           imageOption
-        )
+        );
         const locPosition = new window.kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
         const marker = new window.kakao.maps.Marker({
           position: locPosition,
@@ -69,9 +69,9 @@ export default function Test() {
         marker.setMap(map);
       });
     } else {
-      alert('위치정보확인 동의하셔야 체험하기 이용이 가능합니다')
+      alert("위치정보확인 동의하셔야 체험하기 이용이 가능합니다");
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-      const locPosition = new window.kakao.maps.LatLng(33.450701, 126.570667)
+      const locPosition = new window.kakao.maps.LatLng(33.450701, 126.570667);
       const message = "geolocation을 사용할수 없어요..";
     }
     function setDraggable(draggable: boolean) {
@@ -82,7 +82,6 @@ export default function Test() {
     }
     // setDraggable(false);
     setZoomable(false);
-
   }, []);
 
   return (
@@ -92,47 +91,51 @@ export default function Test() {
       </p>
       <div className="flex rounded-xl px-8 py-12 shadow-[0_10px_30px_5px_rgba(0,0,0,0.2)]">
         <div
-        id="map"
-        className="rounded-xl mx-8 flex-1"
-        style={{ width: "35rem",/*  margin: "4rem"  */}}
+          id="map"
+          className="rounded-xl mx-8 flex-1"
+          style={{ width: "35rem" /*  margin: "4rem"  */ }}
         />
         <div className="my-auto mx-8 flex-1">
-          { !data ? <div>Loading...</div> 
-            : <div className="grid">
-            { data.data.posts.length !== 0 ?  
-              ( 
+          {!data ? (
+            <div>Loading...</div>
+          ) : (
+            <div className="grid">
+              {data.data.posts.length !== 0 ? (
                 data.data.posts.map((trial: any) => {
-                return (
-                  <div key={trial.id} className="py-2 grid-cols-2 gap-x-10 gap-y-4 rounded-2xl max-w-sm text-left">
-                    <div className="relative rounded-xl xl:aspect-w-7 xl:aspect-h-8">
-                      <img
-                        src={`http://localhost:80${trial.photo1}`}
-                        alt="my-posting"
-                        className="h-[14rem] w-auto rounded-xl object-center object-cover"
-                      />
+                  return (
+                    <div
+                      key={trial.id}
+                      className="py-2 grid-cols-2 gap-x-10 gap-y-4 rounded-2xl max-w-sm text-left"
+                    >
+                      <div className="relative rounded-xl xl:aspect-w-7 xl:aspect-h-8">
+                        <img
+                          src={`http://localhost:80${trial.photo1}`}
+                          alt="my-posting"
+                          className="h-[14rem] w-auto rounded-xl object-center object-cover"
+                        />
+                      </div>
+                      <h3 className="mt-2 text-sm font-medium text-gray-900">
+                        {trial.title}
+                      </h3>
+                      <h3 className="text-xs text-gray-700">{trial.address}</h3>
                     </div>
-                    <h3 className="mt-2 text-sm font-medium text-gray-900">
-                      {trial.title}
-                    </h3>
-                    <h3 className="text-xs text-gray-700">{trial.address}</h3>
+                  );
+                })
+              ) : (
+                <div className="">
+                  <div className="w-full h-50 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
+                    <img
+                      src={notFound}
+                      alt="my-posting"
+                      className="w-full h-full object-center object-cover group-hover:opacity-75"
+                    />
                   </div>
-                );
-              })
-            ) : (
-              <div className="">
-                <div className="w-full h-50 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
-                  <img
-                    src={notFound}
-                    alt="my-posting"
-                    className="w-full h-full object-center object-cover group-hover:opacity-75"
-                  />
                 </div>
-              </div>
-            )}
-          </div>
-          }
+              )}
+            </div>
+          )}
         </div>
-      </div>      
+      </div>
     </div>
   );
 }
