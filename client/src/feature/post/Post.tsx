@@ -1,10 +1,8 @@
-import { Key, ReactChild, ReactFragment, ReactPortal, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { usePostidQuery } from "services/api";
-import { getDetailPost } from "./detailPostSlice";
 import Carousel from "./carousel";
-import imagePlaceHolder from "../../images/image_placeholder.svg";
+import Loading from "feature/indicator/Loading";
 
 const product = {
   name: "공구 > 소공구 > 몽키스패너",
@@ -62,11 +60,11 @@ const product = {
 export default function Post() {
   let { post_id }: any = useParams();
   const { data, isLoading, error } = usePostidQuery(post_id);
-  console.log(data)
+  // console.log(data.data.post.tag)
   const myUserId = useAppSelector(
     (state) => state.persistedReducer.myinfo
   );
-  console.log(myUserId)
+  if (isLoading) return <Loading />
 
   return (
     <div className="bg-white">
@@ -74,13 +72,9 @@ export default function Post() {
         <nav aria-label="Breadcrumb">
           <ul className="max-w-2xl mx-auto px-4 flex items-center space-x-2 sm:px-6 lg:max-w-2xl lg:px-8">
             <li className="text-sm">
-              <a
-                href={product.href}
-                aria-current="page"
-                className="font-medium text-gray-500 hover:text-gray-600"
-              >
-                {product.name}
-              </a>
+              <p className="font-medium text-gray-500 hover:text-gray-600">
+                공구 &gt; { data && data.data.post.tag}
+              </p>
             </li>
           </ul>
         </nav>
@@ -112,12 +106,12 @@ export default function Post() {
                       <h3>{data.data.post.address}</h3>
                     </div>
                     <div className="flex-1 text-right text-sm">
-                      <a href="" className="mx-1">
+                      {/* <a href="" className="mx-1">
                         💬
                       </a>
                       <a href="" className="mx-1">
                         ❤️
-                      </a>
+                      </a> */}
                     </div>
                   </div>
                   <div className="border-b-2 border-gray-100 py-3 " />
@@ -128,7 +122,7 @@ export default function Post() {
                       <h2 className="text-xl my-1 font-medium text-gray-900">
                         {data.data.post.title}
                       </h2>
-                      <p className="text-sm text-gray-600">공구 &gt; 소공구</p>
+                      <span className="text-sm px-2 rounded-full text-yellow-600 bg-yellow-200">{data && data.data.post.tag}</span>
                     </div>
                     <div className="mt-4 space-y-6">
                       <p className="text-base text-left text-gray-900">

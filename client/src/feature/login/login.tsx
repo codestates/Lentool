@@ -95,13 +95,13 @@ function Login() {
 
   return (
     <div
-      className="h-screen w-full z-50 fixed bg-black bg-opacity-40 text-center"
+      className="h-full w-full z-50 fixed bg-black bg-opacity-40 text-center"
       ref={outSelect}
       onClick={handleOutClick}
     >
-      <div className="max-w-2xl bg-white fixed mx-auto my-40 w-96 inset-0 rounded ">
-        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-md w-full space-y-4">
+      <div className="max-w-2xl h-[520px] bg-white absolute mx-auto w-96 my-auto inset-0 rounded">
+        <div className="flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full">
             <span
               className="absolute top-4 right-6 hover:text-indigo-500 cursor-pointer"
               onClick={() => dispatch(setIsModal())}
@@ -113,7 +113,7 @@ function Login() {
                 로그인
               </h2>
             </div>
-            <form className="mt-8 space-y-6">
+            <form className="mt-4 space-y-6">
               <div className="rounded-md shadow-sm -space-y-px text-left ">
                 <div className="py-3">
                   <label htmlFor="email-address" className="text-sm">
@@ -150,11 +150,11 @@ function Login() {
                 <button
                   onClick={handleSubmit}
                   type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     <svg
-                      className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                      className="h-5 w-5 text-gray-500 group-hover:text-gray-400"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -173,36 +173,25 @@ function Login() {
               <div className="text-xs text-gray-700">또는</div>
               <div>
                 <button
-                  onClick={() => console.log("버튼누름")}
-                  type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  onClick={() =>
+                    window.location.assign(
+                      `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_API}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`
+                    )}                  
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-[#000000 85%] bg-[#FEE500] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    <svg
-                      className="h-5 w-5 text-gray-500 group-hover:text-gray-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    className="h-5 w-5 text-gray-500 group-hover:text-gray-400"
+                    viewBox="0 0 42 30"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M12.545 12.151a1.91 1.91 0 0 0 1.909 1.909h3.536c-.607 1.972-2.101 3.467-4.26 3.866-3.431.635-6.862-1.865-7.19-5.339a6.034 6.034 0 0 1 8.782-5.941 1.958 1.958 0 0 0 2.286-.368 1.992 1.992 0 0 0-.498-3.179 10.005 10.005 0 0 0-5.692-1.038c-4.583.502-8.31 4.226-8.812 8.809A10.002 10.002 0 0 0 12.545 22c6.368 0 8.972-4.515 9.499-8.398.242-1.78-1.182-3.352-2.978-3.354l-4.61-.006a1.908 1.908 0 0 0-1.911 1.909z"
-                      />
-                    </svg>
+                    <path fill-rule="evenodd"  fill-opacity="0.902" fill="rgb(0, 0, 0)" d="M17.999,0.969 C8.58,0.969 0.0,7.225 0.0,14.942 C0.0,19.740 3.116,23.973 7.862,26.488 L5.865,33.818 C5.689,34.468 6.426,34.983 6.993,34.608 L15.746,28.802 C16.485,28.874 17.236,28.915 17.999,28.915 C27.941,28.915 35.999,22.659 35.999,14.942 C35.999,7.225 27.941,0.969 17.999,0.969 "/>
+                  </svg>
                   </span>
-                  Google 계정으로 계속하기
+                  카카오 로그인
                 </button>
               </div>
-              <button
-                onClick={() =>
-                  window.location.assign(
-                    `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_API}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`
-                  )
-                }
-              >
-                <img src={image} />
-              </button>
               <div className="text-sm">
                 <span className="mb-2 mx-2 text-xs text-gray-700">
                   아직 회원이 아니십니까?

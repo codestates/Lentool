@@ -76,9 +76,10 @@ export default function Chatting() {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-10">
-      <h1 className="text-xl font-semibold text-gray-700 rounded-xl">{roomdata.title}</h1>
-      <div className="flex py-4">
+    <div className="bg-[#fbfbfb] py-10">
+    <div className="max-w-2xl mx-auto px-4">
+      <h1 className="text-xl border rounded-t-lg py-4 font-semibold text-gray-700">{roomdata.title}</h1>
+      <div className="flex py-4 border-x">
         <div className="flex flex-1 text-left">
           {roomdata.photo !== "empty" ? (
             <img
@@ -98,19 +99,19 @@ export default function Chatting() {
           {isowner ? (
             <button
               onClick={handleLend}
-              className="bg-yellow-300 text-white text-right px-4 py-2 rounded-lg hover:bg-yellow-500"
+              className="bg-yellow-300 mr-4 text-white text-right px-4 py-2 rounded-lg hover:opacity-70"
             >
               {isLend ? "대여중" : "대여 시작"}
             </button>
           ) : isLend ? (
-            <button className="disabled bg-zinc-300 text-white text-right px-4 py-2 rounded-lg">
+            <button className="disabled mr-4 bg-zinc-300 text-white text-right px-4 py-2 rounded-lg">
               대여중
             </button>
           ) : null}
         </div>
       </div>
 
-      <div className="border box-border	overflow-auto h-[32rem] rounded-t-lg mt-4 py-4"
+      <div className="border box-border	overflow-auto h-[32rem] py-4"
             ref={chatRef} id='scroll'>
         <div>
           {chattings.map(({ user_id, content }: any, index: any) => {
@@ -150,6 +151,8 @@ export default function Chatting() {
             </button>
           </div>
         </form>
+      </div>
     </div>
+
   );
 }
