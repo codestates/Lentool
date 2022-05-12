@@ -154,7 +154,7 @@ export const api = createApi({
         body: setSignupData,
       }),
     }),
-    pos: builder.query<any, any>({
+    pos: builder.query<any, void>({
       query: () => "posts",
     }),
     posts: builder.mutation<any, void>({
@@ -207,7 +207,7 @@ export const api = createApi({
       }),
     }),
     searchRooms: builder.query<any, any>({
-      query: () => 'chat',
+      query: () => "chat",
     }),
     signout: builder.mutation<SignoutResponse, SignoutRequest>({
       query: (SignoutData: any) => ({
