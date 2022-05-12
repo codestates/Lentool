@@ -78,10 +78,10 @@ export default function Mycontents() {
                             // react-dom5버젼용, 6버젼이면 안먹음.
                             <Link
                               to={{
-                                pathname: "/postingEdit",
-                                state: {
-                                  data: mypost,
-                                },
+                                pathname: `/postingEdit/${mypost.id}`,
+                                // state: {
+                                //   data: mypost,
+                                // },
                               }}
                             >
                               <button

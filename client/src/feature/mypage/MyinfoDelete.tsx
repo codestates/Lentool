@@ -4,6 +4,11 @@ import { useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { toast } from "react-toastify";
 import { useSignoutMutation } from "services/api";
+import { store } from "../../app/store";
+import { setCredentials } from "feature/login/authSlice";
+import { persistStore } from "redux-persist";
+import { setLogin } from "feature/login/loginSlice";
+let persistor = persistStore(store);
 
 export default function MyinfoDelete() {
   const { push } = useHistory();
@@ -17,14 +22,33 @@ export default function MyinfoDelete() {
     e.preventDefault();
     if (e.target === outSelect.current) dispatch(setIsMyinfoDeleteModal());
   };
+  //토큰 초기화
+  const reset = {
+    data: {
+      user: "",
+      token: "",
+    },
+  };
+  //회원 탈퇴시 로그아웃도 처리 하려고 만든 함수
+  const handleLogout = () => {
+    dispatch(setLogin(false));
+    dispatch(setCredentials(reset));
+    localStorage.removeItem("user");
+    localStorage.removeItem("posts");
+    setTimeout(() => persistor.purge(), 200);
+
+    // localStorage.removeItem("persist:root")
+    push("/");
+  };
   const handleDeleteClick = async () => {
     try {
       console.log(myinfo);
       const user = await signout(myinfo).unwrap();
       dispatch(setIsMyinfoDeleteModal()); //바로 모달창 닫히는 기능
+      handleLogout();
       toast.success("성공적으로 회원탈퇴 완료");
       // console.log(user);
-      push("/");
+      // push("/");
     } catch (err) {
       console.log("error", err);
     }
