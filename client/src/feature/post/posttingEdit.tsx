@@ -73,10 +73,11 @@ export default function PostingEdit() {
       console.log(data.data.post);
     }
   }, [data]);
+
   const fileInput: any = useRef(null);
   //요소 필터로 src에서 요소 찾아서 그 배열만 가져오기
 
-  const [tools] = useToolsMutation();
+  // const [tools] = useToolsMutation();
   const [toolsEdit] = useToolsEditMutation();
   /* Tag 추가 */
   const handleTag = (e: any) => {
@@ -95,10 +96,21 @@ export default function PostingEdit() {
   /* 프리뷰 이미지 생성 및 사진 상태 저장 */
   const handlePreview = (e: any) => {
     setPhoto(e.target.files);
-    console.log(e.target.files);
-    if (e.target.files[0]) setPreview1(URL.createObjectURL(e.target.files[0]));
-    if (e.target.files[1]) setPreview2(URL.createObjectURL(e.target.files[1]));
-    if (e.target.files[2]) setPreview3(URL.createObjectURL(e.target.files[2]));
+    if (e.target.files[0]) {
+      setPreview1(URL.createObjectURL(e.target.files[0]));
+    } else {
+      setPreview1("");
+    }
+    if (e.target.files[1]) {
+      setPreview2(URL.createObjectURL(e.target.files[1]));
+    } else {
+      setPreview2("");
+    }
+    if (e.target.files[2]) {
+      setPreview3(URL.createObjectURL(e.target.files[2]));
+    } else {
+      setPreview3("");
+    }
   };
 
   /* 포스팅 완료 버튼 */
@@ -163,24 +175,20 @@ export default function PostingEdit() {
               </div>
             </div>
             <div className="text-left">
-              <button
-                className="flex flex-col w-20 px-2 py-2 border-2 rounded-lg mr-1"
-                onClick={() => fileInput.current.click()}
-              >
+              <label className="flex flex-col w-20 px-2 py-2 border-2 rounded-lg mr-1">
+                <input
+                  type="file"
+                  accept="image/jpg,image/png,image/jpeg,image/gif"
+                  multiple
+                  onChange={handlePreview}
+                  hidden
+                  required
+                />
                 <img src={camera} className="w-20 rounded-lg" alt="upload" />
-                <span className="text-gray-500 text-xs mx-auto">
+                <span className="mt-2 text-gray-500 text-xs mx-auto">
                   {photo.length} / 3
                 </span>
-              </button>
-              <input
-                type="file"
-                alt=""
-                multiple
-                onChange={handlePreview}
-                ref={fileInput}
-                hidden
-              />
-
+              </label>
               <div className="flex">
                 {preview1 && (
                   <img

@@ -26,13 +26,14 @@ export default function Navbar() {
           </div>
           <div className="-mr-2 -my-2 md:hidden flex-3 ">
             <Menu.Button className="focus:outline-none inline-flex w-full justify-center px-2 py-2 text-sm font-medium text-gray-500 hover:bg-opacity-10 hover:text-black hover:bg-gray-700 hover:rounded-full focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-              <div className="fixed right-7 top-16">
+              <div className="">
+                <span className="absolute top-14 right-5 sm:right-7 sm:top-16">
                 <NewChat />
+                </span>
+                <MenuIcon className="h-6 w-6" aria-hidden="true"></MenuIcon>
               </div>
-              <MenuIcon className="h-6 w-6" aria-hidden="true"></MenuIcon>
             </Menu.Button>
           </div>
-
           {!isLogin ? <Beforelogin /> : <Afterlogin />}
         </div>
         <Dropdown />

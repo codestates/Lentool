@@ -41,7 +41,6 @@ function App() {
   useEffect(() => {
     const a: any = localStorage.getItem("user");
     const b: any = localStorage.getItem("posts");
-    const c: any = localStorage.getItem("persist:root");
 
     // console.log(JSON.parse(c))
     if (a) {
@@ -97,7 +96,6 @@ function App() {
           <Route path="/search">
             <PostSearch />
           </Route>
-
           <Route path="/postingEdit/:post_id">
             <PostingEdit />
           </Route>

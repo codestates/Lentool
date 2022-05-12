@@ -8,13 +8,9 @@ import Trial from "./Trial";
 
 export default function Main() {
   const trialRef = useRef<HTMLDivElement>(null)
-  const [pageY, setPageY] = useState(0)
-  const handleScroll = (e: any) => {
-    console.log(e.target)
-  }
   
   return (
-    <div /* onWheel={handleScroll}  */className="scroll-smooth flex max-w-7xl max-h-full mx-auto px-4 flex-col">
+    <div className="scroll-smooth flex max-w-7xl max-h-full mx-auto px-4 flex-col">
       <section className="h-[1024px] flex mx-auto items-center">
         <Intro1 trialRef={trialRef}/>
       </section>

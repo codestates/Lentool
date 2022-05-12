@@ -80,9 +80,9 @@ export default function SearchTag() {
             <div className="px-5 py-5 bg-gray-50 space-y-6 sm:space-y-0 sm:space-x-10 sm:px-8">
               <div className='grid grid-cols-4 gap-4 justify-items-center'>
                 {
-                  src.map(el => {
+                  src.map((el, index) => {
                     return (
-                      <Link to={`/search?tag=${el[1]}`} onClick={() => searchByTag(el[1])}>
+                      <Link key={index} to={`/search?tag=${el[1]}`} onClick={() => searchByTag(el[1])}>
                         <img className="w-10 h-10 hover:border-2 hover:rounded-lg" src={el[0]} alt={el[1]} />
                       </Link>
                     )

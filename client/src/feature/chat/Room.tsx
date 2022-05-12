@@ -1,24 +1,26 @@
 import { Route, Switch, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useCreateroomMutation } from "services/api";
+import { useCreateroomMutation, useSearchRoomsQuery } from "services/api";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { removeEmitHelper } from "typescript";
+import NoChat from "feature/indicator/NoChat";
+import Loading from "feature/indicator/Loading";
 
 export default function Room() {
-  const dispatch = useAppDispatch();
 
   const myUserId = useAppSelector(
     (state) => state.persistedReducer.myinfo.user.id
   );
-  const data = useAppSelector((state) => state.persistedReducer.rooms);
-  // console.log(data)
+
+  const { data, isLoading, isSuccess} = useSearchRoomsQuery({ refetchOnMountOrArgChange: true })
+  
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
       <h1 className="text-left mb-8">채팅 목록</h1>
-      <div className="border-2 rounded-lg">
-        {data.rooms &&
-          data.rooms.map((room: any) => {
+      <div className='border rounded-lg'>
+        { isLoading ? <Loading /> :
+          data.data.length !== 0 ?
+          data.data.map((room: any) => {
             return (
+              <div key={room.id} className="">
               <Link
                 to={{
                   pathname: "/chatting",
@@ -35,7 +37,7 @@ export default function Room() {
               >
                 <div
                   key={room.room_id}
-                  className="flex border-b-2 py-4 px-4 last:border-b"
+                  className="flex border-b rounded-lg py-4 px-4 "
                 >
                   <div>
                     {room.user_photo !== "empty" ? (
@@ -53,16 +55,17 @@ export default function Room() {
                   </div>
                   <div className="text-left px-4">
                     <span className="pr-2">{room.nickname}</span>
-                    <span className="text-sm text-gray-700">
+                    <span className="text-xs text-gray-700">
                       {room.address}
                     </span>
-                    <p className="">{room.content}</p>
+                    <p className="text-gray-900">{room.content.slice(0,40)}...</p>
                   </div>
                 </div>
               </Link>
+            </div>
             );
-          })}
-      </div>
+          }) : <NoChat />}
+        </div>
     </div>
   );
 }

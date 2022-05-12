@@ -75,7 +75,7 @@ function Login() {
       const user1 = await mypage().unwrap();
       dispatch(getMyinfo(user1));
       localStorage.setItem("user", JSON.stringify(user));
-      // const p = await posts().unwrap();
+      const p = await posts().unwrap();
       // console.log(p)
       // localStorage.setItem("posts", JSON.stringify(p));
       // dispatch(getPosts(p));
@@ -92,8 +92,6 @@ function Login() {
     e.preventDefault();
     if (e.target === outSelect.current) dispatch(setIsModal());
   };
-
-  const handleKakaoLogin = async () => {};
 
   return (
     <div

@@ -54,7 +54,7 @@ export default function Mycontents() {
                 <div className="w-full h-80 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg xl:aspect-w-7 xl:aspect-h-8">
                   <img
                     src={
-                      mypost.photo1 !== "emty"
+                      mypost.photo1 !== "empty"
                         ? `${process.env.REACT_APP_SERVER_URL}${mypost.photo1}`
                         : imagePlaceHolder
                     }
