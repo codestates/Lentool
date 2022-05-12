@@ -14,7 +14,7 @@ var cors = require("cors");
 var app = express();
 
 const corsOptions = {
-  origin: true, //["https://localhost:3000/"],
+  origin:["http://lentool.s3-website.ap-northeast-2.amazonaws.com/"],
   credentials: true,
   methods: ["GET", "POST", "OPTIONS", "DELETE", "PATCH"],
 };
