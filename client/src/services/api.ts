@@ -88,9 +88,22 @@ export interface MyinfoEditRequest {
 export interface MyinfoEditResponse {
   message: string;
 }
+//사진수정
+export interface EditDpResponse {
+  message: string;
+}
+//KAKAO 소셜로그인
+export interface KakaoOauthRequest {
+  nickname: string;
+  user_address: string;
+  longitude: string;
+  latitude: string;
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:80/",
+    baseUrl: process.env.REACT_APP_SERVER_URL,
+
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
@@ -101,6 +114,7 @@ export const api = createApi({
       return headers;
     },
   }),
+  refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: (credentials: any) => ({
@@ -192,6 +206,9 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+    searchRooms: builder.query<any, any>({
+      query: () => "chat",
+    }),
     signout: builder.mutation<SignoutResponse, SignoutRequest>({
       query: (SignoutData: any) => ({
         url: "users/signout",
@@ -208,6 +225,14 @@ export const api = createApi({
         body: MyinfoEditData,
       }),
     }),
+    editdp: builder.mutation<any, void>({
+      query: (formdata) => ({
+        url: "users/editdp",
+        credentials: "include", // true
+        method: "PATCH",
+        body: formdata,
+      }),
+    }),
     search: builder.mutation<any, any>({
       query: (title: any) => ({
         url: `posts/search?title=${title}`,
@@ -220,6 +245,41 @@ export const api = createApi({
         url: `posts/search?tag=${tag}`,
         credentials: "include",
         method: "GET",
+      }),
+    }),
+
+    deletePost: builder.mutation<any, any>({
+      query: (params: any) => ({
+        url: `tools/${params}`,
+        credentials: "include",
+        method: "DELETE",
+      }),
+    }),
+    toolsEdit: builder.mutation<any, any>({
+      query: (array) => ({
+        url: `tools/edit/${array[0]}`,
+        credentials: "include", // true
+        method: "PATCH",
+        body: array[1],
+      }),
+    }),
+    oauthLogin: builder.mutation<any, any>({
+      query: (code: any) => ({
+        url: `users/oauth?code=${code}`,
+        credentials: "include",
+        method: "GET",
+      }),
+    }),
+    oauth: builder.query<any, any>({
+      query: (code) => `users/oauth?code=${code}`,
+    }),
+    // PATCH oauth/signup 으로
+    oauthSignup: builder.mutation<any, KakaoOauthRequest>({
+      query: (body) => ({
+        url: "users/oauth/signup",
+        credentials: "include",
+        method: "PATCH",
+        body: body,
       }),
     }),
   }),
@@ -239,8 +299,15 @@ export const {
   useTrialMutation,
   useCreateroomMutation,
   useSearchroomMutation,
+  useSearchRoomsQuery,
   useSignoutMutation,
   useEditMutation,
+  useEditdpMutation,
   useSearchMutation,
+  useDeletePostMutation,
   useSearchByTagMutation,
+  useToolsEditMutation,
+  useOauthLoginMutation,
+  useOauthQuery,
+  useOauthSignupMutation,
 } = api;
