@@ -11,16 +11,16 @@ import { useAppSelector } from "app/hooks";
 import camera from "../../images/photo_upload.png";
 const src = [
   ["망치", "hammer"],
-  ["렌치", "wrench"],
+  ["수레", "wagon"],
   ["몽키스패너", "monkey_spanne"],
   ["육각렌치", "hexagon_wrench"],
   ["줄자", "tape_measure"],
   ["니퍼", "nipper"],
   ["톱", "saw"],
-  ["펜치", "pliers"],
+  ["드릴", "drill"],
   ["삽", "shovel"],
   ["인두기", "soldering_iron"],
-  ["롱펜치", "long_nose"],
+  ["펜치", "long_nose"],
   ["기타", "etc"],
 ];
 export default function Posting() {
