@@ -207,7 +207,7 @@ export const api = createApi({
       }),
     }),
     searchRooms: builder.query<any, any>({
-      query: () => 'chat',
+      query: () => "chat",
     }),
     signout: builder.mutation<SignoutResponse, SignoutRequest>({
       query: (SignoutData: any) => ({
