@@ -61,10 +61,8 @@ export default function Post() {
   let { post_id }: any = useParams();
   const { data, isLoading, error } = usePostidQuery(post_id);
   // console.log(data.data.post.tag)
-  const myUserId = useAppSelector(
-    (state) => state.persistedReducer.myinfo
-  );
-  if (isLoading) return <Loading />
+  const myUserId = useAppSelector((state) => state.persistedReducer.myinfo);
+  if (isLoading) return <Loading />;
 
   return (
     <div className="bg-white">
@@ -73,7 +71,7 @@ export default function Post() {
           <ul className="max-w-2xl mx-auto px-4 flex items-center space-x-2 sm:px-6 lg:max-w-2xl lg:px-8">
             <li className="text-sm">
               <p className="font-medium text-gray-500 hover:text-gray-600">
-                공구 &gt; { data && data.data.post.tag}
+                공구 &gt; {data && data.data.post.tag}
               </p>
             </li>
           </ul>
@@ -95,11 +93,18 @@ export default function Post() {
                 <div className="">
                   <div className="flex items-center ">
                     <div className="flex-none w-14 mr-2 items-center">
-                      { 
-                        myUserId.user.user_photo !== 'empty' ? 
-                          <img src={`${process.env.REACT_APP_SERVER_URL}${myUserId.user.user_photo}`} alt='profile'/>
-                        : <img src="https://www.seekpng.com/png/detail/966-9665317_placeholder-image-person-jpg.png" alt='profile' className='rounded-full'/>
-                      }
+                      {data.data.post.user_photo !== "empty" ? (
+                        <img
+                          src={`${process.env.REACT_APP_SERVER_URL}${data.data.post.user_photo}`}
+                          alt="profile"
+                        />
+                      ) : (
+                        <img
+                          src="https://www.seekpng.com/png/detail/966-9665317_placeholder-image-person-jpg.png"
+                          alt="profile"
+                          className="rounded-full"
+                        />
+                      )}
                     </div>
                     <div className="flex-1 w-32 text-left">
                       <h3>{data.data.post.nickname}</h3>
@@ -122,7 +127,9 @@ export default function Post() {
                       <h2 className="text-xl my-1 font-medium text-gray-900">
                         {data.data.post.title}
                       </h2>
-                      <span className="text-sm px-2 rounded-full text-yellow-600 bg-yellow-200">{data && data.data.post.tag}</span>
+                      <span className="text-sm px-2 rounded-full text-yellow-600 bg-yellow-200">
+                        {data && data.data.post.tag}
+                      </span>
                     </div>
                     <div className="mt-4 space-y-6">
                       <p className="text-base text-left text-gray-900">
@@ -144,6 +151,8 @@ export default function Post() {
                             post_id: data.data.post.post_id,
                             title: data.data.post.title,
                             islend: data.data.post.islend,
+                            nickname: data.data.post.nickname,
+                            photo: data.data.post.user_photo,
                           },
                         }}
                       >
