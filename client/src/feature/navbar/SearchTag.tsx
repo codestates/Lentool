@@ -16,10 +16,7 @@ const src = [
   ["https://cdn-icons-png.flaticon.com/512/620/620485.png", "shovel"],
   ["https://cdn-icons-png.flaticon.com/512/3126/3126268.png", "soldering_iron"],
   ["https://cdn-icons-png.flaticon.com/128/2270/2270948.png", "long_nose"],
-  [
-    "https://cdn-icons.flaticon.com/png/512/5053/premium/5053011.png?token=exp=1652336855~hmac=da2be43a14ced71d15b1ffa3ff490b55",
-    "etc",
-  ],
+  ['https://cdn-icons-png.flaticon.com/512/570/570223.png', "etc",],
 ];
 export default function SearchTag() {
   const { push } = useHistory();

@@ -44,6 +44,7 @@ export default function Room() {
                       <img
                         src={`${process.env.REACT_APP_SERVER_URL}${room.user_photo}`}
                         alt="user_profile"
+                        className="w-12 h-12 rounded-full"
                       />
                     ) : (
                       <img
