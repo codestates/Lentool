@@ -1,7 +1,5 @@
-import { useAppSelector } from "app/hooks";
 import Loading from "feature/indicator/Loading";
 import Error from "feature/indicator/Error";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { usePosQuery } from "services/api";
 import imagePlaceHolder from "../../images/image_placeholder.svg";

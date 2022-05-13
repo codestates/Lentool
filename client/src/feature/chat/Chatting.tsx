@@ -85,13 +85,13 @@ export default function Chatting() {
             <img
               src={`${process.env.REACT_APP_SERVER_URL}${roomdata.photo}`}
               alt="user_profile"
-              className="w-12 h-12 rounded-full"
+              className="w-12 rounded-full"
             />
           ) : (
             <img
               src="https://www.seekpng.com/png/detail/966-9665317_placeholder-image-person-jpg.png"
               alt="user_profile"
-              className="w-12 h-12 rounded-full"
+              className="w-12 rounded-full"
             />
           )}
           <span className="my-auto pl-2">{roomdata.nickname}</span>

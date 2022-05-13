@@ -5,7 +5,6 @@ import login from "feature/login/loginSlice";
 import auth from "../feature/login/authSlice";
 import myinfo from "../feature/mypage/myinfoSlice";
 import posts from "../feature/post/postSlice";
-import detailPost from "feature/post/detailPostSlice";
 import rooms from "../feature/chat/roomSlice";
 import search from "../feature/navbar/searchSlice";
 import { api } from "services/api";
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
   login,
   myinfo,
   posts,
-  detailPost,
   rooms,
   search,
 });
