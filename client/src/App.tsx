@@ -33,15 +33,12 @@ function App() {
   const isLogin = useAppSelector(
     (state) => state.persistedReducer.login.isLogin
   );
-  const allData = useAppSelector(state => state.persistedReducer)
-  console.log(allData)
-  // console.log(isLogin)
+
 
   useEffect(() => {
     const a: any = localStorage.getItem("user");
     const b: any = localStorage.getItem("posts");
-    // console.log(JSON.parse(c))
-    // console.log(JSON.parse(a).data.accessToken)
+
     if (a) {
       dispatch(setCredentials(JSON.parse(a)));
       dispatch(setLogin(true));

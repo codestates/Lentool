@@ -6,6 +6,7 @@ import {
   MyinfoEditRequest,
   KakaoOauthRequest,
   useChecknicknameMutation,
+  useMypageMutation,
 } from "services/api";
 import { setCredentials, setNewChat } from "./authSlice";
 import { setLogin } from "./loginSlice";
@@ -13,11 +14,13 @@ import { useHistory } from "react-router-dom";
 import DaumPostCode from "react-daum-postcode";
 import { toast } from "react-toastify";
 import logo from "../../images/Kakao_Logo.svg";
+import { getMyinfo } from "feature/mypage/myinfoSlice";
 
 export default function KakaoSignup() {
   const outSelect = useRef<any>();
   const { push } = useHistory();
   const dispatch = useAppDispatch();
+  const [mypage] = useMypageMutation();
 
   //회원정보 등록(수정)을 위해 기존의 내 데이터  가져오기(현재 kakao id만 존재)
   const myinfo = useAppSelector((state) => state.myinfo.user);
@@ -130,7 +133,7 @@ export default function KakaoSignup() {
   const { nickname, user_address } = userUpdate;
 
   /*-------------------------------------------------------- */
-
+  const [confirmedNickname, setConfirmedNickname] = useState("");
   /* 닉네임 중복확인을 서버로 보내는 함수 */
   const checkNicknameOverlapping = async () => {
     try {
@@ -139,6 +142,7 @@ export default function KakaoSignup() {
       console.log(user);
       if (user.message === "중복 없음") {
         setNicknameOverlappingValidity(false);
+        setConfirmedNickname(nicknameValue.nickname);
         toast.success("사용가능한 닉네임입니다.");
       } else {
         setNicknameOverlappingValidity(true);
@@ -161,6 +165,8 @@ export default function KakaoSignup() {
         return toast.error("별명은 2~15자 이내로 입력해 주세요. ");
       } else if (nicknameOverlappingValidity) {
         return toast.error("닉네임 중복여부를 확인해주세요 ");
+      } else if (confirmedNickname !== nickname) {
+        return toast.error("닉네임 중복여부를 확인해주세요 ");
       }
       // 모든 검증 후 회원가입정보를 서버로 전송요청 함수
     }
@@ -173,6 +179,8 @@ export default function KakaoSignup() {
     const req = await oauthSignup(userUpdate).unwrap();
     dispatch(setCredentials(req));
     dispatch(setNewChat(req.data.userInfo.newchat));
+    const user1 = await mypage().unwrap();
+    dispatch(getMyinfo(user1));
     dispatch(setLogin(true));
     push("/");
   };

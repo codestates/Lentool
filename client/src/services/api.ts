@@ -106,9 +106,14 @@ export const api = createApi({
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
-      // console.log("send token in headers");
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
+      } else {
+        const a: any = localStorage.getItem("user");
+        if (a) {
+          const token = JSON.parse(a).data.accessToken;
+          headers.set("authorization", `Bearer ${token}`);
+        }
       }
       return headers;
     },

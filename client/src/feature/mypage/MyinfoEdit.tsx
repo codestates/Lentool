@@ -47,8 +47,9 @@ function MyinfoEdit() {
   // 닉네임 중복 검사후 통과여부 상태
   const [nicknameOverlappingValidity, setNicknameOverlappingValidity] =
     useState(true);
+  //닉네임 중복검사 후 또 바꾸는 경우 확인
+  const [confirmedNickname, setConfirmedNickname] = useState("");
   // Validation (닉네임 중복검사)
-
   const checkNicknameOverlapping = async () => {
     try {
       const user = await checknickname(nicknameValue).unwrap();
@@ -56,6 +57,7 @@ function MyinfoEdit() {
       console.log(user);
       if (user.message === "중복 없음") {
         setNicknameOverlappingValidity(false);
+        setConfirmedNickname(nicknameValue.nickname);
         toast.success("사용가능한 닉네임입니다.");
       } else {
         setNicknameOverlappingValidity(true);
@@ -120,6 +122,7 @@ function MyinfoEdit() {
     border: "2px solid #000000",
     overflow: "hidden",
   };
+
   const handleEditInputValue =
     (key: string) => (e: { target: { value: string } }) => {
       setEditValue({ ...editValue, [key]: e.target.value });
@@ -143,11 +146,17 @@ function MyinfoEdit() {
           "비밀번호는 6자 이상 최소 하나의 숫자와 문자를 포함해야 합니다."
         );
       }
+      if (password !== password2) {
+        //일치하지 않는 경우
+        return toast.error("비밀번호 확인과 비밀번호가 동일하지 않습니다.");
+      }
     }
     if (nickname) {
       if (nickname.length === 1 || nickname.length > 15) {
         return toast.error("별명은 2~15자 이내로 입력해 주세요. ");
       } else if (nicknameOverlappingValidity) {
+        return toast.error("닉네임 중복여부를 확인해주세요 ");
+      } else if (confirmedNickname !== nickname) {
         return toast.error("닉네임 중복여부를 확인해주세요 ");
       }
       // 모든 검증 후 회원가입정보를 서버로 전송요청 함수
@@ -177,16 +186,23 @@ function MyinfoEdit() {
     e.preventDefault();
     if (e.target === outSelect.current) dispatch(setIsMyinfoEditModal());
   };
-
+  // 비밀번호 확인
+  const [inputPassword2, setInputPassword2] = useState({ password2: "" });
+  // handlePassword2 function
+  const handleInputPasswordValue =
+    (key: string) => (e: { target: { value: string } }) => {
+      setInputPassword2({ ...inputPassword2, [key]: e.target.value });
+    };
+  const { password2 } = inputPassword2;
   return (
     <div
       className="h-screen w-full z-50 absolute bg-black bg-opacity-70 text-center"
       ref={outSelect}
       onClick={handleOutClick}
     >
-      <div className="bg-white absolute mt-10 left-1/3 rounded w-1/12 md:w-3/12">
-        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-6">
-          <div className="max-w-md w-full space-y-4">
+      <div className="max-w-2xl h-[520px] bg-white absolute mx-auto w-96 my-auto inset-0 rounded">
+        <div className="flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full">
             <span
               className="absolute top-4 right-6 hover:text-indigo-500 cursor-pointer"
               onClick={() => dispatch(setIsMyinfoEditModal())}
@@ -240,6 +256,24 @@ function MyinfoEdit() {
                       placeholder="••••••••"
                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-900 block mb-2">
+                      비밀번호 확인
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      id="password"
+                      onChange={handleInputPasswordValue("password2")}
+                      placeholder="••••••••"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    />
+                    {!(password === password2 || password2.length === 0) ? (
+                      <span className="text-red-500">
+                        비밀번호가 일치 하지 않습니다.
+                      </span>
+                    ) : null}
                   </div>
                   <div>
                     <label className="text-left text-sm font-medium text-gray-900 block mb-2">
