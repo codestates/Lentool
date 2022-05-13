@@ -138,7 +138,7 @@ export default function Myprofile() {
               프로필 수정
             </button>
 
-            <button
+            {/* <button
               // onClick={handlePosting}
               className="flex items-center ml-3 border border-blue-600 hover:bg-blue-600 hover:text-white rounded outline-none focus:outline-none bg-transparent text-blue-600 text-sm py-1 px-2"
             >
@@ -158,7 +158,7 @@ export default function Myprofile() {
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-            </button>
+            </button> */}
           </div>
           <div className="">
             <h1 className="text-right">주소</h1>

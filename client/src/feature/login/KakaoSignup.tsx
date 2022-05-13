@@ -130,7 +130,7 @@ export default function KakaoSignup() {
   const { nickname, user_address } = userUpdate;
 
   /*-------------------------------------------------------- */
-
+  const [confirmedNickname, setConfirmedNickname] = useState("");
   /* 닉네임 중복확인을 서버로 보내는 함수 */
   const checkNicknameOverlapping = async () => {
     try {
@@ -139,6 +139,7 @@ export default function KakaoSignup() {
       console.log(user);
       if (user.message === "중복 없음") {
         setNicknameOverlappingValidity(false);
+        setConfirmedNickname(nicknameValue.nickname);
         toast.success("사용가능한 닉네임입니다.");
       } else {
         setNicknameOverlappingValidity(true);
@@ -160,6 +161,8 @@ export default function KakaoSignup() {
       if (nickname.length === 1 || nickname.length > 15) {
         return toast.error("별명은 2~15자 이내로 입력해 주세요. ");
       } else if (nicknameOverlappingValidity) {
+        return toast.error("닉네임 중복여부를 확인해주세요 ");
+      } else if (confirmedNickname !== nickname) {
         return toast.error("닉네임 중복여부를 확인해주세요 ");
       }
       // 모든 검증 후 회원가입정보를 서버로 전송요청 함수
