@@ -85,6 +85,7 @@ export default function Chatting() {
             <img
               src={`${process.env.REACT_APP_SERVER_URL}${roomdata.photo}`}
               alt="user_profile"
+              className="w-12 h-12 rounded-full"
             />
           ) : (
             <img
