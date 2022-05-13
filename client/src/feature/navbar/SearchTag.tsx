@@ -16,7 +16,7 @@ const src = [
   ["https://cdn-icons-png.flaticon.com/512/620/620485.png", "shovel"],
   ["https://cdn-icons-png.flaticon.com/512/3126/3126268.png", "soldering_iron"],
   ["https://cdn-icons-png.flaticon.com/128/2270/2270948.png", "long_nose"],
-  ['https://cdn-icons-png.flaticon.com/512/570/570223.png', "etc",],
+  ["https://cdn-icons-png.flaticon.com/512/570/570223.png", "etc"],
 ];
 export default function SearchTag() {
   const { push } = useHistory();
@@ -61,8 +61,10 @@ export default function SearchTag() {
             onChange={(e) => handleSearch(e)}
             onFocus={() => onTag("visible")}
             onBlur={() => onTag("hidden")}
+            value={inputValue}
             autoComplete="off"
-            className="pt-2 pb-2 border focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
+            className="pt-2 pb-2 border focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
+            
           />
           <button
             type="submit"

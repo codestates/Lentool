@@ -70,12 +70,12 @@ function Login() {
       const user = await login(inputValue).unwrap();
       dispatch(setCredentials(user));
       dispatch(setNewChat(user.data.userInfo.newchat));
-      dispatch(setLogin(true));
-      dispatch(setIsModal());
       const user1 = await mypage().unwrap();
       dispatch(getMyinfo(user1));
+      dispatch(setIsModal());
       localStorage.setItem("user", JSON.stringify(user));
       const p = await posts().unwrap();
+      dispatch(setLogin(true));
       // console.log(p)
       // localStorage.setItem("posts", JSON.stringify(p));
       // dispatch(getPosts(p));
@@ -99,7 +99,7 @@ function Login() {
       ref={outSelect}
       onClick={handleOutClick}
     >
-      <div className="max-w-2xl h-[520px] bg-white absolute mx-auto w-96 my-auto inset-0 rounded">
+      <div className="max-w-2xl h-[550px] bg-white absolute mx-auto w-96 my-auto inset-0 rounded">
         <div className="flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8">
           <div className="max-w-md w-full">
             <span
@@ -125,7 +125,7 @@ function Login() {
                     type="email"
                     onChange={handleInputValue("id")}
                     onKeyUp={validate}
-                    className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 focus:z-10 sm:text-sm"
                     placeholder="Email address"
                   />
                   <p className="mt-1 text-xs text-red-500">{emailValidate}</p>
@@ -140,7 +140,7 @@ function Login() {
                     type="password"
                     onChange={handleInputValue("password")}
                     onKeyUp={validate}
-                    className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 focus:z-10 sm:text-sm"
                     placeholder="Password"
                   />
                   <p className="mt-1 text-xs text-red-500">{errorMessage}</p>
@@ -205,7 +205,8 @@ function Login() {
                 <Link
                   to="/signup"
                   onClick={handleSignup}
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  // className="pt-2 pb-2 border focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
+                  className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
                 >
                   회원가입하기
                 </Link>

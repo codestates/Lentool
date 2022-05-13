@@ -50,7 +50,7 @@ export default function Mycontents() {
         <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {isContents &&
             isContents.map((mypost: any) => (
-              <div>
+              <div key={mypost.id}>
                 <div className="w-full h-80 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg xl:aspect-w-7 xl:aspect-h-8">
                   <img
                     src={
@@ -59,7 +59,7 @@ export default function Mycontents() {
                         : imagePlaceHolder
                     }
                     alt="my-posting"
-                    className="w-full h-full object-center object-contain group-hover:opacity-75"
+                    className="w-full h-full object-center object-cover rounded-lg group-hover:opacity-75"
                   />
                   <Menu>
                     <Menu.Button>

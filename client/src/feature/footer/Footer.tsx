@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer () {
   return (
-    <div className="max-w-7xl mx-auto h-40">
+    <div className="max-w-7xl mx-auto pt-[50px] h-40">
       <div className="flex text-left text-gray-700 py-5 border-y border-gray-200 mx-4">
         <Link to='' className="flex-1">Github</Link>
         <Link to='' className="flex-1">Wiki</Link>

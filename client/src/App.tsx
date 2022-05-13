@@ -22,7 +22,6 @@ import { usePostsMutation } from "services/api";
 import Carousel from "feature/post/carousel";
 import SearchTag from "feature/navbar/SearchTag";
 import PostSearch from "feature/post/PostSearch";
-import TitleSearch from "feature/post/TitleSearch";
 import PostingEdit from "feature/post/posttingEdit";
 import Footer from "feature/footer/Footer";
 import Loading from "feature/indicator/Loading";
@@ -34,15 +33,12 @@ function App() {
   const isLogin = useAppSelector(
     (state) => state.persistedReducer.login.isLogin
   );
-  // const allData = useAppSelector(state => state.persistedReducer)
 
-  // console.log(isLogin)
 
   useEffect(() => {
     const a: any = localStorage.getItem("user");
     const b: any = localStorage.getItem("posts");
 
-    // console.log(JSON.parse(c))
     if (a) {
       dispatch(setCredentials(JSON.parse(a)));
       dispatch(setLogin(true));
@@ -89,9 +85,6 @@ function App() {
           </Route>
           <Route path="/carousel">
             <Carousel />
-          </Route>
-          <Route path="/search/:search_id">
-            <TitleSearch />
           </Route>
           <Route path="/search">
             <PostSearch />
