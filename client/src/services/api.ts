@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../app/store";
-import { REHYDRATE } from "redux-persist";
 
 export interface User {
   createAt: string;
@@ -141,6 +140,9 @@ export const api = createApi({
         credentials: "include", // true
         method: "GET",
       }),
+    }),
+    myinfo: builder.query<any, void>({
+      query: () => "users/mypage"
     }),
     tools: builder.mutation<any, void>({
       query: (formdata) => ({
@@ -296,6 +298,7 @@ export const {
   useChecknicknameMutation,
   useLogoutMutation,
   useMypageMutation,
+  useMyinfoQuery,
   useToolsMutation,
   usePosQuery,
   usePostsMutation,

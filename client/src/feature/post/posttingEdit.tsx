@@ -1,19 +1,6 @@
-import {
-  ReactChild,
-  ReactFragment,
-  ReactPortal,
-  useState,
-  useEffect,
-  useRef,
-} from "react";
-import {
-  usePostidQuery,
-  useToolsEditMutation,
-  useToolsMutation,
-} from "services/api";
-import { Link, useHistory, useParams, useLocation } from "react-router-dom";
-import { useAppSelector } from "app/hooks";
-import Beforelogin from "feature/navbar/Beforelogin";
+import { useState, useEffect, useRef } from "react";
+import { usePostidQuery, useToolsEditMutation } from "services/api";
+import { useHistory, useParams } from "react-router-dom";
 import camera from "../../images/photo_upload.png";
 const src = [
   ["망치", "hammer"],
@@ -30,22 +17,13 @@ const src = [
   ["기타", "etc"],
 ];
 export default function PostingEdit() {
-  // const location: any = useLocation();
   const { push } = useHistory();
   let { post_id }: any = useParams();
 
-  // const post_id = location.state.data.id;
-  // console.log(post_id);
   const { data, isLoading, error } = usePostidQuery(post_id, {
     refetchOnMountOrArgChange: true,
   });
 
-  // console.log(data);
-  // const beforeTag = console.log(data.data.post.tag);
-
-  // console.log(location.state.data.price);
-
-  // console.log(post);
   const [photo, setPhoto] = useState([]);
   const [preview1, setPreview1] = useState("");
   const [preview2, setPreview2] = useState("");
@@ -56,9 +34,6 @@ export default function PostingEdit() {
     price: ``,
     description: ``,
   });
-  // const beforeTitle = data.data.post.title;
-  // const beforePrice = data.data.post.price;
-  // const beforeDescription = data.data.post.description;
 
   useEffect(() => {
     if (!isLoading) {
@@ -69,15 +44,12 @@ export default function PostingEdit() {
       });
       const resulttag = src.filter((a) => a[1] === data.data.post.tag);
       setIsTag(resulttag[0], resulttag[1]);
-
-      console.log(data.data.post);
     }
   }, [data]);
 
   const fileInput: any = useRef(null);
   //요소 필터로 src에서 요소 찾아서 그 배열만 가져오기
 
-  // const [tools] = useToolsMutation();
   const [toolsEdit] = useToolsEditMutation();
   /* Tag 추가 */
   const handleTag = (e: any) => {

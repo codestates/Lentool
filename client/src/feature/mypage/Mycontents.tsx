@@ -1,46 +1,34 @@
 import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "app/hooks";
-import { useMypageMutation, useDeletePostMutation } from "services/api";
-import { useState } from "react";
+import { useDeletePostMutation, useMyinfoQuery, api } from "services/api";
 import imagePlaceHolder from "../../images/image_placeholder.svg";
+import Loading from "feature/indicator/Loading";
 
 export default function Mycontents() {
-  const [deletePost, { data, isLoading, isSuccess }] = useDeletePostMutation();
-  const myposts: any = useAppSelector((state) => state.myinfo.post);
-  const [isContents, setIsContents]: any = useState([...myposts]);
+  const [deletePost] = useDeletePostMutation();
+  const { data, isLoading, isSuccess } = useMyinfoQuery();
+  const [trigger] = api.endpoints.myinfo.useLazyQuery();
 
-  const handleContents = (e: any) => {
-    setIsContents([...isContents, e]);
-  };
-  const handleRemoveContents = (e: any) => {
-    const remove = isContents.filter((el: any) => {
-      return el !== e;
-    });
-    setIsContents(remove);
-  };
-  const handleEditPost = async (e: any) => {
-    try {
-    } catch (err) {
-      console.log("err", err);
-    }
-  };
   const handleDeletePost = async (e: any) => {
     try {
-      const result = await deletePost(e).unwrap();
+      console.log(e);
+      await deletePost(e).unwrap();
+      await trigger();
+      // toast.success("성공적으로 게시물 삭제");
     } catch (err) {
       console.log("server error", err);
     }
   };
 
+  if (isLoading) return <Loading />;
   return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
         <h2 className="sr-only">Products</h2>
         <h1 className="mb-5 ml-2 text-left text-gray-700">내가 쓴 게시글</h1>
         <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {isContents &&
-            isContents.map((mypost: any) => (
+          {data &&
+            data.data.user_posts.map((mypost: any) => (
               <div key={mypost.id}>
                 <div className="w-full h-80 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg xl:aspect-w-7 xl:aspect-h-8">
                   <img
@@ -93,9 +81,6 @@ export default function Mycontents() {
                             <Link
                               to={{
                                 pathname: `/postingEdit/${mypost.id}`,
-                                // state: {
-                                //   data: mypost,
-                                // },
                               }}
                             >
                               <button
@@ -117,7 +102,6 @@ export default function Mycontents() {
                             <button
                               onClick={() => {
                                 handleDeletePost(mypost.id);
-                                handleRemoveContents(mypost);
                               }}
                               className={`${
                                 active
@@ -132,14 +116,14 @@ export default function Mycontents() {
                       </div>
                     </Menu.Items>
                   </Menu>
-
-                  {/* <PostDropdown /> */}
                 </div>
 
-                <h3 className="mt-2 text-lg font-medium text-gray-900">
-                  {mypost.title}
+                <h3 className="text-left mt-2 text-lg font-medium text-gray-900">
+                  {mypost && mypost.title}
                 </h3>
-                <p className="mt-1 text-sm text-gray-700">{mypost.price}</p>
+                <p className="text-left text-sm text-gray-700">
+                  {mypost && mypost.price}원
+                </p>
               </div>
             ))}
         </div>

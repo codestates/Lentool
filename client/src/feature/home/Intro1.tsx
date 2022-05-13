@@ -1,4 +1,3 @@
-import { MouseEventHandler } from "react";
 import image from "../../images/undraw_deliveries_2r4y.svg";
 
 export default function Intro1({ trialRef }: any) {
@@ -40,11 +39,3 @@ export default function Intro1({ trialRef }: any) {
     </div>
   );
 }
-
-// 줄 간격
-// leading-none	line-height: 1;
-// leading-tight	line-height: 1.25;
-// leading-snug	line-height: 1.375;
-// leading-normal	line-height: 1.5;
-// leading-relaxed	line-height: 1.625;
-// leading-loose	line-height: 2;

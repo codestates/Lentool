@@ -7,13 +7,11 @@ import {
   usePostsMutation,
   useMypageMutation,
 } from "../../services/api";
-// import { useKakaoLoginMutation } from "../../services/kakaoapi";
 import { setCredentials, setNewChat } from "./authSlice";
 import { setLogin } from "./loginSlice";
-import { getPosts } from "feature/post/postSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import image from "../../images/kakao_login_medium_wide.png";
 
 function Login() {
   const dispatch = useAppDispatch();
@@ -24,7 +22,6 @@ function Login() {
   });
 
   const [login, { data, isLoading, isSuccess }] = useLoginMutation();
-  // const [kakaoLogin] = useKakaoLoginMutation();
   const [posts] = usePostsMutation();
   const [mypage] = useMypageMutation();
   const { id, password } = inputValue;
@@ -68,19 +65,24 @@ function Login() {
   const handleSubmit = async () => {
     try {
       const user = await login(inputValue).unwrap();
+
       dispatch(setCredentials(user));
       dispatch(setNewChat(user.data.userInfo.newchat));
       const user1 = await mypage().unwrap();
       dispatch(getMyinfo(user1));
       dispatch(setIsModal());
       localStorage.setItem("user", JSON.stringify(user));
-      const p = await posts().unwrap();
+      localStorage.setItem("myinfo", JSON.stringify(user1));
+      await posts().unwrap();
       dispatch(setLogin(true));
-      // console.log(p)
-      // localStorage.setItem("posts", JSON.stringify(p));
-      // dispatch(getPosts(p));
-    } catch (err) {
+    } catch (err: any) {
       console.log("error", err);
+      if (err.data.message === "해당하는 회원이 존재하지 않습니다") {
+        return toast.error("존재하지 않는 회원입니다..");
+      }
+      if (err.data.message === "비밀번호가 틀렸습니다") {
+        return toast.error("비밀번호가 틀렸습니다.");
+      }
     }
   };
   /* 회원가입버튼 */
@@ -188,8 +190,8 @@ function Login() {
                       viewBox="0 0 42 30"
                     >
                       <path
-                        fill-rule="evenodd"
-                        fill-opacity="0.902"
+                        fillRule="evenodd"
+                        fillOpacity="0.902"
                         fill="rgb(0, 0, 0)"
                         d="M17.999,0.969 C8.58,0.969 0.0,7.225 0.0,14.942 C0.0,19.740 3.116,23.973 7.862,26.488 L5.865,33.818 C5.689,34.468 6.426,34.983 6.993,34.608 L15.746,28.802 C16.485,28.874 17.236,28.915 17.999,28.915 C27.941,28.915 35.999,22.659 35.999,14.942 C35.999,7.225 27.941,0.969 17.999,0.969 "
                       />
@@ -205,7 +207,6 @@ function Login() {
                 <Link
                   to="/signup"
                   onClick={handleSignup}
-                  // className="pt-2 pb-2 border focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
                   className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
                 >
                   회원가입하기

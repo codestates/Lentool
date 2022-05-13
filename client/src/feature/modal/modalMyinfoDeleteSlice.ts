@@ -1,9 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-// type AuthState = {
-//   user: User | null
-//   token: string | null
-// }
 interface modalMyinfoDeleteState {
   isMyinfoDeleteModal: boolean;
 }

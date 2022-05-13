@@ -4,9 +4,9 @@ import { api } from "../services/api";
 import authReducer from "../feature/login/authSlice";
 import modalReducer from "../feature/modal/modalSlice";
 import myinfoReducer from "../feature/mypage/myinfoSlice";
+import mycontentReducer from "../feature/mypage/myinfoSlice";
 import loginReducer from "../feature/login/loginSlice";
 import postsReducer from "../feature/post/postSlice";
-import detailPostReducer from "feature/post/detailPostSlice";
 import roomReducer from "../feature/chat/roomSlice";
 import myinfoEditReducer from "../feature/modal/modalMyinfoEditSlice";
 import myinfoDeleteReducer from "../feature/modal/modalMyinfoDeleteSlice";
@@ -27,9 +27,9 @@ export const store = configureStore({
     modal: modalReducer,
     auth: authReducer,
     myinfo: myinfoReducer,
+    mycontent: mycontentReducer,
     login: loginReducer,
     posts: postsReducer,
-    detailPost: detailPostReducer,
     room: roomReducer,
     myinfoEdit: myinfoEditReducer,
     myinfoDelete: myinfoDeleteReducer,
