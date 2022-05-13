@@ -6,6 +6,7 @@ import {
   MyinfoEditRequest,
   KakaoOauthRequest,
   useChecknicknameMutation,
+  useMypageMutation,
 } from "services/api";
 import { setCredentials, setNewChat } from "./authSlice";
 import { setLogin } from "./loginSlice";
@@ -13,11 +14,13 @@ import { useHistory } from "react-router-dom";
 import DaumPostCode from "react-daum-postcode";
 import { toast } from "react-toastify";
 import logo from "../../images/Kakao_Logo.svg";
+import { getMyinfo } from "feature/mypage/myinfoSlice";
 
 export default function KakaoSignup() {
   const outSelect = useRef<any>();
   const { push } = useHistory();
   const dispatch = useAppDispatch();
+  const [mypage] = useMypageMutation();
 
   //회원정보 등록(수정)을 위해 기존의 내 데이터  가져오기(현재 kakao id만 존재)
   const myinfo = useAppSelector((state) => state.myinfo.user);
@@ -173,6 +176,8 @@ export default function KakaoSignup() {
     const req = await oauthSignup(userUpdate).unwrap();
     dispatch(setCredentials(req));
     dispatch(setNewChat(req.data.userInfo.newchat));
+    const user1 = await mypage().unwrap();
+    dispatch(getMyinfo(user1));
     dispatch(setLogin(true));
     push("/");
   };

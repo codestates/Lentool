@@ -34,6 +34,7 @@ function App() {
   const isLogin = useAppSelector(
     (state) => state.persistedReducer.login.isLogin
   );
+
   // const allData = useAppSelector(state => state.persistedReducer)
 
   // console.log(isLogin)
@@ -42,7 +43,6 @@ function App() {
     const a: any = localStorage.getItem("user");
     const b: any = localStorage.getItem("posts");
 
-    // console.log(JSON.parse(c))
     if (a) {
       dispatch(setCredentials(JSON.parse(a)));
       dispatch(setLogin(true));

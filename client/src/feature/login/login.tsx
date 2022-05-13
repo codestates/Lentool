@@ -70,12 +70,12 @@ function Login() {
       const user = await login(inputValue).unwrap();
       dispatch(setCredentials(user));
       dispatch(setNewChat(user.data.userInfo.newchat));
-      dispatch(setLogin(true));
       dispatch(setIsModal());
       const user1 = await mypage().unwrap();
       dispatch(getMyinfo(user1));
       localStorage.setItem("user", JSON.stringify(user));
       const p = await posts().unwrap();
+      dispatch(setLogin(true));
       // console.log(p)
       // localStorage.setItem("posts", JSON.stringify(p));
       // dispatch(getPosts(p));
@@ -176,18 +176,24 @@ function Login() {
                   onClick={() =>
                     window.location.assign(
                       `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_API}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`
-                    )}                  
+                    )
+                  }
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-[#000000 85%] bg-[#FEE500] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                    className="h-5 w-5 text-gray-500 group-hover:text-gray-400"
-                    viewBox="0 0 42 30"
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      className="h-5 w-5 text-gray-500 group-hover:text-gray-400"
+                      viewBox="0 0 42 30"
                     >
-                    <path fill-rule="evenodd"  fill-opacity="0.902" fill="rgb(0, 0, 0)" d="M17.999,0.969 C8.58,0.969 0.0,7.225 0.0,14.942 C0.0,19.740 3.116,23.973 7.862,26.488 L5.865,33.818 C5.689,34.468 6.426,34.983 6.993,34.608 L15.746,28.802 C16.485,28.874 17.236,28.915 17.999,28.915 C27.941,28.915 35.999,22.659 35.999,14.942 C35.999,7.225 27.941,0.969 17.999,0.969 "/>
-                  </svg>
+                      <path
+                        fill-rule="evenodd"
+                        fill-opacity="0.902"
+                        fill="rgb(0, 0, 0)"
+                        d="M17.999,0.969 C8.58,0.969 0.0,7.225 0.0,14.942 C0.0,19.740 3.116,23.973 7.862,26.488 L5.865,33.818 C5.689,34.468 6.426,34.983 6.993,34.608 L15.746,28.802 C16.485,28.874 17.236,28.915 17.999,28.915 C27.941,28.915 35.999,22.659 35.999,14.942 C35.999,7.225 27.941,0.969 17.999,0.969 "
+                      />
+                    </svg>
                   </span>
                   카카오 로그인
                 </button>
