@@ -139,7 +139,7 @@ export default function KakaoSignup() {
     try {
       const user = await checknickname(nicknameValue).unwrap();
       setNicknameOverlappingValidity(false);
-      console.log(user);
+
       if (user.message === "중복 없음") {
         setNicknameOverlappingValidity(false);
         setConfirmedNickname(nicknameValue.nickname);

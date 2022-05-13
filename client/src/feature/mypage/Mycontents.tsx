@@ -10,9 +10,6 @@ export default function Mycontents() {
   const myposts: any = useAppSelector((state) => state.myinfo.post);
   const [isContents, setIsContents]: any = useState([...myposts]);
 
-  // console.log(myposts);
-  // console.log(isContents);
-
   const handleContents = (e: any) => {
     setIsContents([...isContents, e]);
   };
@@ -30,18 +27,12 @@ export default function Mycontents() {
   };
   const handleDeletePost = async (e: any) => {
     try {
-      // console.log(myposts);
-      console.log(e);
       const result = await deletePost(e).unwrap();
-
-      //   toast.success("성공적으로 게시물 삭제");
-      // console.log(result);
     } catch (err) {
       console.log("server error", err);
     }
   };
-  // console.log(myposts);
-  console.log(myposts);
+
   return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
