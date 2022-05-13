@@ -1,8 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {
-  usePostidQuery,
-  useToolsEditMutation,
-} from "services/api";
+import { usePostidQuery, useToolsEditMutation } from "services/api";
 import { useHistory, useParams } from "react-router-dom";
 import camera from "../../images/photo_upload.png";
 const src = [
@@ -47,8 +44,6 @@ export default function PostingEdit() {
       });
       const resulttag = src.filter((a) => a[1] === data.data.post.tag);
       setIsTag(resulttag[0], resulttag[1]);
-
-      console.log(data.data.post);
     }
   }, [data]);
 

@@ -6,22 +6,22 @@ import Loading from "feature/indicator/Loading";
 
 export default function Mycontents() {
   const [deletePost] = useDeletePostMutation();
-  const { data, isLoading, isSuccess } = useMyinfoQuery()
-  const [ trigger ] = api.endpoints.myinfo.useLazyQuery()
+  const { data, isLoading, isSuccess } = useMyinfoQuery();
+  const [trigger] = api.endpoints.myinfo.useLazyQuery();
 
   const handleDeletePost = async (e: any) => {
     try {
       console.log(e);
       await deletePost(e).unwrap();
-      await trigger()
+      await trigger();
       // toast.success("성공적으로 게시물 삭제");
-
     } catch (err) {
       console.log("server error", err);
     }
   };
+
   if (isLoading) return <Loading />;
-    return (
+  return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
         <h2 className="sr-only">Products</h2>
@@ -116,13 +116,14 @@ export default function Mycontents() {
                       </div>
                     </Menu.Items>
                   </Menu>
-
                 </div>
 
                 <h3 className="text-left mt-2 text-lg font-medium text-gray-900">
                   {mypost && mypost.title}
                 </h3>
-                <p className="text-left text-sm text-gray-700">{mypost && mypost.price}원</p>
+                <p className="text-left text-sm text-gray-700">
+                  {mypost && mypost.price}원
+                </p>
               </div>
             ))}
         </div>
