@@ -70,12 +70,12 @@ function Login() {
       const user = await login(inputValue).unwrap();
       dispatch(setCredentials(user));
       dispatch(setNewChat(user.data.userInfo.newchat));
-      dispatch(setLogin(true));
       dispatch(setIsModal());
       const user1 = await mypage().unwrap();
       dispatch(getMyinfo(user1));
       localStorage.setItem("user", JSON.stringify(user));
       const p = await posts().unwrap();
+      dispatch(setLogin(true));
       // console.log(p)
       // localStorage.setItem("posts", JSON.stringify(p));
       // dispatch(getPosts(p));

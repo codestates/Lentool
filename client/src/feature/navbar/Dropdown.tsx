@@ -25,7 +25,7 @@ export default function Dropdown() {
 
   const isLogin = useAppSelector((state) => state.login.isLogin);
   const myinfo = useAppSelector((state) => state.persistedReducer.myinfo);
-  console.log(myinfo);
+
   const handleGetInfo = async () => {
     const user = await mypage().unwrap();
     dispatch(getMyinfo(user));

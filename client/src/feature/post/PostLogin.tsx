@@ -8,18 +8,18 @@ import imagePlaceHolder from "../../images/image_placeholder.svg";
 import NotFound from "feature/indicator/NotFound";
 
 export default function PostLogin() {
-
   const { data, error, isLoading } = usePosQuery();
-  // console.log(data)
-  let filtered = null
+
+  let filtered = null;
   if (data) {
-    filtered = data.data.posts.map((posts: any) => {
-      return posts
-    }).filter((post: any) => {
-      return post.islend === false
-    })
+    filtered = data.data.posts
+      .map((posts: any) => {
+        return posts;
+      })
+      .filter((post: any) => {
+        return post.islend === false;
+      });
   }
-  // console.log(filtered)
 
   if (isLoading) return <Loading />;
   if (error) return <Error />;
@@ -31,8 +31,7 @@ export default function PostLogin() {
           <h2 className="sr-only">Products</h2>
           <h1 className="mb-5 ml-2 text-left text-gray-700">최근 게시글</h1>
           <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            {
-              filtered.length !== 0 ?
+            {filtered.length !== 0 ? (
               filtered.map((post: any) => (
                 <Link
                   to={`/post/${post.id}`}
@@ -60,8 +59,10 @@ export default function PostLogin() {
                     <p className="text-gray-700">{post.price}원</p>
                   </div>
                 </Link>
-              )) : <NotFound />
-            }
+              ))
+            ) : (
+              <NotFound />
+            )}
           </div>
         </div>
       </div>
