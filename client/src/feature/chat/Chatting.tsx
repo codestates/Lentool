@@ -78,9 +78,9 @@ export default function Chatting() {
   return (
     <div className="bg-[#fbfbfb] py-10">
     <div className="max-w-2xl mx-auto px-4">
-      <h1 className="text-xl border rounded-t-lg py-4 font-semibold text-gray-700">{roomdata.title}</h1>
+      <h1 className="text-xl border rounded-t-lg py-4 font-semibold text-zinc-700">{roomdata.title}</h1>
       <div className="flex py-4 border-x">
-        <div className="flex flex-1 text-left">
+        <div className="flex flex-1 text-left pl-4">
           {roomdata.photo !== "empty" ? (
             <img
               src={`${process.env.REACT_APP_SERVER_URL}${roomdata.photo}`}

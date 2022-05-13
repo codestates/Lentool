@@ -290,6 +290,7 @@ module.exports = {
           .json({ data: null, message: "비밀번호가 틀렸습니다" });
       }
       delete userInfo.dataValues.password;
+      delete userInfo.dataValues.salt;
       const accessToken = generateAccessToken(userInfo.dataValues);
 
       if (accessToken) {

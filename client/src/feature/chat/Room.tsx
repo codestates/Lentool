@@ -15,7 +15,7 @@ export default function Room() {
   return (
     <div className="bg-[#fbfbfb] py-10">
     <div className="max-w-2xl mx-auto px-4">
-      <h1 className="text-left mb-8">채팅 목록</h1>
+      <h1 className="text-left mb-8 font-semibold text-zinc-700">채팅 목록</h1>
       <div className='border rounded-lg'>
         { isLoading ? <Loading /> :
           data.data.length !== 0 ?
@@ -37,20 +37,20 @@ export default function Room() {
                 }}
               >
                 <div
-                  className="flex border-b rounded-lg py-4 px-4"
+                  className="flex items-center border-b rounded-lg py-4 px-4"
                 >
                   <div>
                     {room.user_photo !== "empty" ? (
                       <img
                         src={`${process.env.REACT_APP_SERVER_URL}${room.user_photo}`}
                         alt="user_profile"
-                        className="w-12 h-12 rounded-full"
+                        className="w-12 rounded-full"
                       />
                     ) : (
                       <img
                         src="https://www.seekpng.com/png/detail/966-9665317_placeholder-image-person-jpg.png"
                         alt="user_profile"
-                        className="w-12 h-12 rounded-full"
+                        className="w-12 rounded-full"
                       />
                     )}
                   </div>
