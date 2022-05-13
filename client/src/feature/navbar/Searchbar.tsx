@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { setIsModal } from "feature/modal/modalSlice";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useSearchMutation } from "services/api";
 import { getSearch } from "./searchSlice";
 import SearchTag from "./SearchTag";
@@ -12,17 +12,12 @@ export default function Searchbar() {
 
   const [result] = useSearchMutation();
 
-  const handleSearch = (e: any) => {
-    setInputValue(e.target.value);
-  };
   const handleSearchDisabled = (e: any) => {
     e.preventDefault();
     dispatch(setIsModal());
   };
   const searchPost = async () => {
-    console.log("clicked");
     const title = await result(inputValue);
-    console.log(title);
     dispatch(getSearch(title));
     setInputValue("");
   };

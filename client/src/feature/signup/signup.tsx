@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { setIsModal } from "../modal/modalSlice";
 
 import {

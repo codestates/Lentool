@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 import {
   useOauthSignupMutation,
   NicknameRequest,
-  MyinfoEditRequest,
   KakaoOauthRequest,
   useChecknicknameMutation,
   useMypageMutation,

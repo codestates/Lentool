@@ -1,6 +1,6 @@
-import { Menu, Transition } from "@headlessui/react";
+import { Menu } from "@headlessui/react";
 import { MenuIcon } from "@heroicons/react/outline";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Login from "../login/login";
 import { useAppSelector } from "../../app/hooks";
 import Searchbar from "./Searchbar";

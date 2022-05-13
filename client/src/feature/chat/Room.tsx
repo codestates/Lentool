@@ -1,14 +1,9 @@
-import { Route, Switch, Link } from "react-router-dom";
-import { useCreateroomMutation, useSearchRoomsQuery } from "services/api";
-import { useAppDispatch, useAppSelector } from "app/hooks";
+import { Link } from "react-router-dom";
+import { useSearchRoomsQuery } from "services/api";
 import NoChat from "feature/indicator/NoChat";
 import Loading from "feature/indicator/Loading";
 
 export default function Room() {
-
-  const myUserId = useAppSelector(
-    (state) => state.persistedReducer.myinfo.user.id
-  );
 
   const { data, isLoading, isSuccess} = useSearchRoomsQuery({ refetchOnMountOrArgChange: true })
   

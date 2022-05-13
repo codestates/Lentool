@@ -1,5 +1,3 @@
-import { useAppDispatch } from "app/hooks";
-import Loading from "feature/indicator/Loading";
 import { useEffect } from "react";
 import { useTrialMutation } from "services/api";
 import notFound from "../../images/undraw_traveling_re_weve.svg";
@@ -12,9 +10,6 @@ declare global {
 
 export default function Test() {
   const [trial, { data, isLoading, isSuccess }] = useTrialMutation();
-  console.log("isLoading", isLoading);
-  console.log("isSuccess", isSuccess);
-  console.log("data", data);
 
   useEffect(() => {
     const mapContainer = document.getElementById("map"); // 지도를 표시할 div
@@ -106,7 +101,7 @@ export default function Test() {
                     <div key={trial.id} className="rounded-2xl max-w-sm ">
                       <div className="relative rounded-xl xl:aspect-w-7 xl:aspect-h-8">
                         <img
-                          src={`http://localhost:80${trial.photo1}`}
+                          src={`${process.env.REACT_APP_SERVER_URL}${trial.photo1}`}
                           alt="my-posting"
                           className="h-[9rem] mx-auto my-auto rounded-xl object-center object-cover"
                         />

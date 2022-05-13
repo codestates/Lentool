@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Switch, useParams } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Navbar from "./feature/navbar/Navbar";
 import Login from "./feature/login/login";
 import Mypage from "./feature/mypage/Mypage";
@@ -18,13 +18,10 @@ import { getMyinfo } from "feature/mypage/myinfoSlice";
 import Room from "feature/chat/Room";
 import Chatting from "feature/chat/Chatting";
 import Post from "feature/post/Post";
-import { usePostsMutation } from "services/api";
 import Carousel from "feature/post/carousel";
-import SearchTag from "feature/navbar/SearchTag";
 import PostSearch from "feature/post/PostSearch";
 import PostingEdit from "feature/post/posttingEdit";
 import Footer from "feature/footer/Footer";
-import Loading from "feature/indicator/Loading";
 import KakaoLogin from "feature/login/kakaoLogin";
 import KakaoSignup from "feature/login/KakaoSignup";
 
@@ -38,6 +35,7 @@ function App() {
   useEffect(() => {
     const a: any = localStorage.getItem("user");
     const b: any = localStorage.getItem("posts");
+    const c: any = localStorage.getItem("myinfo");
 
     if (a) {
       dispatch(setCredentials(JSON.parse(a)));
@@ -46,9 +44,9 @@ function App() {
     if (b) {
       dispatch(getPosts(JSON.parse(b)));
     }
-    // if (c) {
-    //   dispatch(getMyinfo(JSON.parse(c)))
-    // }
+    if (c) {
+      dispatch(getMyinfo(JSON.parse(c)))
+    }
   }, []);
 
   return (
@@ -56,7 +54,6 @@ function App() {
       <div className="z-10">
         <Navbar />
       </div>
-      {/* <Loading /> */}
       <div className="flex-grow">
         <Switch>
           <Route exact path="/">

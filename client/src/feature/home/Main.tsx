@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Intro1 from "./Intro1";
 import Intro2 from "./Intro2";
 import Intro3 from "./Intro3";
@@ -8,7 +8,6 @@ import Trial from "./Trial";
 
 export default function Main() {
   const trialRef = useRef<HTMLDivElement>(null);
-  console.log("메인입니다");
 
   return (
     <div className="scroll-smooth flex max-w-7xl max-h-full mx-auto px-4 flex-col">

@@ -1,13 +1,6 @@
-import {
-  ReactChild,
-  ReactFragment,
-  ReactPortal,
-  useRef,
-  useState,
-} from "react";
+import { useState } from "react";
 import { useToolsMutation } from "services/api";
-import { Link, useHistory } from "react-router-dom";
-import { useAppSelector } from "app/hooks";
+import { useHistory } from "react-router-dom";
 import camera from "../../images/camera.png";
 const src = [
   ["망치", "hammer"],
@@ -25,9 +18,7 @@ const src = [
 ];
 export default function Posting() {
   const { push } = useHistory();
-  // const post = useAppSelector(
-  //   (state) => state.persistedReducer.posts.posts.posts
-  // );
+
   const [photo, setPhoto] = useState([]);
   const [preview1, setPreview1] = useState("");
   const [preview2, setPreview2] = useState("");
@@ -39,7 +30,6 @@ export default function Posting() {
     description: "",
   });
   const [tools] = useToolsMutation();
-  const fileInput: any = useRef(null);
 
   /* Tag 추가 */
   const handleTag = (e: any) => {
