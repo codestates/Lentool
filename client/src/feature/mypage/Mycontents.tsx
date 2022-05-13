@@ -50,7 +50,7 @@ export default function Mycontents() {
         <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {isContents &&
             isContents.map((mypost: any) => (
-              <a key={mypost.id} href={mypost.href} className="group">
+              <div>
                 <div className="w-full h-80 relative aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg xl:aspect-w-7 xl:aspect-h-8">
                   <img
                     src={
@@ -77,6 +77,29 @@ export default function Mycontents() {
                           {({ active }) => (
                             // react-dom5버젼용, 6버젼이면 안먹음.
                             <Link
+                              to={`/post/${mypost.id}`}
+                              key={mypost.id}
+                              href=""
+                              className="group"
+                            >
+                              <button
+                                className={`${
+                                  active
+                                    ? "bg-gray-200 text-gray-900"
+                                    : "text-gray-900"
+                                } justify-center group flex w-full items-center rounded-t-md px-2 py-3 text-sm`}
+                              >
+                                게시글 가기
+                              </button>
+                            </Link>
+                          )}
+                        </Menu.Item>
+                      </div>
+                      <div className="px-1 py-1 ">
+                        <Menu.Item>
+                          {({ active }) => (
+                            // react-dom5버젼용, 6버젼이면 안먹음.
+                            <Link
                               to={{
                                 pathname: `/postingEdit/${mypost.id}`,
                                 // state: {
@@ -87,9 +110,9 @@ export default function Mycontents() {
                               <button
                                 className={`${
                                   active
-                                    ? "bg-blue-500 text-white "
+                                    ? "bg-gray-200 text-gray-900"
                                     : "text-gray-900"
-                                } justify-center group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                } justify-center group flex w-full items-center rounded-t-md px-2 py-3 text-sm`}
                               >
                                 수정하기
                               </button>
@@ -107,9 +130,9 @@ export default function Mycontents() {
                               }}
                               className={`${
                                 active
-                                  ? "bg-blue-500 text-white"
+                                  ? "bg-gray-200 text-gray-900"
                                   : "text-gray-900"
-                              } justify-center group flex w-full items-center rounded-md px-2 py-2 text-sm `}
+                              } justify-center group flex w-full items-center rounded-t-md px-2 py-3 text-sm`}
                             >
                               삭제하기
                             </button>
@@ -126,7 +149,7 @@ export default function Mycontents() {
                   {mypost.title}
                 </h3>
                 <p className="mt-1 text-sm text-gray-700">{mypost.price}</p>
-              </a>
+              </div>
             ))}
         </div>
       </div>

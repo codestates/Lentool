@@ -12,7 +12,7 @@ import { setLogin } from "./loginSlice";
 import { useHistory } from "react-router-dom";
 import DaumPostCode from "react-daum-postcode";
 import { toast } from "react-toastify";
-import Lentoollogo from "../../images/lentool_logo.png";
+import logo from "../../images/Kakao_Logo.svg";
 
 export default function KakaoSignup() {
   const outSelect = useRef<any>();
@@ -76,10 +76,17 @@ export default function KakaoSignup() {
   const [isAddClicked, setIsAddClicked] = useState(false);
   //클릭에 따라 Kakao 주소창 열고 닫히는 함수를 설정
   const handleOpen = () => {
-    setIsAddClicked(!isAddClicked);
+    setIsAddClicked(true);
+  };
+
+  const handleOpenOut = (e: any) => {
+    if (isAddClicked === true) {
+      setIsAddClicked(false);
+    }
   };
   //kakao 주소창 CSS스타일 설정
   const modalStyle = {
+    Width: "full",
     zIndex: "100",
     border: "2px solid #000000",
     overflow: "hidden",
@@ -174,99 +181,112 @@ export default function KakaoSignup() {
     e.preventDefault();
   };
   return (
-    <div className="" ref={outSelect} onClick={handleOutClick}>
-      <div>
-        <img className="mx-auto h-12 w-auto" src={Lentoollogo} alt="Workflow" />
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          KAKAO 회원정보 등록
-        </h2>
-      </div>
-      <form className="mt-8 space-y-6">
-        <div className="rounded-md shadow-sm -space-y-px text-left ">
-          <div className="mb-3">
-            <div>
-              <label className="text-sm text-center font-medium text-gray-900 block mb-2">
-                닉네임
-              </label>
-              <div className="justify-center mt-4 flex">
-                <input
-                  type="text"
-                  name="nickname"
-                  id="nickname"
-                  onChange={handleEditInputValue("nickname")}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-4/12 p-2.5"
-                  placeholder="닉네임"
-                />
-                <button
-                  className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                  onClick={checkNicknameOverlapping}
-                >
-                  중복 체크
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <div className="justify-center mt-4 flex">
-                <button
-                  className="bg-white	 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-                  onClick={handleOpen}
-                >
-                  주소 찾기
-                </button>
-              </div>
-              <div className="justify-center mt-4 flex">
-                {isAddClicked ? (
-                  <div className="justify-center w-5/12 mt-4 flex">
-                    <DaumPostCode
-                      onComplete={handleComplete}
-                      style={modalStyle}
-                    />
-                  </div>
-                ) : null}
-              </div>
-              <div className="justify-center mt-4 flex">
-                <input
-                  type="text"
-                  name="address"
-                  id="address"
-                  value={fullAddress}
-                  readOnly
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-5/12 p-2.5"
-                  placeholder="주소"
-                ></input>
-              </div>
-            </div>
+    <div
+      className="bg-gray-200 mx-auto md:h-screen flex flex-col justify-relative items-center px-6 pt-10 pt:mt-0"
+      ref={outSelect}
+      onClick={(e) => {
+        handleOutClick(e);
+        handleOpenOut(e);
+      }}
+    >
+      <div className="bg-white shadow rounded-lg md:mt-0 w-50 sm:max-w-screen-sm xl:p-0">
+        <div className="p-6 sm:p-8 lg:p-16 space-y-8">
+          <div>
+            <img className="mx-auto h-12 w-auto" src={logo} alt="Workflow" />
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              회원정보 등록
+            </h2>
           </div>
-        </div>
-        <div className="justify-center mt-4 flex">
-          <button
-            onClick={handleEditMyinfo}
-            /* disabled={!isValidate}  */ type="submit"
-            className="group  relative w-5/12 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-              {/* <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="../images/icons8-google.svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"> */}
-              <svg
-                className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
+          <form className="mt-8 space-y-6">
+            <div className="rounded-md shadow-sm -space-y-px text-left ">
+              <div className="mb-3">
+                <div>
+                  <label className="text-left text-sm font-medium text-gray-900 block mb-2">
+                    닉네임
+                  </label>
+                  <div className="justify-center mt-4 flex">
+                    <input
+                      type="text"
+                      name="nickname"
+                      id="nickname"
+                      onChange={handleEditInputValue("nickname")}
+                      className=" md:w-52  p-2.5  bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block "
+                      placeholder="닉네임"
+                    />
+                    <button
+                      className="ml-4 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                      onClick={checkNicknameOverlapping}
+                    >
+                      중복 체크
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm text-left font-medium text-gray-900 block mb-2 mt-4">
+                    주소 찾기
+                  </label>
+                  {/* <div className="justify-center mt-4 flex">
+                    <button
+                      className="bg-white	 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                      onClick={handleOpen}
+                    >
+                      주소 찾기
+                    </button>
+                  </div> */}
+                  <div className="justify-center mt-4 flex">
+                    {isAddClicked ? (
+                      <div className="justify-center w-full mt-4 flex">
+                        <DaumPostCode
+                          onComplete={handleComplete}
+                          style={modalStyle}
+                        />
+                      </div>
+                    ) : null}
+                  </div>
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    value={fullAddress}
+                    onClick={handleOpen}
+                    readOnly
+                    className="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block"
+                    placeholder="주소"
+                  ></input>
+                </div>
+              </div>
+            </div>
+            <div className="justify-center mt-4 flex">
+              <button
+                onClick={handleEditMyinfo}
+                /* disabled={!isValidate}  */ type="submit"
+                className="w-full group  relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                <path
-                  fillRule="evenodd"
-                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </span>
-            회원정보 등록 완료
-          </button>
-        </div>
-      </form>
-      {/* <button onClick={handle}>바꿔줌</button>
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  {/* <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="../images/icons8-google.svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"> */}
+                  <svg
+                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+                회원정보 등록
+              </button>
+            </div>
+          </form>
+          {/* <button onClick={handle}>바꿔줌</button>
       <button onClick={handle2}>보냄</button> */}
+        </div>
+      </div>
     </div>
   );
 }

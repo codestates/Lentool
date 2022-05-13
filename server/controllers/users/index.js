@@ -78,18 +78,24 @@ module.exports = {
           delpost_id.push(userPost[i].dataValues.id);
           if (userPost[i].dataValues.photo1 !== "empty") {
             const deleteimg = userPost[i].dataValues.photo1.slice(11);
-            fs.unlinkSync("./postimg/" + deleteimg);
-            console.log("photo1 deleted");
+            if (fs.existsSync("./postimg/" + deleteimg)) {
+              fs.unlinkSync("./postimg/" + deleteimg);
+              console.log("photo1 deleted");
+            }
           }
           if (userPost[i].dataValues.photo2 !== "empty") {
             const deleteimg = userPost[i].dataValues.photo2.slice(11);
-            fs.unlinkSync("./postimg/" + deleteimg);
-            console.log("photo1 deleted");
+            if (fs.existsSync("./postimg/" + deleteimg)) {
+              fs.unlinkSync("./postimg/" + deleteimg);
+              console.log("photo1 deleted");
+            }
           }
           if (userPost[i].dataValues.photo3 !== "empty") {
             const deleteimg = userPost[i].dataValues.photo3.slice(11);
-            fs.unlinkSync("./postimg/" + deleteimg);
-            console.log("photo1 deleted");
+            if (fs.existsSync("./postimg/" + deleteimg)) {
+              fs.unlinkSync("./postimg/" + deleteimg);
+              console.log("photo1 deleted");
+            }
           }
         }
       }
@@ -174,20 +180,7 @@ module.exports = {
           res.status(500).json({ message: "server error" });
         });
     }
-    // if (imgPath) {
-    //   userModel
-    //     .update({ user_photo: imgPath }, { where: { id: userInfo.id } })
-    //     .then(([result]) => {
-    //       if (!result) {
-    //         return res.status(500).json({ message: "user_photo update fail" });
-    //       } else {
-    //         return res.status(200).json({ message: "user_photo 수정 성공" });
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       res.status(500).json({ message: "server error" });
-    //     });
-    // }
+
     if (user_address && longitude && latitude) {
       //여기는 주소 방법 학습후 수정
       userModel
@@ -231,8 +224,10 @@ module.exports = {
       if (lastimg.dataValues.user_photo !== "empty") {
         const deleteimg = lastimg.dataValues.user_photo.slice(11);
         try {
-          fs.unlinkSync("./userimg/" + deleteimg);
-          console.log("img deleted");
+          if (fs.existsSync("./userimg/" + deleteimg)) {
+            fs.unlinkSync("./userimg/" + deleteimg);
+            console.log("img deleted");
+          }
         } catch (err) {
           console.log(err, "img delete err");
         }
