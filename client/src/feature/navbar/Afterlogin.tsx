@@ -11,8 +11,7 @@ import { setNewChat } from "feature/login/authSlice";
 export default function Afterlogin () {
   const dispatch = useAppDispatch()
   const [searchroom] = useSearchroomMutation();
-  const profileImg = useAppSelector((state) => state.persistedReducer)
-  console.log(profileImg.myinfo.user.user_photo)
+  const profileImg = useAppSelector((state) => state.persistedReducer.myinfo)
   const getRoomList = async () => {
     const roomlist = await searchroom().unwrap();
     dispatch(getroom(roomlist));
@@ -31,8 +30,8 @@ export default function Afterlogin () {
       </Link>
       <Menu.Button className="focus:outline-none inline-flex justify-center px-2 py-2 text-sm font-medium">
         <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-          {
-            profileImg.myinfo.user.user_photo === 'empty' ? 
+          { profileImg.user.user_photo &&
+            profileImg.user.user_photo === 'empty' ? 
             <svg
             className="absolute w-12 h-12 text-gray-400 -left-1 hover:bg-gray-700"
             fill="currentColor"
@@ -46,7 +45,7 @@ export default function Afterlogin () {
             >
             </path>
           </svg>
-          : <img src={`${process.env.REACT_APP_SERVER_URL}${ profileImg.myinfo.user.user_photo}`} alt='profile'/>
+          : <img src={`${process.env.REACT_APP_SERVER_URL}${ profileImg.user.user_photo}`} alt='profile'/>
           }
         </div>
       </Menu.Button>

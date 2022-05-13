@@ -48,7 +48,7 @@ export default function PostLogin() {
                           : imagePlaceHolder
                       }
                       alt={post.photo1}
-                      className="w-full h-full object-center object-cover py-8 group-hover:opacity-75"
+                      className="w-full h-full object-center object-cover  group-hover:opacity-75"
                     />
                   </div>
 

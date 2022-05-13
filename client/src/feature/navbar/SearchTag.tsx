@@ -62,7 +62,8 @@ export default function SearchTag() {
             onFocus={() => onTag("visible")}
             onBlur={() => onTag("hidden")}
             autoComplete="off"
-            className="pt-2 pb-2 border focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
+            className="pt-2 pb-2 border focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md"
+            
           />
           <button
             type="submit"

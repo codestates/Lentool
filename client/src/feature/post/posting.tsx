@@ -97,7 +97,7 @@ export default function Posting() {
       <div className="min-h-full flex items-center justify-center px-4 sm:px-6 lg:px-6">
         <div className="w-full">
           <div>
-            <h2 className="text-center text-3xl font-extrabold text-gray-900">
+            <h2 className="text-center text-3xl font-extrabold text-zinc-700">
               공유하기
             </h2>
           </div>

@@ -97,6 +97,7 @@ export default function Post() {
                         <img
                           src={`${process.env.REACT_APP_SERVER_URL}${data.data.post.user_photo}`}
                           alt="profile"
+                          className="rounded-full"
                         />
                       ) : (
                         <img
@@ -110,19 +111,19 @@ export default function Post() {
                       <h3>{data.data.post.nickname}</h3>
                       <h3>{data.data.post.address}</h3>
                     </div>
-                    <div className="flex-1 text-right text-sm">
+                    {/* <div className="flex-1 text-right text-sm"> */}
                       {/* <a href="" className="mx-1">
                         💬
                       </a>
                       <a href="" className="mx-1">
                         ❤️
                       </a> */}
-                    </div>
+                    {/* </div> */}
                   </div>
                   <div className="border-b-2 border-gray-100 py-3 " />
                 </div>
                 <form className="">
-                  <div className="py-4 px-2 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+                  <div className="py-4 px-2 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-gray-200 lg:pr-8">
                     <div className="text-left">
                       <h2 className="text-xl my-1 font-medium text-gray-900">
                         {data.data.post.title}
