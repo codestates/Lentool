@@ -103,7 +103,6 @@ export interface KakaoOauthRequest {
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_SERVER_URL,
-
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
@@ -212,7 +211,7 @@ export const api = createApi({
       }),
     }),
     searchRooms: builder.query<any, any>({
-      query: () => "chat",
+      query: () => 'chat',
     }),
     signout: builder.mutation<SignoutResponse, SignoutRequest>({
       query: (SignoutData: any) => ({
