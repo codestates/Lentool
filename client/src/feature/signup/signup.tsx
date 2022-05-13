@@ -138,6 +138,8 @@ function Signup() {
   /* 이메일 중복검사용 상태 */
   const [emailOverlappingValidity, setEmailOverlappingValidity] =
     useState(true);
+  /* 중복검사 확인후 또 바꾸는 경우*/
+  const [confirmedEmail, setConfirmedEmail] = useState("");
   /*이메일 중복 검사 */
   const checkEmailOverlapping = async () => {
     try {
@@ -146,6 +148,7 @@ function Signup() {
       if (user.message === "중복 없음") {
         setEmailOverlappingValidity(false);
         toast.success("사용가능한 이메일입니다.");
+        setConfirmedEmail(emailValue.email);
       } else {
         setEmailOverlappingValidity(true);
         toast.error("중복된 이메일입니다.");
@@ -158,7 +161,8 @@ function Signup() {
   /* 닉네임 중복검사용 */
   const [nicknameOverlappingValidity, setNicknameOverlappingValidity] =
     useState(true);
-
+  //닉네임 중복검사 후 또 바꾸는 경우 확인
+  const [confirmedNickname, setConfirmedNickname] = useState("");
   /*닉네임 중복 검사 */
   const checkNicknameOverlapping = async () => {
     try {
@@ -167,6 +171,7 @@ function Signup() {
       console.log(user);
       if (user.message === "중복 없음") {
         setNicknameOverlappingValidity(false);
+        setConfirmedNickname(nicknameValue.nickname);
         toast.success("사용가능한 닉네임입니다.");
       } else {
         setNicknameOverlappingValidity(true);
@@ -191,12 +196,16 @@ function Signup() {
       toast.error("이메일 형식에 맞지 않습니다.");
     } else if (emailOverlappingValidity) {
       toast.error("이메일 중복 여부를 확인해 주시기 바랍니다.");
+    } else if (confirmedEmail !== email) {
+      toast.error("이메일 중복 여부를 확인해 주시기 바랍니다.");
     } else if (!checkPasswordValidity(password)) {
       toast.error("8자 이상 최소 하나의 숫자와 문자를 포함해야 합니다.");
     } else if (password !== password2) {
       toast.error("두 비밀번호가 같지 않습니다.");
     } else if (nickname.length === 1 || nickname.length > 15) {
       toast.error("별명은 2~15자 이내로 입력해 주세요. ");
+    } else if (confirmedNickname !== nickname) {
+      toast.error("닉네임 중복여부를 확인해주세요 ");
     } else if (nicknameOverlappingValidity) {
       toast.error("닉네임 중복여부를 확인해주세요 ");
     } else {
@@ -328,7 +337,7 @@ function Signup() {
             {!checkPasswordValidity(password) &&
             inputValue.password.length > 0 ? (
               <span className="text-red-500">
-                비밀번호는 영문,숫자를 포함하여 6자 이상이여야 합니다.
+                영문,숫자를 포함하여 6자 이상이여야 합니다.
               </span>
             ) : null}
             <div>
