@@ -1,66 +1,12 @@
 import { useParams, Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useAppSelector } from "app/hooks";
 import { usePostidQuery } from "services/api";
 import Carousel from "./carousel";
 import Loading from "feature/indicator/Loading";
 
-const product = {
-  name: "공구 > 소공구 > 몽키스패너",
-  price: "$192",
-  href: "#",
-  states: [
-    { id: 1, name: "Men", href: "#" },
-    { id: 2, name: "Clothing", href: "#" },
-  ],
-  images: [
-    {
-      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2aq3tfgMZh9tS1mwzPkOCLk6prIbIqy8D_g&usqp=CAU",
-      alt: "Two each of gray, white, and black shirts laying flat.",
-    },
-    {
-      src: "https://tailwindui.com/img/ecommerce-images/stateValue-page-02-tertiary-stateValue-shot-01.jpg",
-      alt: "Model wearing plain black basic tee.",
-    },
-    {
-      src: "https://tailwindui.com/img/ecommerce-images/stateValue-page-02-tertiary-product-shot-02.jpg",
-      alt: "Model wearing plain gray basic tee.",
-    },
-    {
-      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2aq3tfgMZh9tS1mwzPkOCLk6prIbIqy8D_g&usqp=CAU",
-      alt: "Model wearing plain white basic tee.",
-    },
-  ],
-  colors: [
-    { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-    { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-    { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-  ],
-  sizes: [
-    { name: "XXS", inStock: false },
-    { name: "XS", inStock: true },
-    { name: "S", inStock: true },
-    { name: "M", inStock: true },
-    { name: "L", inStock: true },
-    { name: "XL", inStock: true },
-    { name: "2XL", inStock: true },
-    { name: "3XL", inStock: true },
-  ],
-  description:
-    'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-  highlights: [
-    "Hand cut and sewn locally",
-    "Dyed with our proprietary colors",
-    "Pre-washed & pre-shrunk",
-    "Ultra-soft 100% cotton",
-  ],
-  details:
-    'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
-};
-
 export default function Post() {
   let { post_id }: any = useParams();
   const { data, isLoading, error } = usePostidQuery(post_id);
-  // console.log(data.data.post.tag)
   const myUserId = useAppSelector((state) => state.persistedReducer.myinfo);
   if (isLoading) return <Loading />;
 
@@ -78,26 +24,22 @@ export default function Post() {
         </nav>
 
         {data && (
-          /* Image gallery */
           <div>
             <div className="mt-6 ">
               <div className="sm:rounded-lg sm:overflow-hidden">
                 <Carousel />
               </div>
             </div>
-
-            {/* Product info  */}
             <div className="max-w-2xl mx-auto pt-8 pb-16 px-4 sm:px-6 lg:max-w-2xl lg:pb-24 ">
               <div className="lg:mt-0 lg:row-span-3">
-                {/* Userinfo  */}
                 <div className="">
                   <div className="flex items-center ">
-                    <div className="flex-none w-14 mr-2 items-center">
+                    <div className="flex-none w-12 h-12 mr-2 items-center">
                       {data.data.post.user_photo !== "empty" ? (
                         <img
                           src={`${process.env.REACT_APP_SERVER_URL}${data.data.post.user_photo}`}
                           alt="profile"
-                          className="rounded-full"
+                          className="rounded-full w-full h-full"
                         />
                       ) : (
                         <img

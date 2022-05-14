@@ -3,7 +3,7 @@ import { PURGE } from "redux-persist";
 
 type myinfoState = {
   user: any | null;
-  post: [] | null;
+  post: any | null;
 };
 const initialState: myinfoState = {
   user: null,

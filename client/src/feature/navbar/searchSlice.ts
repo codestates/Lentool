@@ -11,11 +11,9 @@ export const searchSlice = createSlice({
   reducers: {
     getSearch: (state, action: PayloadAction<any>) => {
       state.search = action.payload.data.data.posts;
-      console.log(state.search)
     },
     getSearchTitle: (state, action: PayloadAction<any>) => {
       state.searchByTag = action.payload.data.data.posts
-      // console.log(state.searchByTag)
     }
   },
 });
