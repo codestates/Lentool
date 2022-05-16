@@ -93,6 +93,7 @@ Deploy
 <summary>메인페이지</summary>
 <div markdown="1">  
   
+![메인 페이지](https://user-images.githubusercontent.com/89336050/168541251-26152672-81a4-47e3-a96f-6bee276f0743.gif)
 
   
 </div>
