@@ -129,7 +129,10 @@ Deploy
 
 Position: Front-End
 
-기능구현:여기에 구현한 기능을 넣어주세요
+* 로그인, 랜딩 페이지 제작, 채팅창 구현, Navbar 컴포넌트 제작,
+* Kakao maps API를 활용한 지도 제작 
+* 게시 글 작성 페이지 제작
+* 공구 아이콘을 기반으로 한 카테고리화된 검색 창 구현 
 
 </div>
 </details>
@@ -140,7 +143,11 @@ Position: Front-End
 
 Position: Front-End
 
-기능구현:여기에 구현한 기능을 넣어주세요
+* 회원가입, 회원탈퇴, 회원정보 수정 페이지 제작 (이메일,닉네임 중복확인)
+* 마이페이지 구현, 회원정보, 프로필 사진 수정 구현
+* 내가 올린 게시 글 구현, 세부 페이지 이동, 수정, 삭제 기능 구현, 
+* Daum Address API, Kakao Maps API을 활용한 위도,경도,주소값 추출 후 서버로 전달
+* 페이지 라우팅(React-Router-Dom)
 
 </div>
 </details>
@@ -151,7 +158,10 @@ Position: Front-End
 
 Positon: Back-End
 
-기능구현:여기에 구현한 기능을 넣어주세요
+* 회원가입, 로그인/로그아웃, 회원탈퇴 등 유저 기본 기능
+* Socket.io를 이용한 채팅창 구현
+* 위도 경도 데이터를 활용한 user의 위치 10km 반경의 필터된 게시물을 분류
+* 카카오 소셜 로그인 구현 
 
 </div>
 </details>
@@ -162,7 +172,9 @@ Positon: Back-End
 
 Position: Back-End
 
-기능구현:여기에 구현한 기능을 넣어주세요
+* 회원가입, 로그인/로그아웃, 회원탈퇴 등 유저 기본 기능
+* 서버 EC2 배포, AWS Pipeline 설정
+* https 인증서 발급 및 배포
 
 </div>
 </details>
