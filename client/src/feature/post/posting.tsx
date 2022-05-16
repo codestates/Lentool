@@ -127,7 +127,7 @@ export default function Posting() {
                 <label className="flex flex-col w-20 px-2 py-2 border-2 rounded-lg mr-1">
                   <input
                     type="file"
-                    accept="image/jpg,image/png,image/jpeg,image/gif"
+                    accept="image/jpg,image/png,image/jpeg"
                     multiple
                     onChange={handlePreview}
                     hidden
