@@ -1,9 +1,8 @@
+![lentool(logo+word) ](https://user-images.githubusercontent.com/96006602/168584992-7c3926d2-639a-406d-a621-5c8449fc41b1.png)
 
 
 # ABOUT
 
-
-<img align="right" src="https://user-images.githubusercontent.com/89336050/168533727-d4340527-b232-4a7b-8e6c-2f2c194b9649.png">
 
 먼지만 쌓여가는 공구가 있지 않으신가요?
 
