@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const { main, healthckeck } = require("../controllers/mainpage");
+const { main, healthcheck } = require("../controllers/mainpage");
 /* GET home page. */
 router.post("/", main);
-router.get("/healthckeck", healthckeck);
+router.get("/healthcheck", healthcheck);
 
 module.exports = router;
