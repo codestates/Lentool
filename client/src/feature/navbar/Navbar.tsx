@@ -2,16 +2,27 @@ import { Menu } from "@headlessui/react";
 import { MenuIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import Login from "../login/login";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import Searchbar from "./Searchbar";
 import Beforelogin from "./Beforelogin";
 import Afterlogin from "./Afterlogin";
 import Dropdown from "./Dropdown";
 import logo from "../../images/lentoollogoword.png";
 import NewChat from "./Newchat";
+import { useSearchroomMutation } from "services/api";
+import { getroom } from "feature/chat/roomSlice";
+import { setNewChat } from "feature/login/authSlice";
 export default function Navbar() {
+  const dispatch = useAppDispatch()
   const isModal = useAppSelector((state) => state.modal.isModal);
   const isLogin = useAppSelector((state) => state.login.isLogin);
+  const [searchroom] = useSearchroomMutation();
+
+  const getRoomList = async () => {
+    const roomlist = await searchroom().unwrap();
+    dispatch(getroom(roomlist));
+    dispatch(setNewChat(false))
+  };
 
   return (
     <Menu as="div" className="border-b-2 border-gray-100">
@@ -26,7 +37,7 @@ export default function Navbar() {
           </div>
           <div className="-mr-2 -my-2 md:hidden flex-3 ">
             <Menu.Button className="focus:outline-none inline-flex w-full justify-center px-2 py-2 text-sm font-medium text-gray-500 hover:bg-opacity-10 hover:text-black hover:bg-gray-700 hover:rounded-full focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-              <div className="">
+              <div className="" onClick={getRoomList}>
                 <span className="absolute top-14 right-5 sm:right-7 sm:top-16">
                   <NewChat />
                 </span>

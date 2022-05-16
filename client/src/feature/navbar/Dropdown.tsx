@@ -7,6 +7,7 @@ import { setIsModal } from "feature/modal/modalSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
 import { Fragment } from "react";
 import { useHistory } from "react-router-dom";
+
 import { useLogoutMutation, useMypageMutation } from "services/api";
 import { persistor } from "../../index";
 
@@ -41,8 +42,10 @@ export default function Dropdown() {
     dispatch(setCredentials(reset));
     localStorage.removeItem("user");
     localStorage.removeItem("posts");
-    setTimeout(() => persistor.purge(), 200);
+    setTimeout(() => persistor.purge(), 200)
+
     push("/");
+    // window.location.reload()
   };
   if (mypage.isLoading) return <Loading />;
   return (
