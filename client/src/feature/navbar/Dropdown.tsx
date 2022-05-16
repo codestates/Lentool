@@ -42,8 +42,7 @@ export default function Dropdown() {
     localStorage.removeItem("user");
     localStorage.removeItem("posts");
     setTimeout(() => persistor.purge(), 200);
-    window.location.replace("/");
-    // push("/"); 소셜 로그아웃을 위한 수정
+    push("/");
   };
   if (mypage.isLoading) return <Loading />;
   return (
