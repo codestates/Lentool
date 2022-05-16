@@ -1,4 +1,10 @@
+
+
 # ABOUT
+
+
+<img align="right" src="https://user-images.githubusercontent.com/89336050/168533727-d4340527-b232-4a7b-8e6c-2f2c194b9649.png">
+
 먼지만 쌓여가는 공구가 있지 않으신가요?
 
 아니면, 한두 번 쓰고 쓰지않는 공구는 있지 않으신가요?
@@ -53,7 +59,20 @@ Back
 <img src="https://img.shields.io/badge/sequelize-52B0E7?style=for-the-badge&logo=sequelize&logoColor=white">
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 <img src="https://img.shields.io/badge/json web tokens-000000?style=for-the-badge&logo=json web tokens&logoColor=white"></span>
+</span>
+</br>
 
+Deploy
+---
+<span>
+<img src="https://img.shields.io/badge/aws s3-000000?style=for-the-badge&logo=aws s3&logoColor=white">
+<img src="https://img.shields.io/badge/aws ec2-000000?style=for-the-badge&logo=aws ec2&logoColor=white">
+<img src="https://img.shields.io/badge/aws cloudfront-000000?style=for-the-badge&logo=aws cloudfront&logoColor=white">
+<img src="https://img.shields.io/badge/aws route53-000000?style=for-the-badge&logo=aws route53&logoColor=white">
+
+
+</span>
+</br>
 
 
 ***
@@ -64,7 +83,8 @@ Back
 <summary>랜딩페이지</summary>
 <div markdown="1">  
   
-여기에 gif를 넣어주세요
+![로그인전 메인화면](https://user-images.githubusercontent.com/89336050/168532171-a829af8b-c6b2-4b3c-a14f-be39f8037620.gif)
+
   
 </div>
 </details>
@@ -73,7 +93,8 @@ Back
 <summary>메인페이지</summary>
 <div markdown="1">  
   
-여기에 gif를 넣어주세요
+![메인 페이지](https://user-images.githubusercontent.com/89336050/168541251-26152672-81a4-47e3-a96f-6bee276f0743.gif)
+
   
 </div>
 </details>
@@ -82,7 +103,8 @@ Back
 <summary>1대1채팅창</summary>
 <div markdown="1">  
   
-여기에 gif를 넣어주세요
+![채팅방 주인시점](https://user-images.githubusercontent.com/89336050/168533283-cddf1360-ac4c-496c-b7b7-5024d7f4ea97.gif)
+
   
 </div>
 </details>
@@ -91,7 +113,8 @@ Back
 <summary>마이페이지</summary>
 <div markdown="1">  
   
-여기에 gif를 넣어주세요
+![마이페이지](https://user-images.githubusercontent.com/89336050/168533306-363a5732-9194-4383-8a6e-42b69dba0722.gif)
+
   
 </div>
 </details>
