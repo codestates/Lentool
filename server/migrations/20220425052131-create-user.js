@@ -30,6 +30,7 @@ module.exports = {
       },
       user_photo: {
         type: Sequelize.STRING,
+        defaultValue: "empty",
       },
       latitude: {
         type: Sequelize.STRING,
@@ -43,6 +44,10 @@ module.exports = {
       newchat: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
+      },
+      kakao_id: {
+        type: Sequelize.STRING,
+        defaultValue: null,
       },
     });
   },

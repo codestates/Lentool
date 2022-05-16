@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { setIsModal } from "../modal/modalSlice";
 
 import {
@@ -12,12 +12,12 @@ import type {
   NicknameRequest,
   EmailRequest,
 } from "services/api";
-import axios from "axios";
+
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import DaumPostCode from "react-daum-postcode";
 // 사진 import
-import logo from "./images/Lentool_Logo.png";
+// import logo from "../../images/lentool(logo+word).png";
 
 declare global {
   interface Window {
@@ -102,6 +102,12 @@ function Signup() {
   const handleOpen = () => {
     setIsAddClicked(!isAddClicked);
   };
+  //밖 클릭시 주소창 무조건 없애기
+  const handleOpenOut = () => {
+    if (isAddClicked === true) {
+      setIsAddClicked(false);
+    }
+  };
   //kakao 주소창 CSS스타일 설정
   const modalStyle = {
     zIndex: "100",
@@ -110,14 +116,12 @@ function Signup() {
   };
   /* 모든 조건이 통과될때, signup으로 inputValue(회원정보)를 보내고 user로 받는 함수 */
   const signupreq = async () => {
-    // console.log(inputValue);
     try {
       const user = await signup(inputValue).unwrap();
-      // dispatch(setCredentials(user));
+
       dispatch(setIsModal()); //바로 회원가입창이 열린다.
       toast.success("성공적으로 회원가입 완료");
       push("/");
-      // console.log(user);
     } catch (err) {
       console.log("error", err);
     }
@@ -132,14 +136,17 @@ function Signup() {
   /* 이메일 중복검사용 상태 */
   const [emailOverlappingValidity, setEmailOverlappingValidity] =
     useState(true);
+  /* 중복검사 확인후 또 바꾸는 경우*/
+  const [confirmedEmail, setConfirmedEmail] = useState("");
   /*이메일 중복 검사 */
   const checkEmailOverlapping = async () => {
     try {
       const user = await checkemail(emailValue).unwrap();
-      // console.log(user);
+
       if (user.message === "중복 없음") {
         setEmailOverlappingValidity(false);
         toast.success("사용가능한 이메일입니다.");
+        setConfirmedEmail(emailValue.email);
       } else {
         setEmailOverlappingValidity(true);
         toast.error("중복된 이메일입니다.");
@@ -152,15 +159,17 @@ function Signup() {
   /* 닉네임 중복검사용 */
   const [nicknameOverlappingValidity, setNicknameOverlappingValidity] =
     useState(true);
-
+  //닉네임 중복검사 후 또 바꾸는 경우 확인
+  const [confirmedNickname, setConfirmedNickname] = useState("");
   /*닉네임 중복 검사 */
   const checkNicknameOverlapping = async () => {
     try {
       const user = await checknickname(nicknameValue).unwrap();
       setNicknameOverlappingValidity(false);
-      console.log(user);
+
       if (user.message === "중복 없음") {
         setNicknameOverlappingValidity(false);
+        setConfirmedNickname(nicknameValue.nickname);
         toast.success("사용가능한 닉네임입니다.");
       } else {
         setNicknameOverlappingValidity(true);
@@ -185,12 +194,16 @@ function Signup() {
       toast.error("이메일 형식에 맞지 않습니다.");
     } else if (emailOverlappingValidity) {
       toast.error("이메일 중복 여부를 확인해 주시기 바랍니다.");
+    } else if (confirmedEmail !== email) {
+      toast.error("이메일 중복 여부를 확인해 주시기 바랍니다.");
     } else if (!checkPasswordValidity(password)) {
       toast.error("8자 이상 최소 하나의 숫자와 문자를 포함해야 합니다.");
     } else if (password !== password2) {
       toast.error("두 비밀번호가 같지 않습니다.");
     } else if (nickname.length === 1 || nickname.length > 15) {
       toast.error("별명은 2~15자 이내로 입력해 주세요. ");
+    } else if (confirmedNickname !== nickname) {
+      toast.error("닉네임 중복여부를 확인해주세요 ");
     } else if (nicknameOverlappingValidity) {
       toast.error("닉네임 중복여부를 확인해주세요 ");
     } else {
@@ -235,14 +248,14 @@ function Signup() {
   const { password2 } = inputPassword2;
 
   return (
-    <div className="mx-auto md:h-screen flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
-      <a className="text-2xl font-semibold flex justify-center items-center mb-8 lg:mb-10">
+    <div
+      className="bg-gray-200 mx-auto md:h-screen flex flex-col justify-center items-center px-6 pt-8 pt:mt-0"
+      onClick={handleOpenOut}
+    >
+      {/* <a className="text-2xl font-semibold flex justify-center items-center mb-8 lg:mb-10">
         <img src={logo} className="h-10 mr-4" alt="Leentool Logo" />
-        <span className="self-center text-2xl font-bold whitespace-nowrap">
-          Leentool
-        </span>
-      </a>
-      <div className="bg-white shadow rounded-lg md:mt-0 w-full sm:max-w-screen-sm xl:p-0">
+      </a> */}
+      <div className="bg-white shadow rounded-lg md:mt-0 w-50 sm:max-w-screen-sm xl:p-0">
         <div className="p-6 sm:p-8 lg:p-16 space-y-8">
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
             회원가입
@@ -253,7 +266,7 @@ function Signup() {
             action="#"
           >
             <div>
-              <label className="text-sm font-medium text-gray-900 block mb-2">
+              <label className="text-left text-sm font-medium text-gray-900 block mb-2">
                 이메일
               </label>
               <div className="justify-center mt-4 flex">
@@ -262,14 +275,14 @@ function Signup() {
                   name="email"
                   id="email"
                   onChange={handleInputValue("email")}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-8/12 p-2.5"
+                  className="md:w-52  p-2.5 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block "
                   placeholder="name@company.com"
                 />
                 <button
-                  className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded "
+                  className="ml-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded "
                   onClick={checkEmailOverlapping}
                 >
-                  이메일 중복 체크
+                  중복 확인
                 </button>
               </div>
             </div>
@@ -277,7 +290,7 @@ function Signup() {
               <span className="text-red-500">이메일 형식에 맞지 않습니다.</span>
             ) : null}
             <div>
-              <label className="text-sm font-medium text-gray-900 block mb-2">
+              <label className="text-left text-sm font-medium text-gray-900 block mb-2">
                 닉네임
               </label>
               <div className="justify-center mt-4 flex">
@@ -286,14 +299,14 @@ function Signup() {
                   name="nickname"
                   id="nickname"
                   onChange={handleInputValue("nickname")}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-8/12 p-2.5"
+                  className=" md:w-52  p-2.5 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block "
                   placeholder="닉네임"
                 />
                 <button
-                  className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                  className="ml-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                   onClick={checkNicknameOverlapping}
                 >
-                  닉네임 중복 체크
+                  중복 확인
                 </button>
               </div>
             </div>
@@ -307,7 +320,7 @@ function Signup() {
               </span>
             ) : null}
             <div>
-              <label className="text-sm font-medium text-gray-900 block mb-2">
+              <label className="text-left text-sm font-medium text-gray-900 block mb-2">
                 비밀번호
               </label>
               <input
@@ -322,11 +335,11 @@ function Signup() {
             {!checkPasswordValidity(password) &&
             inputValue.password.length > 0 ? (
               <span className="text-red-500">
-                비밀번호는 영문,숫자를 포함하여 6자 이상이여야 합니다.
+                영문,숫자를 포함하여 6자 이상이여야 합니다.
               </span>
             ) : null}
             <div>
-              <label className="text-sm font-medium text-gray-900 block mb-2">
+              <label className=" text-left text-sm font-medium text-gray-900 block mb-2">
                 비밀번호 확인
               </label>
               <input
@@ -345,16 +358,17 @@ function Signup() {
             ) : null}
 
             <div>
-              {/* <label className="text-sm font-medium text-gray-900 block mb-2">
-                주소
-              </label> */}
+              <label className="text-left text-sm font-medium text-gray-900 block mb-2">
+                주소 찾기
+              </label>
 
-              <button
+              {/* <button
                 className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
                 onClick={handleOpen}
+                hidden
               >
                 주소 찾기
-              </button>
+              </button> */}
               {isAddClicked ? (
                 <div>
                   <DaumPostCode
@@ -367,6 +381,7 @@ function Signup() {
                 type="text"
                 name="address"
                 id="address"
+                onClick={handleOpen}
                 value={fullAddress}
                 readOnly
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"

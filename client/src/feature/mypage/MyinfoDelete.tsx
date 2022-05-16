@@ -1,12 +1,16 @@
 import { setIsMyinfoDeleteModal } from "feature/modal/modalMyinfoDeleteSlice";
-import * as React from "react";
-import { useState, useRef, useEffect } from "react";
+import { useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { toast } from "react-toastify";
 import { useSignoutMutation } from "services/api";
-import type { SignoutRequest } from "services/api";
+import { store } from "../../app/store";
+import { setCredentials } from "feature/login/authSlice";
+import { persistStore } from "redux-persist";
+import { setLogin } from "feature/login/loginSlice";
 
+// let persistor = persistStore(store);
+import { persistor } from "../../index";
 export default function MyinfoDelete() {
   const { push } = useHistory();
 
@@ -19,20 +23,36 @@ export default function MyinfoDelete() {
     e.preventDefault();
     if (e.target === outSelect.current) dispatch(setIsMyinfoDeleteModal());
   };
+  //토큰 초기화
+  const reset = {
+    data: {
+      user: "",
+      token: "",
+    },
+  };
+  //회원 탈퇴시 로그아웃도 처리 하려고 만든 함수
+  const handleLogout = () => {
+    dispatch(setLogin(false));
+    dispatch(setCredentials(reset));
+    localStorage.removeItem("user");
+    localStorage.removeItem("posts");
+
+    // localStorage.removeItem("persist:root")
+    push("/");
+  };
   const handleDeleteClick = async () => {
     try {
       const user = await signout(myinfo).unwrap();
-      dispatch(setIsMyinfoDeleteModal()); //바로 회원가입창이 열린다.
+      dispatch(setIsMyinfoDeleteModal()); //바로 모달창 닫히는 기능
+      handleLogout();
       toast.success("성공적으로 회원탈퇴 완료");
-      // console.log(user);
-      push("/");
     } catch (err) {
       console.log("error", err);
     }
   };
   return (
     <div
-      className="h-screen w-full absolute bg-black bg-opacity-70 text-center"
+      className="h-screen w-full z-50 absolute bg-black bg-opacity-70 text-center"
       ref={outSelect}
       onClick={handleOutClick}
     >

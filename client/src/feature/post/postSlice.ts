@@ -1,25 +1,18 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { REHYDRATE } from 'redux-persist'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type postsState = {
-  posts: any
-}
+  posts: any;
+};
 
-export const postsSlice = createSlice({ 
-  name: 'posts',
+export const postsSlice = createSlice({
+  name: "posts",
   initialState: { posts: null } as postsState,
   reducers: {
-    getPosts: (
-      state, 
-      { payload: { data }}: PayloadAction<{ data:any }>
-    ) => {
-      state.posts = data
-      // console.log('받은데이터',data)
-    }
+    getPosts: (state, { payload: { data } }: PayloadAction<{ data: any }>) => {
+      state.posts = data;
+    },
   },
-
-})
+});
 
 export const { getPosts } = postsSlice.actions;
 export default postsSlice.reducer;
-

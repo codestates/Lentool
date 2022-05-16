@@ -2,28 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> -->
+    <link rel="icon" href="./lentool.png" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <base href="/" />
     <meta name="Lentool" content="share tools" />
     <link
       rel="stylesheet"
       href="https://unpkg.com/flowbite@latest/dist/flowbite.min.css"
     />
-    <title>Lentool</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <title>LENTOOL</title>
   </head>
   <body>
     <div id="root"></div>
-
-    <!-- 
-     다음 주소 API
-     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-     KAKAO 지도API 
-     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ddf8d883c069073a9eaf892e6e476658&libraries=services"></script> 
-    -->
     <script
       type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6d92c4c66ecbd0e90d5103e718993cbe&libraries=services"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%REACT_APP_KAKAO_MAP%&libraries=services"
     ></script>
   </body>
 </html>

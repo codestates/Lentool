@@ -41,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       latitude: DataTypes.STRING,
       longitude: DataTypes.STRING,
       newchat: DataTypes.BOOLEAN,
+      kakao_id: DataTypes.STRING,
     },
     {
       sequelize,

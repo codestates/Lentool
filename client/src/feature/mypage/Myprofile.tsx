@@ -1,17 +1,31 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { getMyinfo } from "feature/mypage/myinfoSlice";
 import { setIsMyinfoEditModal } from "feature/modal/modalMyinfoEditSlice";
 import { setIsMyinfoDeleteModal } from "feature/modal/modalMyinfoDeleteSlice";
+import { useState, useRef } from "react";
 import MyinfoEdit from "./MyinfoEdit";
 import MyinfoDelete from "./MyinfoDelete";
+import { toast } from "react-toastify";
+import { api, useEditdpMutation, useMyinfoQuery } from "services/api";
+
 export default function Myprofile() {
   const dispatch = useAppDispatch();
-  const myinfo = useAppSelector((state) => state.myinfo.user);
+  const { data, isLoading, isSuccess } = useMyinfoQuery();
+  const [trigger] = api.endpoints.myinfo.useLazyQuery();
+  const [editdp] = useEditdpMutation();
   const isMyinfoEditModal = useAppSelector(
     (state) => state.myinfoEdit.isMyinfoEditModal
   );
   const isMyinfoDeleteModal = useAppSelector(
     (state) => state.myinfoDelete.isMyinfoDeleteModal
   );
+  //실제 서버로 보내는 프로필 사진 상태
+  const [userPhoto, setUserPhoto] = useState([]);
+  //화면에 보여지는 프로필 사진 상태
+  const [image, setImage] = useState("");
+
+  const fileInput: any = useRef(null);
 
   const handleEditInfo = (e: any) => {
     //회원 정보 수정
@@ -23,84 +37,116 @@ export default function Myprofile() {
     e.preventDefault();
     dispatch(setIsMyinfoDeleteModal());
   };
+
+  const handlePosting = async () => {
+    const formdata: any = new FormData();
+    formdata.append("user_photo", userPhoto);
+    await editdp(formdata).unwrap();
+    const triggerData = await trigger();
+    dispatch(getMyinfo(triggerData.data));
+
+    toast.success("프로필 사진변경 성공");
+  };
+
+  const handleChoosePhoto = (e: any) => {
+    //실질적 서버로 보낼 데이터 변경
+    setUserPhoto(e.target.files[0]);
+    //아래는 잠시 화면만 즉시 변화하게 하는
+    if (e.target.files[0]) {
+      setImage(URL.createObjectURL(e.target.files[0]));
+    } else {
+      //업로드 취소할 시 원상복구
+      setImage("");
+      return;
+    }
+  };
+
   return (
-    <div className="w-11/12 mt-10">
+    <div className="w-full mt-10 mx-auto">
       {isMyinfoEditModal ? <MyinfoEdit /> : null}
       {isMyinfoDeleteModal ? <MyinfoDelete /> : null}
       <div className="flex justify-center">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-          className="h-20 w-20 xs:h-20 xs:block xs:w-20 lg:h-40 lg:w-40 rounded-full object-cover"
-          alt="username"
-        />
-        <div className="ml-10">
-          <div className="flex items-center">
-            <h2 className="block leading-relaxed font-light text-gray-700 text-3xl">
-              {myinfo.nickname}
+        {/* 실제프로필 */}
+        <div>
+          <img
+            src={
+              image !== ""
+                ? image
+                : data && data.data.userinfo.user_photo === "empty"
+                ? "https://www.seekpng.com/png/detail/966-9665317_placeholder-image-person-jpg.png"
+                : `${process.env.REACT_APP_SERVER_URL}${
+                    data && data.data.userinfo.user_photo
+                  }`
+            }
+            alt="Image not found"
+            className="mx-auto h-20 w-20 xs:h-20 xs:block xs:w-20 md:h-32 md:w-32 lg:h-40 lg:w-40 rounded-full object-cover hover:opacity-50"
+            onClick={() => {
+              fileInput.current.click();
+            }}
+          />
+
+          <input
+            type="file"
+            onChange={handleChoosePhoto}
+            style={{ display: "none" }}
+            accept="image/jpg,image/png,image/jpeg"
+            name="profile_img"
+            ref={fileInput}
+          />
+          <button
+            onClick={handlePosting}
+            className="flex mx-auto items-center mt-5 border hover:border-transparent border-gray-500 hover:bg-yellow-300 hover:text-white rounded outline-none focus:outline-none bg-transparent text-gray-600 text-sm py-1 px-2 font-semibold"
+          >
+            <span className="block">사진 적용</span>
+            <svg
+              className="block h-5 w-5 pl-1"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L20 7"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div className="ml-10 items-center">
+          <div className="flex items-center justify-between">
+            <h2 className="block leading-relaxed font-medium text-zinc-700 text-3xl">
+              {data && data.data.userinfo.nickname}
             </h2>
-            <a
+            <button
               onClick={handleEditInfo}
-              className="cursor-pointer h-7 px-3 ml-3 focus:outline-none hover:border-transparent text-center rounded border border-gray-400 hover:bg-blue-500 hover:text-white bg-transparent text-gray-500 font-semibold"
+              className="cursor-pointer py-1 px-3 ml-3 focus:outline-none hover:border-transparent text-center rounded border border-gray-400 hover:bg-yellow-300 hover:text-white bg-transparent text-gray-600 font-semibold"
             >
               프로필 수정
-            </a>
-
-            <button className="flex items-center ml-3 border border-blue-600 hover:bg-blue-600 hover:text-white rounded outline-none focus:outline-none bg-transparent text-blue-600 text-sm py-1 px-2">
-              <span className="block">동네인증</span>
-              <svg
-                className="block h-5 w-5 pl-1"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
             </button>
           </div>
-          <div className="">
-            <h1 className="text-right">주소</h1>
-            <h1 className="text-right text-sm text-gray-700">
-              {myinfo.user_address}
+          <div className="text-left">
+            <h1 className="text-zinc-700 font-semibold">주소</h1>
+            <h1 className="text-sm text-gray-700">
+              {data && data.data.userinfo.user_address}
             </h1>
-            <h1 className="text-right ">이메일</h1>
-            <h1 className="text-right text-sm text-gray-700 mb-4">
-              {myinfo.email}
-            </h1>
-            {/* <h1 className="text-base font-bold font-light">게시물</h1> */}
-            <div className="text-right text-sm">
-              더 이상 사용하지 않음?{" "}
-              <a
-                onClick={handleDeleteInfo}
-                className="text-xs text-blue-500 mt-2 cursor-pointer"
-              >
-                회원탈퇴
-              </a>
-            </div>
-            {/* <a className="block text-base text-blue-500 mt-2" target="_blank">https://tailwindcomponents.com/</a> */}
+          </div>
+          <div className="text-sm text-right text-zinc-500 py-2">
+            더 이상 사용하지 않음?{" "}
+            <button
+              onClick={handleDeleteInfo}
+              className="text-xs text-blue-500 hover:opacity-50 mt-2 cursor-pointer"
+            >
+              회원탈퇴
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-// <div>
-//   {
-//     myinfo &&
-//     <>
-//       <img src='https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png' alt=''
-//           className='rounded-full w-20'/>
-//       <div>{myinfo.nickname}</div>
-//       <div>{myinfo.user_address}</div>
-//       <div>{myinfo.email}</div>
-//       <button className='bg-sky-500 rounded-full py-1 px-4 text-white'onClick={handleEditInfo}>회원 정보 수정</button>
-//       <div className=''>더 이상 사용하지 않음? <span>회원탈퇴</span></div>
-//     </>
-//   }
-// </div>
+function mypage() {
+  throw new Error("Function not implemented.");
+}

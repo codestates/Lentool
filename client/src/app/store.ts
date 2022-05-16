@@ -4,14 +4,13 @@ import { api } from "../services/api";
 import authReducer from "../feature/login/authSlice";
 import modalReducer from "../feature/modal/modalSlice";
 import myinfoReducer from "../feature/mypage/myinfoSlice";
+import mycontentReducer from "../feature/mypage/myinfoSlice";
 import loginReducer from "../feature/login/loginSlice";
 import postsReducer from "../feature/post/postSlice";
-import detailPostReducer from "feature/post/detailPostSlice";
-import trialReducer from "../feature/home/trialSlice";
 import roomReducer from "../feature/chat/roomSlice";
 import myinfoEditReducer from "../feature/modal/modalMyinfoEditSlice";
 import myinfoDeleteReducer from "../feature/modal/modalMyinfoDeleteSlice";
-import searchReducer from "../feature/navbar/searchSlice"
+import searchReducer from "../feature/navbar/searchSlice";
 import {
   FLUSH,
   REHYDRATE,
@@ -28,10 +27,9 @@ export const store = configureStore({
     modal: modalReducer,
     auth: authReducer,
     myinfo: myinfoReducer,
+    mycontent: mycontentReducer,
     login: loginReducer,
     posts: postsReducer,
-    detailPost: detailPostReducer,
-    trial: trialReducer,
     room: roomReducer,
     myinfoEdit: myinfoEditReducer,
     myinfoDelete: myinfoDeleteReducer,

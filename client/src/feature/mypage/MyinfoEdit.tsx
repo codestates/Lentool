@@ -1,4 +1,5 @@
 import { setIsMyinfoEditModal } from "feature/modal/modalMyinfoEditSlice";
+import { getMyinfo } from "feature/mypage/myinfoSlice";
 import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -7,18 +8,21 @@ import {
   useEditMutation,
   useChecknicknameMutation,
   MyinfoEditRequest,
+  useMypageMutation,
 } from "services/api";
 import type { NicknameRequest } from "services/api";
 import DaumPostCode from "react-daum-postcode";
 import { toast } from "react-toastify";
-
+import Lentoollogo from "../../images/lentool_logo.png";
 function MyinfoEdit() {
   const { push } = useHistory();
   const dispatch = useAppDispatch();
   const outSelect = useRef<any>();
   const myinfo = useAppSelector((state) => state.myinfo.user);
+  const [mypage] = useMypageMutation();
   //api로 보내는 트리거들
   const [checknickname, {}] = useChecknicknameMutation();
+  //edit 보내는 뮤테이션
   const [edit, { data, isLoading, isSuccess }] = useEditMutation();
   // api로 보낼 데이터 상태들 정리
   const [editValue, setEditValue] = useState<MyinfoEditRequest>({
@@ -43,15 +47,17 @@ function MyinfoEdit() {
   // 닉네임 중복 검사후 통과여부 상태
   const [nicknameOverlappingValidity, setNicknameOverlappingValidity] =
     useState(true);
+  //닉네임 중복검사 후 또 바꾸는 경우 확인
+  const [confirmedNickname, setConfirmedNickname] = useState("");
   // Validation (닉네임 중복검사)
-
   const checkNicknameOverlapping = async () => {
     try {
       const user = await checknickname(nicknameValue).unwrap();
       setNicknameOverlappingValidity(false);
-      console.log(user);
+
       if (user.message === "중복 없음") {
         setNicknameOverlappingValidity(false);
+        setConfirmedNickname(nicknameValue.nickname);
         toast.success("사용가능한 닉네임입니다.");
       } else {
         setNicknameOverlappingValidity(true);
@@ -78,13 +84,14 @@ function MyinfoEdit() {
       handleLatLongEditValue(latitude, longitude);
     });
   }, [fullAddress, latitude]);
+
   const handleAddressEditValue = (value: string) => {
     setEditValue({ ...editValue, user_address: value });
   };
   const handleLatLongEditValue = (value1: string, value2: string) => {
     setEditValue({ ...editValue, latitude: value1, longitude: value2 });
   };
-  /*************카카오 API  핸들러**********/
+  /*************카카오 주소 API  핸들러**********/
   const handleComplete = (data: any) => {
     let fullAddress = data.address; // 주소 할당
     let extraAddress = ""; //빌딩의 경우 추가 주소를 받는다.
@@ -115,6 +122,7 @@ function MyinfoEdit() {
     border: "2px solid #000000",
     overflow: "hidden",
   };
+
   const handleEditInputValue =
     (key: string) => (e: { target: { value: string } }) => {
       setEditValue({ ...editValue, [key]: e.target.value });
@@ -138,11 +146,17 @@ function MyinfoEdit() {
           "비밀번호는 6자 이상 최소 하나의 숫자와 문자를 포함해야 합니다."
         );
       }
+      if (password !== password2) {
+        //일치하지 않는 경우
+        return toast.error("비밀번호 확인과 비밀번호가 동일하지 않습니다.");
+      }
     }
     if (nickname) {
       if (nickname.length === 1 || nickname.length > 15) {
         return toast.error("별명은 2~15자 이내로 입력해 주세요. ");
       } else if (nicknameOverlappingValidity) {
+        return toast.error("닉네임 중복여부를 확인해주세요 ");
+      } else if (confirmedNickname !== nickname) {
         return toast.error("닉네임 중복여부를 확인해주세요 ");
       }
       // 모든 검증 후 회원가입정보를 서버로 전송요청 함수
@@ -152,32 +166,40 @@ function MyinfoEdit() {
 
   const handleSubmit = async () => {
     try {
-      console.log(editValue);
       const user = await edit(editValue).unwrap();
       dispatch(setIsMyinfoEditModal());
-
-      // dispatch(setCredentials(user));
+      handleGetInfo();
       toast.success("성공적으로 회원정보 수정완료");
-
-      console.log(user);
     } catch (err) {
       console.log("error", err);
     }
+  };
+  const handleGetInfo = async () => {
+    const user = await mypage().unwrap();
+    dispatch(getMyinfo(user));
+    // push("/mypage");
   };
   const handleOutClick = (e: any) => {
     e.preventDefault();
     if (e.target === outSelect.current) dispatch(setIsMyinfoEditModal());
   };
-
+  // 비밀번호 확인
+  const [inputPassword2, setInputPassword2] = useState({ password2: "" });
+  // handlePassword2 function
+  const handleInputPasswordValue =
+    (key: string) => (e: { target: { value: string } }) => {
+      setInputPassword2({ ...inputPassword2, [key]: e.target.value });
+    };
+  const { password2 } = inputPassword2;
   return (
     <div
       className="h-screen w-full z-50 absolute bg-black bg-opacity-70 text-center"
       ref={outSelect}
       onClick={handleOutClick}
     >
-      <div className="bg-white absolute top-1/4 left-1/3 rounded w-10/12 md:w-1/3">
-        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-md w-full space-y-4">
+      <div className="max-w-2xl h-[520px] bg-white absolute mx-auto w-96 my-auto inset-0 rounded">
+        <div className="flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full">
             <span
               className="absolute top-4 right-6 hover:text-indigo-500 cursor-pointer"
               onClick={() => dispatch(setIsMyinfoEditModal())}
@@ -185,17 +207,16 @@ function MyinfoEdit() {
               &times;
             </span>
             <div>
-              <img
+              {/* <img
                 className="mx-auto h-12 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                src={Lentoollogo}
                 alt="Workflow"
-              />
+              /> */}
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                 회원정보 수정
               </h2>
             </div>
             <form className="mt-8 space-y-6">
-              <input type="hidden" name="remember" value="true" />
               <div className="rounded-md shadow-sm -space-y-px text-left ">
                 <div className="mb-3">
                   <div>
@@ -208,14 +229,14 @@ function MyinfoEdit() {
                         name="nickname"
                         id="nickname"
                         onChange={handleEditInputValue("nickname")}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-8/12 p-2.5"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                         placeholder="닉네임"
                       />
                       <button
-                        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        className="ml-4 w-9/12 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                         onClick={checkNicknameOverlapping}
                       >
-                        중복 체크
+                        중복 확인
                       </button>
                     </div>
                   </div>
@@ -234,16 +255,34 @@ function MyinfoEdit() {
                     />
                   </div>
                   <div>
-                    {/* <label className="text-sm font-medium text-gray-900 block mb-2">
-                주소
-              </label> */}
+                    <label className="text-sm font-medium text-gray-900 block mb-2">
+                      비밀번호 확인
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      id="password"
+                      onChange={handleInputPasswordValue("password2")}
+                      placeholder="••••••••"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    />
+                    {!(password === password2 || password2.length === 0) ? (
+                      <span className="text-red-500">
+                        비밀번호가 일치 하지 않습니다.
+                      </span>
+                    ) : null}
+                  </div>
+                  <div>
+                    <label className="text-left text-sm font-medium text-gray-900 block mb-2">
+                      주소 찾기
+                    </label>
 
-                    <button
+                    {/* <button
                       className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
                       onClick={handleOpen}
                     >
                       주소 찾기
-                    </button>
+                    </button> */}
                     {isAddClicked ? (
                       <div>
                         <DaumPostCode
@@ -257,6 +296,7 @@ function MyinfoEdit() {
                       name="address"
                       id="address"
                       value={fullAddress}
+                      onClick={handleOpen}
                       readOnly
                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       placeholder="주소"

@@ -9,13 +9,12 @@ import {
 } from "../../services/api";
 import { setCredentials, setNewChat } from "./authSlice";
 import { setLogin } from "./loginSlice";
-import { getPosts } from "feature/post/postSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-// import storage from '../../lib/storage';
+
 function Login() {
   const dispatch = useAppDispatch();
-  const [isSignup, setIsSignup] = useState(false);
   const outSelect = useRef<any>();
   const [inputValue, setInputValue] = useState({
     id: "",
@@ -55,9 +54,7 @@ function Login() {
       setErrorMessage("");
       setIsPassword(true);
     }
-    // console.log(isEmail, isPassword)
     if (isEmail === true && isPassword === true) setIsValidate(true);
-    // console.log(isValidate)
   };
   /* 로그인 input 값 변경 */
   const handleInputValue =
@@ -68,25 +65,31 @@ function Login() {
   const handleSubmit = async () => {
     try {
       const user = await login(inputValue).unwrap();
+
       dispatch(setCredentials(user));
-      // console.log(user.data.userInfo.newchat)
-      dispatch(setNewChat(user.data.userInfo.newchat))
-      dispatch(setLogin(true));
-      dispatch(setIsModal());
+      dispatch(setNewChat(user.data.userInfo.newchat));
       const user1 = await mypage().unwrap();
       dispatch(getMyinfo(user1));
+      dispatch(setIsModal());
       localStorage.setItem("user", JSON.stringify(user));
-      const p = await posts().unwrap();
-      localStorage.setItem("posts", JSON.stringify(p));
-      dispatch(getPosts(p));
-    } catch (err) {
+      localStorage.setItem("myinfo", JSON.stringify(user1));
+      await posts().unwrap();
+      dispatch(setLogin(true));
+    } catch (err: any) {
       console.log("error", err);
+      if (err.data.message === "해당하는 회원이 존재하지 않습니다") {
+        return toast.error("존재하지 않는 회원입니다..");
+      }
+      if (err.data.message === "비밀번호가 틀렸습니다") {
+        return toast.error("비밀번호가 틀렸습니다.");
+      }
     }
   };
-  /*  */
+  /* 회원가입버튼 */
   const handleSignup = (e: any) => {
-    dispatch(setIsModal());  
+    dispatch(setIsModal());
   };
+  /* 모달 바깥 쪽 눌렀을 때 꺼지게 하기 */
   const handleOutClick = (e: any) => {
     e.preventDefault();
     if (e.target === outSelect.current) dispatch(setIsModal());
@@ -94,13 +97,13 @@ function Login() {
 
   return (
     <div
-      className="h-screen w-full z-50 absolute bg-black bg-opacity-70 text-center"
+      className="h-full w-full z-50 fixed bg-black bg-opacity-40 text-center"
       ref={outSelect}
       onClick={handleOutClick}
     >
-      <div className="bg-white absolute top-1/4 left-1/3 rounded w-10/12 md:w-1/3">
-        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-md w-full space-y-4">
+      <div className="max-w-2xl h-[550px] bg-white absolute mx-auto w-96 my-auto inset-0 rounded">
+        <div className="flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full">
             <span
               className="absolute top-4 right-6 hover:text-indigo-500 cursor-pointer"
               onClick={() => dispatch(setIsModal())}
@@ -108,19 +111,13 @@ function Login() {
               &times;
             </span>
             <div>
-              <img
-                className="mx-auto h-12 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                alt="Workflow"
-              />
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                 로그인
               </h2>
             </div>
-            <form className="mt-8 space-y-6">
-              <input type="hidden" name="remember" value="true" />
+            <form className="mt-4 space-y-6">
               <div className="rounded-md shadow-sm -space-y-px text-left ">
-                <div className="mb-3">
+                <div className="py-3">
                   <label htmlFor="email-address" className="text-sm">
                     이메일
                   </label>
@@ -130,8 +127,7 @@ function Login() {
                     type="email"
                     onChange={handleInputValue("id")}
                     onKeyUp={validate}
-                    /* autoComplete="email" */ required
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 focus:z-10 sm:text-sm"
                     placeholder="Email address"
                   />
                   <p className="mt-1 text-xs text-red-500">{emailValidate}</p>
@@ -146,8 +142,7 @@ function Login() {
                     type="password"
                     onChange={handleInputValue("password")}
                     onKeyUp={validate}
-                    /* autoComplete="current-password" */ required
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-3 my-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 focus:z-10 sm:text-sm"
                     placeholder="Password"
                   />
                   <p className="mt-1 text-xs text-red-500">{errorMessage}</p>
@@ -156,13 +151,12 @@ function Login() {
               <div>
                 <button
                   onClick={handleSubmit}
-                  /* disabled={!isValidate}  */ type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  type="submit"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    {/* <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="../images/icons8-google.svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"> */}
                     <svg
-                      className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                      className="h-5 w-5 text-gray-500 group-hover:text-gray-400"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -175,44 +169,47 @@ function Login() {
                       />
                     </svg>
                   </span>
-                  Sign in
+                  로그인
                 </button>
               </div>
               <div className="text-xs text-gray-700">또는</div>
               <div>
                 <button
-                  onClick={() => console.log("버튼누름")}
-                  type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  onClick={() =>
+                    window.location.assign(
+                      `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_API}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`
+                    )
+                  }
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-[#000000 85%] bg-[#FEE500] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    {/* <!-- Heroicon name: solid/lock-closed --> */}
                     <svg
-                      className="h-5 w-5 text-gray-500 group-hover:text-gray-400"
                       xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      className="h-5 w-5 text-gray-500 group-hover:text-gray-400"
+                      viewBox="0 0 42 30"
                     >
                       <path
                         fillRule="evenodd"
-                        d="M12.545 12.151a1.91 1.91 0 0 0 1.909 1.909h3.536c-.607 1.972-2.101 3.467-4.26 3.866-3.431.635-6.862-1.865-7.19-5.339a6.034 6.034 0 0 1 8.782-5.941 1.958 1.958 0 0 0 2.286-.368 1.992 1.992 0 0 0-.498-3.179 10.005 10.005 0 0 0-5.692-1.038c-4.583.502-8.31 4.226-8.812 8.809A10.002 10.002 0 0 0 12.545 22c6.368 0 8.972-4.515 9.499-8.398.242-1.78-1.182-3.352-2.978-3.354l-4.61-.006a1.908 1.908 0 0 0-1.911 1.909z"
+                        fillOpacity="0.902"
+                        fill="rgb(0, 0, 0)"
+                        d="M17.999,0.969 C8.58,0.969 0.0,7.225 0.0,14.942 C0.0,19.740 3.116,23.973 7.862,26.488 L5.865,33.818 C5.689,34.468 6.426,34.983 6.993,34.608 L15.746,28.802 C16.485,28.874 17.236,28.915 17.999,28.915 C27.941,28.915 35.999,22.659 35.999,14.942 C35.999,7.225 27.941,0.969 17.999,0.969 "
                       />
                     </svg>
                   </span>
-                  Google 계정으로 계속하기
+                  카카오 로그인
                 </button>
               </div>
               <div className="text-sm">
-                <span className="mb-2 text-xs text-gray-700">
+                <span className="mb-2 mx-2 text-xs text-gray-700">
                   아직 회원이 아니십니까?
                 </span>
-                <Link to="/signup"
+                <Link
+                  to="/signup"
                   onClick={handleSignup}
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
                 >
-                  {" "}
-                  회원가입하기{" "}
+                  회원가입하기
                 </Link>
               </div>
             </form>

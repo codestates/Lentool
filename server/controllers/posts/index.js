@@ -10,10 +10,18 @@ module.exports = {
 
     try {
       if (!userInfo) {
-        return res.status(400).json({
-          data: null,
-          message: "invalid access token",
+        const nearPosts = await postModel.findAll({
+          where: {
+            address: {
+              [Op.like]: "%" + "서울" + "%",
+            },
+          },
+          limit: 4,
         });
+
+        return res
+          .status(200)
+          .json({ data: { posts: nearPosts }, message: "ok" });
       }
       const {
         user_address,
@@ -42,7 +50,7 @@ module.exports = {
             user_longitude,
             post_latitude,
             post_longitude
-          ) < 2000
+          ) < 10000
         ) {
           sendData.push(nearPosts[i]);
         }
@@ -105,7 +113,7 @@ module.exports = {
             user_longitude,
             post_latitude,
             post_longitude
-          ) < 2000
+          ) < 10000
         ) {
           sendData.push(nearPosts[i]);
         }
