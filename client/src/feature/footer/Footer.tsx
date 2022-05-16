@@ -52,9 +52,9 @@ export default function Footer() {
         </div>
         <div className="flex-1">
           <p className="text-gray-600 text-sm">
-            전화: 1111-2222
+            전화: 010-3364-9075
             <br />
-            이메일: support@lentool.co.kr
+            이메일: nhpunch@gmail.com
             <br />
           </p>
         </div>
