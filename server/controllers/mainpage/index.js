@@ -30,23 +30,6 @@ module.exports = {
         limit: 2,
       });
 
-      // const sendData = [];
-      // for (let i = 0; i < nearPosts.length; i++) {
-      //   const { latitude: post_latitude, longitude: post_longitude } =
-      //     nearPosts[i].dataValues;
-
-      //   if (
-      //     getDistance(
-      //       user_latitude,
-      //       user_longitude,
-      //       post_latitude,
-      //       post_longitude
-      //     ) < 2000
-      //   ) {
-      //     sendData.push(nearPosts[i]);
-      //   }
-      // }
-
       res.status(200).json({ data: { posts: nearPosts }, message: "ok" });
     } catch (err) {
       console.log(err);
@@ -54,6 +37,8 @@ module.exports = {
     }
   },
   healthcheck: (req,res) => {
+
    return res.status(201).json({ data: null, message: "ok" });
+
   },
 };
