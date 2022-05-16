@@ -53,7 +53,7 @@ module.exports = {
       res.status(500).json({ data: err, message: "server error" });
     }
   },
-  healthckeck: () => {
-    res.status(201).json({ data: null, message: "ok" });
+  healthcheck: (req,res) => {
+   return res.status(201).json({ data: null, message: "ok" });
   },
 };
