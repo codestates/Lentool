@@ -2,6 +2,7 @@
   "name": "lentool",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@craco/craco": "^6.4.3",
     "@headlessui/react": "^1.6.0",

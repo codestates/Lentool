@@ -42,13 +42,10 @@ export default function MyinfoDelete() {
   };
   const handleDeleteClick = async () => {
     try {
-      console.log(myinfo);
       const user = await signout(myinfo).unwrap();
       dispatch(setIsMyinfoDeleteModal()); //바로 모달창 닫히는 기능
       handleLogout();
       toast.success("성공적으로 회원탈퇴 완료");
-      // console.log(user);
-      // push("/");
     } catch (err) {
       console.log("error", err);
     }

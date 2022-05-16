@@ -10,6 +10,7 @@ import {
 import { setCredentials, setNewChat } from "./authSlice";
 import { setLogin } from "./loginSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 function Login() {
@@ -64,6 +65,7 @@ function Login() {
   const handleSubmit = async () => {
     try {
       const user = await login(inputValue).unwrap();
+
       dispatch(setCredentials(user));
       dispatch(setNewChat(user.data.userInfo.newchat));
       const user1 = await mypage().unwrap();
@@ -73,8 +75,14 @@ function Login() {
       localStorage.setItem("myinfo", JSON.stringify(user1));
       await posts().unwrap();
       dispatch(setLogin(true));
-    } catch (err) {
+    } catch (err: any) {
       console.log("error", err);
+      if (err.data.message === "해당하는 회원이 존재하지 않습니다") {
+        return toast.error("존재하지 않는 회원입니다..");
+      }
+      if (err.data.message === "비밀번호가 틀렸습니다") {
+        return toast.error("비밀번호가 틀렸습니다.");
+      }
     }
   };
   /* 회원가입버튼 */

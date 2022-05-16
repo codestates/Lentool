@@ -7,7 +7,7 @@ import Searchbar from "./Searchbar";
 import Beforelogin from "./Beforelogin";
 import Afterlogin from "./Afterlogin";
 import Dropdown from "./Dropdown";
-import logo from "../../images/lentool(logo+word).png";
+import logo from "../../images/lentoollogoword.png";
 import NewChat from "./Newchat";
 import { useSearchroomMutation } from "services/api";
 import { getroom } from "feature/chat/roomSlice";
@@ -39,7 +39,7 @@ export default function Navbar() {
             <Menu.Button className="focus:outline-none inline-flex w-full justify-center px-2 py-2 text-sm font-medium text-gray-500 hover:bg-opacity-10 hover:text-black hover:bg-gray-700 hover:rounded-full focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <div className="" onClick={getRoomList}>
                 <span className="absolute top-14 right-5 sm:right-7 sm:top-16">
-                <NewChat />
+                  <NewChat />
                 </span>
                 <MenuIcon className="h-6 w-6" aria-hidden="true"></MenuIcon>
               </div>

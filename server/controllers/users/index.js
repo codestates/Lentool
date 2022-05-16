@@ -396,7 +396,7 @@ module.exports = {
         (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
         ""
       );
-
+          console.log(req.query);
     try {
       const kakaoToken = await axios.post(
         "https://kauth.kakao.com/oauth/token",
@@ -469,7 +469,7 @@ module.exports = {
         }
       }
     } catch (err) {
-      console.log(err);
+      
       return res.status(500).json({ data: err, message: "server error" });
     }
   },
