@@ -37,7 +37,8 @@ module.exports = {
     }
   },
   healthcheck: (req,res) => {
-    res.status(201).json({ data: null, message: "ok" });
+
+   return res.status(201).json({ data: null, message: "ok" });
 
   },
 };
