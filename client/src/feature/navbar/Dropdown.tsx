@@ -9,6 +9,7 @@ import { Fragment } from "react";
 import { useHistory } from "react-router-dom";
 import {
   useLogoutMutation,
+  // useMypageMutation,
   useMypageMutation,
 } from "services/api";
 import { persistor } from '../../index'
@@ -46,8 +47,8 @@ export default function Dropdown () {
     localStorage.removeItem("user");
     localStorage.removeItem("posts");
     setTimeout(() => persistor.purge(), 200)
-
     push("/");
+    // window.location.reload()
   };
   if (mypage.isLoading) return <Loading />
   return (
