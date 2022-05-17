@@ -1,10 +1,11 @@
 
+![lentool_thum 복사](https://user-images.githubusercontent.com/96006602/168722396-0a9ef415-637e-4227-9b1d-8a94b451b1d8.png)
 
 # ABOUT
 
 
-<img align="right" src="https://user-images.githubusercontent.com/89336050/168533727-d4340527-b232-4a7b-8e6c-2f2c194b9649.png">
-
+<!-- <img align="right" src="https://user-images.githubusercontent.com/89336050/168533727-d4340527-b232-4a7b-8e6c-2f2c194b9649.png">
+ -->
 먼지만 쌓여가는 공구가 있지 않으신가요?
 
 아니면, 한두 번 쓰고 쓰지않는 공구는 있지 않으신가요?
