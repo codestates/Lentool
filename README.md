@@ -1,7 +1,7 @@
 
 ![lentool_thum 복사](https://user-images.githubusercontent.com/96006602/168722396-0a9ef415-637e-4227-9b1d-8a94b451b1d8.png)
 
-# ABOUT
+# 📌 ABOUT
 
 
 <!-- <img align="right" src="https://user-images.githubusercontent.com/89336050/168533727-d4340527-b232-4a7b-8e6c-2f2c194b9649.png">
@@ -20,9 +20,9 @@ Lentool을 통해 동네 사람들과 공유해 보세요.
 ***
 
 
-# FEATURE
+# 🛠 FEATURE
 * 자신이 사용하지 않는 공구를 다른 사람들과 공유할 수 있습니다
-* 지도 기반 검색을 통해 동내에서 공유하는 공구를 확인할 수 있습니다
+* 지도 기반 검색을 통해 동네에서 공유하는 공구를 확인할 수 있습니다
 * 1대1 채팅을 통해 실시간으로 소통할 수 있습니다
 
 ***
@@ -42,7 +42,6 @@ Front
 <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white">
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
-<img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=white">
 <img src="https://img.shields.io/badge/redux toolkit-714ABC?style=for-the-badge&logo=redux toolkit&logoColor=white">  
 <img src="https://img.shields.io/badge/rtk query-764ACC?style=for-the-badge&logo=rtk query&logoColor=white"> 
 <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css&logoColor=white">
