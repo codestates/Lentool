@@ -249,13 +249,13 @@ module.exports = {
         });
     }
   },
-  logout: (req, res) => {
+  logout: async (req, res) => {
     const userInfo = isAuthorized(req);
     const formUrlEncoded = (x) =>
-    Object.keys(x).reduce(
-      (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
-      ""
-    );
+      Object.keys(x).reduce(
+        (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
+        ""
+      );
 
     try {
       if (!userInfo) {
@@ -492,6 +492,7 @@ module.exports = {
         }
       }
     } catch (err) {
+      console.log(err);
       return res.status(500).json({ data: err, message: "server error" });
     }
   },
