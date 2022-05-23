@@ -168,6 +168,7 @@ function MyinfoEdit() {
       // console.log(editValue);
       const user = await edit(editValue).unwrap();
       dispatch(setIsMyinfoEditModal());
+      console.log('pushed')
       handleGetInfo();
       toast.success("성공적으로 회원정보 수정완료");
 
