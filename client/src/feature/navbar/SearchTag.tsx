@@ -59,7 +59,7 @@ export default function SearchTag() {
             name="search"
             placeholder="Search"
             onChange={(e) => handleSearch(e)}
-            onFocus={() => onTag("visible")}
+            onClick={() => onTag("visible")}
             onBlur={() => onTag("hidden")}
             onKeyPress={onEnter}
             value={inputValue}

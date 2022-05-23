@@ -1,6 +1,5 @@
 import { setIsMyinfoEditModal } from "feature/modal/modalMyinfoEditSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
-import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useHistory } from "react-router-dom";
@@ -54,7 +53,7 @@ function MyinfoEdit() {
     try {
       const user = await checknickname(nicknameValue).unwrap();
       setNicknameOverlappingValidity(false);
-
+      console.log(user);
       if (user.message === "중복 없음") {
         setNicknameOverlappingValidity(false);
         setConfirmedNickname(nicknameValue.nickname);
@@ -166,10 +165,13 @@ function MyinfoEdit() {
 
   const handleSubmit = async () => {
     try {
+      // console.log(editValue);
       const user = await edit(editValue).unwrap();
       dispatch(setIsMyinfoEditModal());
       handleGetInfo();
       toast.success("성공적으로 회원정보 수정완료");
+
+      // console.log(user, "결과");
     } catch (err) {
       console.log("error", err);
     }
