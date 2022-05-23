@@ -1,10 +1,11 @@
 
+![lentool_thum 복사](https://user-images.githubusercontent.com/96006602/168722396-0a9ef415-637e-4227-9b1d-8a94b451b1d8.png)
 
-# ABOUT
+# 📌 ABOUT
 
 
-<img align="right" src="https://user-images.githubusercontent.com/89336050/168533727-d4340527-b232-4a7b-8e6c-2f2c194b9649.png">
-
+<!-- <img align="right" src="https://user-images.githubusercontent.com/89336050/168533727-d4340527-b232-4a7b-8e6c-2f2c194b9649.png">
+ -->
 먼지만 쌓여가는 공구가 있지 않으신가요?
 
 아니면, 한두 번 쓰고 쓰지않는 공구는 있지 않으신가요?
@@ -19,9 +20,9 @@ Lentool을 통해 동네 사람들과 공유해 보세요.
 ***
 
 
-# FEATURE
+# 🛠 FEATURE
 * 자신이 사용하지 않는 공구를 다른 사람들과 공유할 수 있습니다
-* 지도 기반 검색을 통해 동내에서 공유하는 공구를 확인할 수 있습니다
+* 지도 기반 검색을 통해 동네에서 공유하는 공구를 확인할 수 있습니다
 * 1대1 채팅을 통해 실시간으로 소통할 수 있습니다
 
 ***
@@ -41,7 +42,6 @@ Front
 <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white">
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
-<img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=white">
 <img src="https://img.shields.io/badge/redux toolkit-714ABC?style=for-the-badge&logo=redux toolkit&logoColor=white">  
 <img src="https://img.shields.io/badge/rtk query-764ACC?style=for-the-badge&logo=rtk query&logoColor=white"> 
 <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css&logoColor=white">
@@ -129,7 +129,10 @@ Deploy
 
 Position: Front-End
 
-기능구현:여기에 구현한 기능을 넣어주세요
+* 로그인, 랜딩 페이지 제작, 채팅창 구현, Navbar 컴포넌트 제작,
+* Kakao maps API를 활용한 지도 제작 
+* 게시 글 작성 페이지 제작
+* 공구 아이콘을 기반으로 한 카테고리화된 검색 창 구현 
 
 </div>
 </details>
@@ -140,7 +143,11 @@ Position: Front-End
 
 Position: Front-End
 
-기능구현:여기에 구현한 기능을 넣어주세요
+* 회원가입, 회원탈퇴, 회원정보 수정 페이지 제작 (이메일,닉네임 중복확인)
+* 마이페이지 구현, 회원정보, 프로필 사진 수정 구현
+* 내가 올린 게시 글 구현, 세부 페이지 이동, 수정, 삭제 기능 구현, 
+* Daum Address API, Kakao Maps API을 활용한 위도,경도,주소값 추출 후 서버로 전달
+* 페이지 라우팅(React-Router-Dom)
 
 </div>
 </details>
@@ -151,7 +158,10 @@ Position: Front-End
 
 Positon: Back-End
 
-기능구현:여기에 구현한 기능을 넣어주세요
+* 회원가입, 로그인/로그아웃, 회원탈퇴 등 유저 기본 기능
+* Socket.io를 이용한 채팅창 구현
+* 위도 경도 데이터를 활용한 user의 위치 10km 반경의 필터된 게시물을 분류
+* 카카오 소셜 로그인 구현 
 
 </div>
 </details>
@@ -162,7 +172,9 @@ Positon: Back-End
 
 Position: Back-End
 
-기능구현:여기에 구현한 기능을 넣어주세요
+* 회원가입, 로그인/로그아웃, 회원탈퇴 등 유저 기본 기능
+* 서버 EC2 배포, AWS Pipeline 설정
+* https 인증서 발급 및 배포
 
 </div>
 </details>
