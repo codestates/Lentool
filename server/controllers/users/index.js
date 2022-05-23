@@ -249,15 +249,38 @@ module.exports = {
         });
     }
   },
-  logout: (req, res) => {
+  logout: async (req, res) => {
     const userInfo = isAuthorized(req);
+    const formUrlEncoded = (x) =>
+      Object.keys(x).reduce(
+        (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
+        ""
+      );
 
     try {
-      // if (!userInfo) {
-      //   return res
-      //     .status(400)
-      //     .json({ data: null, message: "로그인되지 않은 사용자 입니다" });
-      // }
+      if (!userInfo) {
+        return res
+          .status(200)
+          .json({ data: null, message: "이미 로그아웃 되었습니다." });
+      }
+
+      const user = await userModel.findOne({ where: { id: userInfo.id } });
+      if (user && user.dataValues.kakao_id !== null) {
+        const kakaologout = await axios.post(
+          "https://kapi.kakao.com/v1/user/logout",
+          formUrlEncoded({
+            target_id_type: "user_id",
+            target_id: `${user.dataValues.kakao_id}`,
+          }),
+          {
+            headers: {
+              "Content-type": "application/x-www-form-urlencoded",
+              Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_ADMIN}`,
+            },
+          }
+        );
+      }
+
       return res.status(200).json({ data: null, message: "ok" });
     } catch (err) {
       console.log("로그아웃서버에러");
@@ -469,6 +492,7 @@ module.exports = {
         }
       }
     } catch (err) {
+      console.log(err);
       return res.status(500).json({ data: err, message: "server error" });
     }
   },
