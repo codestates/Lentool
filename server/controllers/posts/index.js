@@ -1,4 +1,4 @@
-const { post: postModel } = require("../../models");
+const { post: postModel, user: userModel } = require("../../models");
 const { isAuthorized } = require("../tokenFunctions");
 const { getDistance } = require("./function");
 const sequelize = require("sequelize");
@@ -23,12 +23,14 @@ module.exports = {
           .status(200)
           .json({ data: { posts: nearPosts }, message: "ok" });
       }
-      const {
-        user_address,
-        latitude: user_latitude,
-        longitude: user_longitude,
-      } = userInfo;
-      const address = user_address.split(" ")[0];
+      const { id } = userInfo;
+      const user_address_info = await userModel.findOne({ where: { id } });
+      const user_address = user_address_info.dataValues.user_address;
+      const user_latitude = user_address_info.dataValues.latitude;
+      const user_longitude = user_address_info.dataValues.longitude;
+
+      const address =
+        user_address.split(" ")[0] + " " + user_address.split(" ")[1];
       // console.log(address);
 
       const nearPosts = await postModel.findAll({
@@ -64,7 +66,6 @@ module.exports = {
   },
   search: async (req, res) => {
     const userInfo = isAuthorized(req);
-    console.log(req.query);
 
     try {
       if (!userInfo) {
@@ -73,12 +74,13 @@ module.exports = {
           message: "invalid access token",
         });
       }
-      const {
-        user_address,
-        latitude: user_latitude,
-        longitude: user_longitude,
-      } = userInfo;
-      const address = user_address.split(" ")[0];
+      const { id } = userInfo;
+      const user_address_info = await userModel.findOne({ where: { id } });
+      const user_address = user_address_info.dataValues.user_address;
+      const user_latitude = user_address_info.dataValues.latitude;
+      const user_longitude = user_address_info.dataValues.longitude;
+      const address =
+        user_address.split(" ")[0] + " " + user_address.split(" ")[1];
 
       const nearPosts = req.query.title
         ? await postModel.findAll({

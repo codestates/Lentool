@@ -11,8 +11,8 @@ import { api, useEditdpMutation, useMyinfoQuery } from "services/api";
 
 export default function Myprofile() {
   const dispatch = useAppDispatch();
-  const { data, isLoading, isSuccess } = useMyinfoQuery()
-  const [ trigger ] = api.endpoints.myinfo.useLazyQuery()  
+  const { data, isLoading, isSuccess } = useMyinfoQuery();
+  const [trigger] = api.endpoints.myinfo.useLazyQuery();
   const [editdp] = useEditdpMutation();
   const isMyinfoEditModal = useAppSelector(
     (state) => state.myinfoEdit.isMyinfoEditModal
@@ -23,7 +23,7 @@ export default function Myprofile() {
   //실제 서버로 보내는 프로필 사진 상태
   const [userPhoto, setUserPhoto] = useState([]);
   //화면에 보여지는 프로필 사진 상태
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState("");
 
   const fileInput: any = useRef(null);
 
@@ -38,12 +38,11 @@ export default function Myprofile() {
     dispatch(setIsMyinfoDeleteModal());
   };
 
-  
   const handlePosting = async () => {
     const formdata: any = new FormData();
     formdata.append("user_photo", userPhoto);
     await editdp(formdata).unwrap();
-    const triggerData = await trigger()
+    const triggerData = await trigger();
     dispatch(getMyinfo(triggerData.data));
 
     toast.success("프로필 사진변경 성공");
@@ -57,11 +56,10 @@ export default function Myprofile() {
       setImage(URL.createObjectURL(e.target.files[0]));
     } else {
       //업로드 취소할 시 원상복구
-      setImage('');
+      setImage("");
       return;
     }
   };
-  
 
   return (
     <div className="w-full mt-10 mx-auto">
@@ -72,10 +70,13 @@ export default function Myprofile() {
         <div>
           <img
             src={
-              image !== '' ? image :
-              data && data.data.userinfo.user_photo === 'empty'
+              image !== ""
+                ? image
+                : data && data.data.userinfo.user_photo === "empty"
                 ? "https://www.seekpng.com/png/detail/966-9665317_placeholder-image-person-jpg.png"
-                : `${process.env.REACT_APP_SERVER_URL}${data && data.data.userinfo.user_photo}`
+                : `${process.env.REACT_APP_SERVER_URL}${
+                    data && data.data.userinfo.user_photo
+                  }`
             }
             alt="Image not found"
             className="mx-auto h-20 w-20 xs:h-20 xs:block xs:w-20 md:h-32 md:w-32 lg:h-40 lg:w-40 rounded-full object-cover hover:opacity-50"
@@ -88,7 +89,7 @@ export default function Myprofile() {
             type="file"
             onChange={handleChoosePhoto}
             style={{ display: "none" }}
-            accept="image/jpg,impge/png,image/jpeg"
+            accept="image/jpg,image/png,image/jpeg"
             name="profile_img"
             ref={fileInput}
           />
@@ -134,7 +135,10 @@ export default function Myprofile() {
           </div>
           <div className="text-sm text-right text-zinc-500 py-2">
             더 이상 사용하지 않음?{" "}
-            <button onClick={handleDeleteInfo} className="text-xs text-blue-500 hover:opacity-50 mt-2 cursor-pointer">
+            <button
+              onClick={handleDeleteInfo}
+              className="text-xs text-blue-500 hover:opacity-50 mt-2 cursor-pointer"
+            >
               회원탈퇴
             </button>
           </div>
@@ -146,4 +150,3 @@ export default function Myprofile() {
 function mypage() {
   throw new Error("Function not implemented.");
 }
-
