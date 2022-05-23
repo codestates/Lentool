@@ -19,7 +19,8 @@ module.exports = {
         });
       }
 
-      const address = user_address.split(" ")[0];
+      const address =
+        user_address.split(" ")[0] + " " + user_address.split(" ")[1];
 
       const nearPosts = await postModel.findAll({
         where: {
@@ -36,9 +37,7 @@ module.exports = {
       res.status(500).json({ data: err, message: "server error" });
     }
   },
-  healthcheck: (req,res) => {
-
-   return res.status(201).json({ data: null, message: "ok" });
-
+  healthcheck: (req, res) => {
+    return res.status(201).json({ data: null, message: "ok" });
   },
 };
