@@ -9,18 +9,13 @@ import Afterlogin from "./Afterlogin";
 import Dropdown from "./Dropdown";
 import logo from "../../images/lentoollogoword.png";
 import NewChat from "./Newchat";
-import { useSearchroomMutation } from "services/api";
-import { getroom } from "feature/chat/roomSlice";
 import { setNewChat } from "feature/login/authSlice";
 export default function Navbar() {
   const dispatch = useAppDispatch()
   const isModal = useAppSelector((state) => state.modal.isModal);
   const isLogin = useAppSelector((state) => state.login.isLogin);
-  const [searchroom] = useSearchroomMutation();
 
   const getRoomList = async () => {
-    const roomlist = await searchroom().unwrap();
-    dispatch(getroom(roomlist));
     dispatch(setNewChat(false))
   };
 

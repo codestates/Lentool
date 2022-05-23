@@ -1,22 +1,17 @@
 import { Menu } from "@headlessui/react";
 import { useAppDispatch } from "app/hooks";
-import { getroom } from "feature/chat/roomSlice";
 import { Link } from "react-router-dom";
 import NewChat from "./Newchat";
 import {
   useMyinfoQuery,
-  useSearchroomMutation,
 } from "services/api";
 import { setNewChat } from "feature/login/authSlice";
 
 export default function Afterlogin () {
   const dispatch = useAppDispatch()
-  const [searchroom] = useSearchroomMutation();
   const { data } = useMyinfoQuery()
 
   const getRoomList = async () => {
-    const roomlist = await searchroom().unwrap();
-    dispatch(getroom(roomlist));
     dispatch(setNewChat(false))
   };
   return (
