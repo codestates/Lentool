@@ -28,7 +28,8 @@ module.exports = {
         latitude: user_latitude,
         longitude: user_longitude,
       } = userInfo;
-      const address = user_address.split(" ")[0];
+      const address =
+        user_address.split(" ")[0] + " " + user_address.split(" ")[1];
       // console.log(address);
 
       const nearPosts = await postModel.findAll({
