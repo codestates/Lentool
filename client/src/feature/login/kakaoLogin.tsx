@@ -1,10 +1,7 @@
 import { setCredentials, setNewChat } from "./authSlice";
 import { setLogin } from "./loginSlice";
 import { getMyinfo } from "feature/mypage/myinfoSlice";
-import {
-  useMypageMutation,
-  useOauthQuery,
-} from "../../services/api";
+import { useMypageMutation, useOauthQuery } from "../../services/api";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { useHistory } from "react-router-dom";
@@ -36,7 +33,7 @@ export default function KakaoLogin() {
         push("/oauth/signup");
       }
     }
-  });
+  }, [isSuccess]);
 
   return <div>{isLoading && <Loading />}</div>;
 }
