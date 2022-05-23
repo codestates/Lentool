@@ -63,7 +63,7 @@ export default function Myprofile() {
 
   return (
     <div className="w-full mt-10 mx-auto">
-      {isMyinfoEditModal ? <MyinfoEdit /> : null}
+      {/* {isMyinfoEditModal ? <MyinfoEdit /> : null} */}
       {isMyinfoDeleteModal ? <MyinfoDelete /> : null}
       <div className="flex justify-center">
         {/* 실제프로필 */}

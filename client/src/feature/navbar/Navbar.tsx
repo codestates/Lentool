@@ -10,18 +10,24 @@ import Dropdown from "./Dropdown";
 import logo from "../../images/lentoollogoword.png";
 import NewChat from "./Newchat";
 import { setNewChat } from "feature/login/authSlice";
+import { setIsMyinfoEditModal } from "feature/modal/modalMyinfoEditSlice";
+import MyinfoEdit from "feature/mypage/MyinfoEdit";
 export default function Navbar() {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const isModal = useAppSelector((state) => state.modal.isModal);
   const isLogin = useAppSelector((state) => state.login.isLogin);
+  const isMyinfoEditModal = useAppSelector(
+    (state) => state.myinfoEdit.isMyinfoEditModal
+  );
 
   const getRoomList = async () => {
-    dispatch(setNewChat(false))
+    dispatch(setNewChat(false));
   };
 
   return (
     <Menu as="div" className="border-b-2 border-gray-100">
       {isModal ? <Login /> : null}
+      {isMyinfoEditModal ? <MyinfoEdit /> : null}
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">

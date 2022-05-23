@@ -249,14 +249,13 @@ function Signup() {
   const { password2 } = inputPassword2;
 
   return (
+    // <div className="justify-center">
+    //   {" "}
     <div
-      className="bg-gray-200 mx-auto md:h-screen flex flex-col justify-center items-center px-6 pt-8 pt:mt-0"
+      className="bg-gray-200 mx-auto  flex flex-col justify-center items-center px-6 pt-8 pt:mt-0"
       onClick={handleOpenOut}
     >
-      {/* <a className="text-2xl font-semibold flex justify-center items-center mb-8 lg:mb-10">
-        <img src={logo} className="h-10 mr-4" alt="Leentool Logo" />
-      </a> */}
-      <div className="bg-white shadow rounded-lg md:mt-0 w-50 sm:max-w-screen-sm xl:p-0">
+      <div className="bg-white shadow rounded-lg sm:max-w-screen-sm mb-10">
         <div className="p-6 sm:p-8 lg:p-16 space-y-8">
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
             회원가입
@@ -403,7 +402,11 @@ function Signup() {
               <div className="text-sm ml-3">
                 <label className="font-medium text-gray-900">
                   위 이용약관에 동의합니다.{" "}
-                  <a href="#fake약관" className="text-teal-500 hover:underline">
+                  <a
+                    href="https://github.com/codestates/Lentool/issues/136"
+                    target="_blank"
+                    className="text-teal-500 hover:underline"
+                  >
                     Terms and Conditions
                   </a>
                 </label>
@@ -426,6 +429,7 @@ function Signup() {
         </div>
       </div>
     </div>
+    // </div>
   );
 }
 export default Signup;
