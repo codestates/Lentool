@@ -199,12 +199,12 @@ function MyinfoEdit() {
   const { password2 } = inputPassword2;
   return (
     <div
-      className="h-screen w-full z-50 absolute bg-black bg-opacity-70 text-center"
+      className="h-full w-full z-50 fixed bg-black bg-opacity-40 text-center"
       ref={outSelect}
       onClick={handleOutClick}
     >
-      <div className="max-w-2xl h-[520px] bg-white absolute mx-auto w-96 my-auto inset-0 rounded">
-        <div className="flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8">
+      <div className=" max-w-2xl h-fit bg-white absolute mx-auto w-96 my-10 inset-0 rounded">
+        <div className="flex items-center mb-10 justify-center py-4 px-4 sm:px-6 lg:px-8">
           <div className="max-w-md w-full">
             <span
               className="absolute top-4 right-6 hover:text-indigo-500 cursor-pointer"
