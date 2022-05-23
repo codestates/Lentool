@@ -8,12 +8,14 @@ import {
   useChecknicknameMutation,
   MyinfoEditRequest,
   useMypageMutation,
+  api,
 } from "services/api";
 import type { NicknameRequest } from "services/api";
 import DaumPostCode from "react-daum-postcode";
 import { toast } from "react-toastify";
 import Lentoollogo from "../../images/lentool_logo.png";
 function MyinfoEdit() {
+  const [trigger] = api.endpoints.myinfo.useLazyQuery();
   const { push } = useHistory();
   const dispatch = useAppDispatch();
   const outSelect = useRef<any>();
@@ -168,7 +170,9 @@ function MyinfoEdit() {
       // console.log(editValue);
       const user = await edit(editValue).unwrap();
       dispatch(setIsMyinfoEditModal());
-      handleGetInfo();
+      // handleGetInfo();
+      const triggerData = await trigger();
+      dispatch(getMyinfo(triggerData.data));
       toast.success("성공적으로 회원정보 수정완료");
 
       // console.log(user, "결과");
