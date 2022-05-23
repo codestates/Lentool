@@ -17,8 +17,6 @@ export default function Chatting() {
   const [chat, setchat] = useState("");
   const [roomid, setroomid] = useState(null);
   const [isLend, setIsLend] = useState(roomdata.islend);
-  const [scroll, setScroll]:any = useState(null)
-  // const [isMe, setIsMe]:any = useState(true)
   const myUserId = useAppSelector(
     (state) => state.persistedReducer.myinfo.user.id
   );
