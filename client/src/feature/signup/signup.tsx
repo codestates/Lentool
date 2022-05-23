@@ -27,7 +27,6 @@ declare global {
 function Signup() {
   const { push } = useHistory();
   const dispatch = useAppDispatch();
-  const outSelect = useRef<any>();
   /* api로 던져질 회원가입 정보들 */
   const [inputValue, setInputValue] = useState<SignupRequest>({
     email: "",
@@ -116,12 +115,14 @@ function Signup() {
   };
   /* 모든 조건이 통과될때, signup으로 inputValue(회원정보)를 보내고 user로 받는 함수 */
   const signupreq = async () => {
+    // console.log(inputValue);
     try {
       const user = await signup(inputValue).unwrap();
-
+      // dispatch(setCredentials(user));
       dispatch(setIsModal()); //바로 회원가입창이 열린다.
       toast.success("성공적으로 회원가입 완료");
       push("/");
+      // console.log(user);
     } catch (err) {
       console.log("error", err);
     }
@@ -142,7 +143,7 @@ function Signup() {
   const checkEmailOverlapping = async () => {
     try {
       const user = await checkemail(emailValue).unwrap();
-
+      // console.log(user);
       if (user.message === "중복 없음") {
         setEmailOverlappingValidity(false);
         toast.success("사용가능한 이메일입니다.");
@@ -166,7 +167,7 @@ function Signup() {
     try {
       const user = await checknickname(nicknameValue).unwrap();
       setNicknameOverlappingValidity(false);
-
+      console.log(user);
       if (user.message === "중복 없음") {
         setNicknameOverlappingValidity(false);
         setConfirmedNickname(nicknameValue.nickname);
