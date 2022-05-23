@@ -28,7 +28,7 @@ module.exports = {
             [Op.like]: "%" + address + "%",
           },
         },
-        limit: 2,
+        limit: 4,
       });
 
       res.status(200).json({ data: { posts: nearPosts }, message: "ok" });
