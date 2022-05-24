@@ -1,0 +1,11 @@
+.wrap {
+  background-color: white;
+  padding: 0.6rem;
+  margin-bottom: 13rem;
+  border-radius: 0.5rem;
+  color: #3f3f46;
+}
+.header {
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}

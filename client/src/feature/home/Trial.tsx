@@ -20,6 +20,15 @@ export default function Test() {
     let lat = 0;
     let lon = 0;
     const map = new window.kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    const imageSrc = "https://i.ibb.co/GFBFKGG/location-back.png"; // 마커이미지의 주소입니다
+    const imageSize = new window.kakao.maps.Size(60, 60); // 마커이미지의 크기입니다
+    const imageOption = { offset: new window.kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+    const markerImage = new window.kakao.maps.MarkerImage(
+      imageSrc,
+      imageSize,
+      imageOption
+    );
 
     // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
     if (navigator.geolocation) {
@@ -28,15 +37,6 @@ export default function Test() {
         lat = position.coords.latitude; // 위도
         lon = position.coords.longitude; // 경도
 
-        const imageSrc = "https://i.ibb.co/GFBFKGG/location-back.png"; // 마커이미지의 주소입니다
-        const imageSize = new window.kakao.maps.Size(60, 60); // 마커이미지의 크기입니다
-        const imageOption = { offset: new window.kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-
-        const markerImage = new window.kakao.maps.MarkerImage(
-          imageSrc,
-          imageSize,
-          imageOption
-        );
         const locPosition = new window.kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
         const marker = new window.kakao.maps.Marker({
           position: locPosition,

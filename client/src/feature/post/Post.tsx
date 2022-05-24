@@ -3,6 +3,7 @@ import { useAppSelector } from "app/hooks";
 import { usePostidQuery } from "services/api";
 import Carousel from "./carousel";
 import Loading from "feature/indicator/Loading";
+import PostMap from "./PostMap";
 
 export default function Post() {
   let { post_id }: any = useParams();
@@ -65,7 +66,7 @@ export default function Post() {
                   <div className="border-b-2 border-gray-100 py-3 " />
                 </div>
                 <form className="">
-                  <div className="py-4 px-2 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-gray-200 lg:pr-8">
+                  <div className="py-4 px-2">
                     <div className="text-left">
                       <h2 className="text-xl my-1 font-medium text-gray-900">
                         {data.data.post.title}
@@ -74,13 +75,16 @@ export default function Post() {
                         {data && data.data.post.tag}
                       </span>
                     </div>
-                    <div className="mt-4 space-y-6">
+                    <div className="my-4 space-y-6">
                       <p className="text-base text-left text-gray-900">
                         {data.data.post.description}
                       </p>
                     </div>
                   </div>
-                  <div className="border-b-2 border-gray-100 px-3 " />
+                  <div className="mb-8">
+                    <PostMap address={data.data.post.address} />
+                  </div>
+                  <div className="border-b-2 border-gray-100 px-3" />
                   <div className="flex items-center py-6">
                     <p className="text-xl text-left flex-1 pl-2 text-gray-900">
                       {data.data.post.price}원
